@@ -88,12 +88,13 @@ export class Service{
                 conf.appwriteCollectionId,
                 queries,
                 
-
+                
             )
         } catch (error) {
-            console.log("Appwrite serive :: getPosts :: error", error);
+            console.log("Appwrite service :: getPosts :: error", error);
             return false
         }
+        
     }
 
     // file upload service
@@ -127,7 +128,8 @@ export class Service{
     getFilePreview(fileId){
         return this.bucket.getFilePreview(
             conf.appwriteBucketId,
-            fileId
+            fileId,
+            
         )
     }
 }
