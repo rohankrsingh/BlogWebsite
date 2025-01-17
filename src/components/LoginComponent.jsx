@@ -1,10 +1,10 @@
-import { useState } from 'react'
-import authService from '../appwrite/auth'
-import { Link, useNavigate } from 'react-router-dom'
-import { login } from '../store/authSlice'
-import { Logo } from './index.js'
-import { useDispatch } from 'react-redux'
-import { useForm } from 'react-hook-form'
+import {useState} from 'react'
+import {Link, useNavigate} from 'react-router-dom'
+import { login as authLogin } from '../store/authSlice'
+import {Logo} from "./index"
+import {useDispatch} from "react-redux"
+import authService from "../appwrite/auth"
+import {useForm} from "react-hook-form"
 import {
     Card,
     CardContent,
@@ -28,7 +28,6 @@ import {
 import { Separator } from './ui/separator'
 
 const formSchema = z.object({
-    name: z.string().min(1, "Fullname is required").max(50),
     email: z.string().email("Invalid email address"),
     password: z.string()
         .min(8, "Password must be at least 8 characters long")
@@ -39,26 +38,27 @@ const formSchema = z.object({
         .regex(/[@$!%*?&#]/, "Password must contain at least one special character (@$!%*?&#)"),
 
 })
-function Signup() {
+
+function LoginComponent() {
     const navigate = useNavigate()
-    const [error, setError] = useState("")
     const dispatch = useDispatch()
+    const [error, setError] = useState("")
     const form = useForm({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            name: "",
             email: "",
             password: "",
         },
     });
+    
 
-    const create = async (data) => {
+    const login = async(data) => {
         setError("")
         try {
-            const userData = await authService.createAccount(data)
-            if (userData) {
+            const session = await authService.login(data)
+            if (session) {
                 const userData = await authService.getCurrentUser()
-                if (userData) dispatch(login(userData));
+                if(userData) dispatch(authLogin(userData));
                 navigate("/")
             }
         } catch (error) {
@@ -66,32 +66,18 @@ function Signup() {
         }
     }
 
-    return (
-        <div className="flex items-center justify-center">
-            <Card className="border-none">
+  return (
+    <div
+    className='flex items-center justify-center'
+    >
+        <Card className=" shadow-2xl">
                 <CardHeader>
-                    <CardTitle className="font-normal text-4xl">Sign Up</CardTitle>
+                    <CardTitle className="font-normal text-4xl">Login</CardTitle>
                     {error && <p className="text-red-600 mt-8 text-center">{error}</p>}
                 </CardHeader>
-                <CardContent className="space-y-8 ">
+                <CardContent className="space-y-8">
                     <Form {...form}>
-                        <form onSubmit={form.handleSubmit(create)} className="space-y-6">
-                            <FormField
-                                control={form.control}
-                                name="name"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Name</FormLabel>
-                                        <FormControl>
-                                            <Input placeholder="Enter your Full Name" {...field} />
-                                        </FormControl>
-
-                                        <FormMessage {...form.error} />
-                                    </FormItem>
-
-
-                                )}
-                            />
+                        <form onSubmit={form.handleSubmit(login)} className="space-y-6">
                             <FormField
                                 control={form.control}
                                 name="email"
@@ -140,12 +126,12 @@ function Signup() {
                     </div>
                     <CardFooter>
                         <p className="mt-2 text-center font-light ">
-                            Already have an account?&nbsp;
+                            Don't have an account? Create One. &nbsp;
                             <Link
-                                to="/login"
+                                to="/signup"
                                 className="font-normal text-primary transition-all duration-200 hover:underline"
                             >
-                                Sign In
+                                Sign Up
                             </Link>
                         </p>
                     </CardFooter>
@@ -154,8 +140,9 @@ function Signup() {
 
             </Card>
 
-        </div>
-    )
+    
+    </div>
+  )
 }
 
-export default Signup
+export default LoginComponent
