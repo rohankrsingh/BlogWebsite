@@ -1,5 +1,5 @@
 import conf from '../conf/conf.js';
-import { Client, Account, ID } from "appwrite";
+import { Client, Account, ID, OAuthProvider } from "appwrite";
 
 
 export class AuthService {
@@ -35,7 +35,13 @@ export class AuthService {
             throw error;
         }
     }
-
+    async loginGoogle() {
+        this.account.createOAuth2Session(
+            OAuthProvider.Google,
+            "http://localhost:5173",
+            "http://localhost:5173/"
+        )
+    }
     async getCurrentUser() {
         try {
             return await this.account.get();

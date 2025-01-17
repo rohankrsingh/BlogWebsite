@@ -6,11 +6,12 @@ import { Provider } from 'react-redux'
 import store from './store/store.js'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import Home from './pages/Home.jsx'
-import { AuthLayout, Login } from './components/index.js'
-
+import { AuthLayout } from './components/index.js'
+import { ThemeProvider } from "@/components/theme-provider"
 
 import AddPost from "./pages/AddPost";
 import Signup from './pages/Signup'
+import Login from './pages/Login'
 import EditPost from "./pages/EditPost";
 
 import Post from "./pages/Post";
@@ -75,12 +76,27 @@ const router = createBrowserRouter([
       },
     ],
   },
-])
+], {
+  basename: import.meta.env.VITE_APP_BASE_NAME,
+  future: {
+    v7_fetcherPersist: true,
+    v7_normalizeFormMethod: true,
+    v7_partialHydration: true,
+    v7_relativeSplatPath: true,
+    v7_skipActionErrorRevalidation: true,
+    v7_startTransition: true,
+  }
+})
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Provider store={store}>
-      <RouterProvider router={router} />
+    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+      <RouterProvider router={router} future={{
+        v7_startTransition: true,
+        v7_relativeSplatPath: true,
+      }} />
+      </ThemeProvider>
     </Provider>
   </React.StrictMode>,
 )
