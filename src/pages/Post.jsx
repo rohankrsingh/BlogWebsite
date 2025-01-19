@@ -1,20 +1,21 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import appwriteService from "../appwrite/config";
-import { Button, Container } from "../components";
+import { Container } from "../components";
 import { Prism as Code } from "react-syntax-highlighter";
 import { nightOwl } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { useSelector } from "react-redux";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
+import { Button } from "@/components/ui/index";
+import ScrollProgress from "../components/ui/scroll-progress"
 
 export default function Post() {
   const [post, setPost] = useState("");
   const { slug } = useParams();
   const navigate = useNavigate();
   const userData = useSelector((state) => state.auth.userData);
-
   const isAuthor = post && userData ? post.userId === userData.$id : false;
 
   useEffect(() => {
@@ -48,6 +49,7 @@ export default function Post() {
 
   return post ? (
     <div className="py-8">
+      <ScrollProgress className="top-[68px] " />
       <Container>
         <div className="w-full flex justify-center mb-4 relative border rounded-xl p-2">
           <img

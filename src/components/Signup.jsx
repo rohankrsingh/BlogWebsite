@@ -67,8 +67,8 @@ function Signup() {
     }
 
     return (
-        <div className="flex items-center justify-center">
-            <Card className="border-none">
+        <div className="mx-auto flex items-center justify-center">
+            <Card className="w-96 border-none">
                 <CardHeader>
                     <CardTitle className="font-normal text-4xl">Sign Up</CardTitle>
                     {error && <p className="text-red-600 mt-8 text-center">{error}</p>}
@@ -124,7 +124,7 @@ function Signup() {
 
                                 )}
                             />
-                            <Button type="submit" className="w-full rounded-3xl h-10" >Submit</Button>
+                            <Button type="submit" className="w-full rounded-3xl h-12" >Sign up</Button>
                         </form>
                     </Form>
                     <Separator className="flex items-center justify-center"> <h4 className='font-light backdrop-blur-3xl'>Or</h4> </Separator>

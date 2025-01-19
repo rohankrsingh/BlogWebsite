@@ -110,7 +110,7 @@ function LoginComponent() {
 
                                 )}
                             />
-                            <Button type="submit" className="w-full rounded-3xl h-10" >Submit</Button>
+                            <Button type="submit" className="w-full rounded-3xl h-10" >Log in</Button>
                         </form>
                     </Form>
                     <Separator className="flex items-center justify-center"> <h4 className='font-light backdrop-blur-3xl'>Or</h4> </Separator>

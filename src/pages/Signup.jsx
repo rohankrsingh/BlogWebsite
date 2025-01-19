@@ -13,7 +13,7 @@ function Signup() {
   }, [theme]);
 
   return (
-    <Card className="h-screen grid grid-cols-11 grid-flow-col  rounded-none p-8 space-x-6">
+    <Card className="h-screen w-full grid grid-cols-11 grid-flow-col  rounded-none p-8 space-x-6 border-none">
       <Card className="relative col-span-6 overflow-hidden rounded-lg border bg-background md:shadow-xl z-0">
       <Particles
         className="absolute inset-0 z-1"
