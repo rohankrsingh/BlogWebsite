@@ -12,7 +12,7 @@ function Login() {
   }, [theme]);
 
   return (
-    <Card className="h-screen w-screen grid  rounded-none p-8 space-x-6">
+    <Card className="h-screen w-screen grid  rounded-none p-8 space-x-6 border-none">
       <Card className="relative col-span-6 overflow-hidden rounded-lg border bg-background md:shadow-xl z-0 place-content-center">
         <LoginComponent/>
       <Particles

@@ -1,8 +1,8 @@
 import React from 'react'
 
-function Logo({width = '100px'}) {
+function Logo({width = '100px'}, {className} ) {
   return (
-    <div>Logo</div>
+    <h1 className={`text-2xl ${className}`}>Logo</h1>
   )
 }
 

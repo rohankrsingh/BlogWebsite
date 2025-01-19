@@ -5,6 +5,7 @@ import authService from "./appwrite/auth"
 import { login, logout } from "./store/authSlice"
 import { Footer, Header } from './components'
 import { Outlet } from 'react-router-dom'
+import BaseLayout from './BaseLayout'
 
 function App() {
   const [loading, setLoading] = useState(true)
@@ -24,11 +25,9 @@ function App() {
 
   return !loading ? (
     <>
-      <Header />
-      <main>
+      <BaseLayout>
         <Outlet />
-      </main>
-      <Footer />
+      </BaseLayout>
     </>
 
 

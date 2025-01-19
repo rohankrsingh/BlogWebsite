@@ -1,20 +1,20 @@
 import conf from '../conf/conf.js';
 import { Client, ID, Databases, Storage, Query } from "appwrite";
 
-export class Service{
+export class Service {
     client = new Client();
     databases;
     bucket;
-    
-    constructor(){
+
+    constructor() {
         this.client
-        .setEndpoint(conf.appwriteUrl)
-        .setProject(conf.appwriteProjectId);
+            .setEndpoint(conf.appwriteUrl)
+            .setProject(conf.appwriteProjectId);
         this.databases = new Databases(this.client);
         this.bucket = new Storage(this.client);
     }
 
-    async createPost({title, slug, content, featuredImage, status, userId}){
+    async createPost({ title, slug, content, featuredImage, status, userId }) {
         try {
             return await this.databases.createDocument(
                 conf.appwriteDatabaseId,
@@ -33,7 +33,7 @@ export class Service{
         }
     }
 
-    async updatePost(slug, {title, content, featuredImage, status}){
+    async updatePost(slug, { title, content, featuredImage, status }) {
         try {
             return await this.databases.updateDocument(
                 conf.appwriteDatabaseId,
@@ -52,13 +52,13 @@ export class Service{
         }
     }
 
-    async deletePost(slug){
+    async deletePost(slug) {
         try {
             await this.databases.deleteDocument(
                 conf.appwriteDatabaseId,
                 conf.appwriteCollectionId,
                 slug
-            
+
             )
             return true
         } catch (error) {
@@ -67,13 +67,13 @@ export class Service{
         }
     }
 
-    async getPost(slug){
+    async getPost(slug) {
         try {
             return await this.databases.getDocument(
                 conf.appwriteDatabaseId,
                 conf.appwriteCollectionId,
                 slug
-            
+
             )
         } catch (error) {
             console.log("Appwrite serive :: getPost :: error", error);
@@ -81,25 +81,25 @@ export class Service{
         }
     }
 
-    async getPosts(queries = [Query.equal("status", "active")]){
+    async getPosts(queries = [Query.equal("status", "active")]) {
         try {
             return await this.databases.listDocuments(
                 conf.appwriteDatabaseId,
                 conf.appwriteCollectionId,
                 queries,
-                
-                
+
+
             )
         } catch (error) {
             console.log("Appwrite service :: getPosts :: error", error);
             return false
         }
-        
+
     }
 
     // file upload service
 
-    async uploadFile(file){
+    async uploadFile(file) {
         try {
             return await this.bucket.createFile(
                 conf.appwriteBucketId,
@@ -112,7 +112,7 @@ export class Service{
         }
     }
 
-    async deleteFile(fileId){
+    async deleteFile(fileId) {
         try {
             await this.bucket.deleteFile(
                 conf.appwriteBucketId,
@@ -125,15 +125,54 @@ export class Service{
         }
     }
 
-    getFilePreview(fileId){
+    getFilePreview(fileId) {
         return this.bucket.getFilePreview(
             conf.appwriteBucketId,
             fileId,
-            
+
         )
     }
+    // User Profile Services
+    async createUserProfile(userId, name, createdAt, email, description, location, avatar) {
+        try {
+            return await this.databases.createDocument(
+                conf.appwriteDatabaseId,
+                "user",
+                userId,
+                {
+                    userId,
+                    name,
+                    createdAt,
+                    email,
+                    description,
+                    location,
+                    avatar
+                }
+            )
+        } catch (error) {
+            console.log("Appwrite service :: createPost :: error", error);
+        }
+    }
+    async updateUserProfile(userId, name, email, description, location, liked,  avatar) {
+        try {
+            return await this.databases.updateDocument(
+                conf.appwriteDatabaseId,
+                "user",
+                userId,
+                {
+                    name,
+                    email,
+                    description,
+                    location,
+                    liked,
+                    avatar
+                }
+            )
+        } catch (error) {
+            console.log("Appwrite service :: updatePost :: error", error);
+        }
+    }
 }
-
 
 const service = new Service()
 export default service;

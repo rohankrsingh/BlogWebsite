@@ -1,6 +1,6 @@
 import conf from '../conf/conf.js';
 import { Client, Account, ID, OAuthProvider } from "appwrite";
-
+import service from './config.js';
 
 export class AuthService {
     client = new Client();
@@ -19,6 +19,8 @@ export class AuthService {
             const userAccount = await this.account.create(ID.unique(), email, password, name);
             if (userAccount) {
                 // call another method
+                service.createUserProfile(userAccount.$id, userAccount.name, userAccount.$createdAt, userAccount.email);
+
                 return this.login({email, password});
             } else {
                return  userAccount;
@@ -36,11 +38,12 @@ export class AuthService {
         }
     }
     async loginGoogle() {
-        this.account.createOAuth2Session(
+        const res = this.account.createOAuth2Session(
             OAuthProvider.Google,
             "http://localhost:5173",
-            "http://localhost:5173/"
+            "http://localhost:5173"
         )
+        console.log(res)
     }
     async getCurrentUser() {
         try {
