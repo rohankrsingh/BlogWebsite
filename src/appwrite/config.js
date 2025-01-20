@@ -14,7 +14,7 @@ export class Service {
         this.bucket = new Storage(this.client);
     }
 
-    async createPost({ title, slug, content, featuredImage, status, userId }) {
+    async createPost({ title, slug, content, featuredImage, status, userId, tags }) {
         try {
             return await this.databases.createDocument(
                 conf.appwriteDatabaseId,
@@ -26,6 +26,7 @@ export class Service {
                     featuredImage,
                     status,
                     userId,
+                    tags,
                 }
             )
         } catch (error) {
@@ -33,7 +34,7 @@ export class Service {
         }
     }
 
-    async updatePost(slug, { title, content, featuredImage, status }) {
+    async updatePost(slug, { title, content, featuredImage, status, tags }) {
         try {
             return await this.databases.updateDocument(
                 conf.appwriteDatabaseId,
@@ -44,6 +45,7 @@ export class Service {
                     content,
                     featuredImage,
                     status,
+                    tags,
 
                 }
             )
@@ -153,7 +155,7 @@ export class Service {
             console.log("Appwrite service :: createPost :: error", error);
         }
     }
-    async updateUserProfile(userId, name, email, description, location, liked,  avatar) {
+    async updateUserProfile(userId, name, email, description, location, liked, avatar) {
         try {
             return await this.databases.updateDocument(
                 conf.appwriteDatabaseId,
@@ -172,6 +174,95 @@ export class Service {
             console.log("Appwrite service :: updatePost :: error", error);
         }
     }
+    async getUserProfile(userId) {
+        try {
+            return await this.databases.getDocument(
+                conf.appwriteDatabaseId,
+                "user",
+                userId
+            )
+        } catch (error) {
+            console.log("Appwrite service :: getUserProfile :: error", error);
+        }
+    }
+    async getPostsByUser(userId) {
+        try {
+            return await this.databases.listDocuments(
+                conf.appwriteDatabaseId,
+                conf.appwriteCollectionId,
+                {
+                    collection: "post",
+                    filter: {
+                        userId
+                    }
+                }
+            )
+        } catch (error) {
+            console.log("Appwrite service :: getPostsByUser :: error", error);
+        }
+    }
+
+    // Like feature
+
+    async removePostLikes(slug, userId, query) {
+        try {
+            return await this.databases.updateDocument(
+                conf.appwriteDatabaseId,
+                conf.appwriteCollectionId,
+                slug,
+                {
+                    likes: this.databases.fieldRemove(userId),
+                }
+            )
+        } catch (error) {
+            console.log("Appwrite service :: updatePostLikes :: error", error);
+        }
+    }
+    async addPostLikes(slug, userId, query) {
+        try {
+            return await this.databases.updateDocument(
+                conf.appwriteDatabaseId,
+                conf.appwriteCollectionId,
+                slug,
+                {
+                    likes: this.databases.fieldAdd(userId),
+                }
+            )
+        } catch (error) {
+            console.log("Appwrite service :: updatePostLikes :: error", error);
+        }
+    }
+    async addLikedPost(slug) {
+        try {
+            return await this.databases.updateDocument(
+                conf.appwriteDatabaseId,
+                "user",
+                userId,
+                {
+                    liked: this.databases.fieldAppend(slug),
+                }
+            )
+        } catch (error) {
+            console.log("Appwrite service :: updatePostLikesUser :: error", error);
+        }
+    }
+    async removeLikedPost(slug) {
+        try {
+            return await this.databases.updateDocument(
+                conf.appwriteDatabaseId,
+                "user",
+                userId,
+                {
+                    liked: this.databases.fieldRemove(slug),
+                }
+            )
+        } catch (error) {
+            console.log("Appwrite service :: removePostLikesUser :: error", error);
+        }
+    }
+
+
+
 }
 
 const service = new Service()
