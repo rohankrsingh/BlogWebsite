@@ -1,7 +1,7 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
-import { RTE} from "..";
-import { Button, Input, } from "../ui/index";
+import { RTE } from "..";
+import { Button, Input, Select } from "../ui/index";
 import appwriteService from "../../appwrite/config";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -13,12 +13,13 @@ export default function PostForm({ post }) {
             slug: post?.$id || "",
             content: post?.content || "",
             status: post?.status || "active",
+            tags: post?.tags || "",
         },
     });
-
+    const [tags, setTags] = useState([]);
     const navigate = useNavigate();
     const userData = useSelector((state) => state.auth.userData);
-console.log(userData.$id);
+    console.log(post);
 
     const submit = async (data) => {
         if (post) {
@@ -39,7 +40,7 @@ console.log(userData.$id);
         } else {
             const file = await appwriteService.uploadFile(data.image[0]);
             console.log(file);
-            
+
             if (file) {
                 const fileId = file.$id;
                 data.featuredImage = fileId;
@@ -92,6 +93,12 @@ console.log(userData.$id);
                     onInput={(e) => {
                         setValue("slug", slugTransform(e.currentTarget.value), { shouldValidate: true });
                     }}
+                />
+                <Input
+                    label="Tags :"
+                    placeholder="Tags"
+                    className="mb-4"
+                    {...register("tags")}
                 />
                 <RTE label="Content :" name="content" control={control} defaultValue={getValues("content")} />
             </div>
