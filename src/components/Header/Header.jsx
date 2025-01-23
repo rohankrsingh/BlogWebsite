@@ -54,11 +54,13 @@ function Header() {
       dark:bg-black/70 '>
         <Logo className="text-xl"/>
         <nav className='flex justify-evenly items-center border-none space-x-4'>
-          {navItems.map((item) => item.active ? (
-             
+          {navItems.map((item, index) => item.active ? (
+             <span key={index}>
               <Button key={item.key} variant={item.variant} onClick={() => navigate(item.slug)}>
                   {item.name}
               </Button>
+             </span>
+              
             
           ) : null
           )}
@@ -72,34 +74,6 @@ function Header() {
         </nav>
       </Card>
 
-      {/* <Container>
-        <nav className='flex'>
-          <div className='mr-4'>
-            <Link to='/'>
-              <Logo width='70px' />
-
-            </Link>
-          </div>
-          <ul className='flex ml-auto'>
-            {navItems.map((item) =>
-              item.active ? (
-                <li key={item.name}>
-                  <button
-                    onClick={() => navigate(item.slug)}
-                    className='inline-bock px-6 py-2 duration-200 hover:bg-blue-100 rounded-full'
-                  >{item.name}</button>
-                </li>
-              ) : null
-            )}
-            {authStatus && (
-              <li>
-                <LogoutBtn />
-              </li>
-            )}
-          </ul>
-          <ThemeTogle />
-        </nav>
-      </Container> */}
     </header>
   )
 }

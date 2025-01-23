@@ -6,8 +6,10 @@ export default {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
+
   theme: {
   	extend: {
+		
   		lists: [
   			'list-style-type: disc'
   		],
@@ -59,6 +61,8 @@ export default {
   			}
   		}
   	}
+	
   },
+  
   plugins: [require("tailwindcss-animate")],
 }

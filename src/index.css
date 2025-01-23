@@ -74,3 +74,38 @@ h1, h2, h3, h4, h5, h6 {
     @apply bg-background text-foreground;
     }
 }
+@layer utilities {
+  .rte-container .rte-content {
+      @apply text-lg leading-relaxed text-gray-800 ;
+  }
+
+  .rte-container h1 {
+      @apply text-3xl font-bold text-white;
+  }
+
+  .rte-container p {
+      @apply text-base text-gray-700;
+  }
+  .rte-container svg {
+    @apply text-[--muted];
+    }
+    .rte-container button {
+      @apply bg-[--foreground];
+    }
+    .rte-container div {
+      @apply text-primary;
+      }
+     .rte-container .ͼo{
+        @apply bg-slate-50;
+      }
+      .rte-container ._codeMirrorToolbar_uazmk_408{
+        @apply bg-zinc-200 dark:bg-zinc-800 rounded ;
+      }
+      .rte-container ._codeMirrorWrapper_uazmk_391{
+        @apply border-[--border] rounded ;
+        }
+  .toolbar{
+    @apply bg-background;
+  }
+  
+}
