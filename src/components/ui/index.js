@@ -8,6 +8,7 @@ import { MagicCard } from "./magic-card";
 import { Card } from "./card";
 import { DropdownMenu } from "./dropdown-menu";
 import { Form } from "./form";
+import { Textarea } from "./textarea";
 
 export{
     Button,
@@ -19,6 +20,7 @@ export{
     MagicCard,
     Card,
     DropdownMenu,
-    Form
+    Form,
+    Textarea
 
 }

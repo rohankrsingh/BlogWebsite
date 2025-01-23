@@ -1,7 +1,8 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { Controller } from "react-hook-form";
 import appwriteService from "../appwrite/config";
 import conf from "../conf/conf";
+import { Card } from "./ui";
 import {
   MDXEditor,
   UndoRedo,
@@ -40,14 +41,6 @@ import {
 } from '@mdxeditor/editor'
 
 import "@mdxeditor/editor/style.css";
-import {
-  useCodeBlockEditorContext,
-
-} from "@mdxeditor/editor";
-import { mdxFromMarkdown, mdxToMarkdown } from 'mdast-util-mdx'
-import "@mdxeditor/editor/style.css";
-import SyntaxHighlighter from "react-syntax-highlighter";
-
 
 const defaultSnippetContent = `
 export default function App() {
@@ -102,7 +95,7 @@ export default function RTE({ name, control, label, defaultValue = "" }) {
   // const mdxEditorRef = useRef < MDXEditorMethods > (null);
 
   return (
-    <div className="w-full">
+    <div className="w-full !text-[--primary]">
       {label && <label className="inline-block mb-1 pl-1">{label}</label>}
 
       <Controller
@@ -111,13 +104,14 @@ export default function RTE({ name, control, label, defaultValue = "" }) {
         // ref={mdxEditorRef}
         defaultValue={defaultValue}
         render={({ field: { onChange } }) => (
-          <MDXEditor
+          <Card className="border-none rte-container">
+            <MDXEditor
             markdown={defaultValue}
             onChange={(newValue) => {
               setValue(newValue); // Update local state
               onChange(newValue); // Pass content to react-hook-form
             }}
-            className="dark-theme dark-editor"
+            className="!bg-[--card]"
             placeholder="Write your content here..."
             // height={300}
             plugins={[
@@ -135,14 +129,14 @@ export default function RTE({ name, control, label, defaultValue = "" }) {
               diffSourcePlugin({ viewMode: "rich-text", diffMarkdown: "" }),
               codeBlockPlugin({ defaultCodeBlockLanguage: 'js' }),
               sandpackPlugin({ sandpackConfig: simpleSandpackConfig }),
-              codeMirrorPlugin({ codeBlockLanguages: { js: 'JavaScript', css: 'CSS' } }),
+              codeMirrorPlugin({ codeBlockLanguages: { js: 'JavaScript', css: 'CSS', html: 'HTML' } }),
               toolbarPlugin({
-                toolbarClassName: 'my-classname',
+                toolbarClassName: 'toolbar',
                 toolbarContents: () => (
-                  <div className="w-full flex justify-between">
+                  <Card className="w-full flex justify-between p-2">
                     <DiffSourceToggleWrapper>
                     <UndoRedo />
-                    <BoldItalicUnderlineToggles />
+                    <BoldItalicUnderlineToggles className="text-red-500"/>
                     <Separator />
                     <ListsToggle />
                     <Separator />
@@ -170,7 +164,7 @@ export default function RTE({ name, control, label, defaultValue = "" }) {
                     <Separator />
                     </DiffSourceToggleWrapper>
 
-                  </div>
+                  </Card>
                 )
               }),
               //   jsxPlugin({
@@ -242,6 +236,9 @@ export default function RTE({ name, control, label, defaultValue = "" }) {
 
           >
           </MDXEditor>
+
+          </Card>
+          
         )}
       />
     </div>
