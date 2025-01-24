@@ -6,6 +6,16 @@ import { login, logout } from "./store/authSlice"
 import { Footer, Header } from './components'
 import { Outlet } from 'react-router-dom'
 import BaseLayout from './BaseLayout'
+import "@fontsource/poppins";
+import "@fontsource/poppins/400.css"; 
+import "@fontsource/poppins/700.css";
+import "@fontsource/open-sans"; // Defaults to 400 weight (normal)
+import "@fontsource/open-sans/400.css"; // Optionally import specific weights
+import "@fontsource/open-sans/700.css"; // Optionally import bold weight
+import "@fontsource/source-code-pro"; // Default weight (400)
+import "@fontsource/source-code-pro/400.css"; // Optional: Regular weight
+import "@fontsource/source-code-pro/700.css"; // Optional: Bold weight
+
 
 function App() {
   const [loading, setLoading] = useState(true)

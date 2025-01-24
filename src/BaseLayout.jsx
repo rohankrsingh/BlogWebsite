@@ -14,7 +14,12 @@ const BaseLayout = ({ children }) => {
   return (
     <>
       {shouldShowHeaderFooter && <Header />}
-      <main className="min-h-screen bg-gray-100 dark:bg-background">{children}</main>
+      <main
+        className={`min-h-screen bg-gray-100 dark:bg-background pt-16 ${shouldShowHeaderFooter ? "pt-0" : ""
+          }`}
+      >
+        {children}
+      </main>
       {shouldShowHeaderFooter && <Footer />}
     </>
   );
