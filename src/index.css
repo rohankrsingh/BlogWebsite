@@ -1,10 +1,18 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-h1, h2, h3, h4, h5, h6 {
-    font-size:revert;
-    font-weight:revert;
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: revert;
+  font-weight: revert;
+  font-family: 'poppins';
 }
 
 
@@ -69,43 +77,52 @@ h1, h2, h3, h4, h5, h6 {
 @layer base {
   * {
     @apply border-border;
-    }
+  }
+
   body {
     @apply bg-background text-foreground;
-    }
+  }
 }
+
 @layer utilities {
   .rte-container .rte-content {
-      @apply text-lg leading-relaxed text-gray-800 ;
+    @apply text-lg leading-relaxed text-gray-800;
   }
 
-  .rte-container h1 {
-      @apply text-3xl font-bold text-white;
-  }
+  /* .rte-container h1 {
+    @apply text-3xl font-bold text-white;
+  } */
 
-  .rte-container p {
-      @apply text-base text-gray-700;
-  }
+  /* .rte-container p {
+    @apply text-base text-gray-700;
+  } */
+
   .rte-container svg {
     @apply text-[--muted];
-    }
-    .rte-container button {
-      @apply bg-[--foreground];
-    }
-    .rte-container div {
-      @apply text-primary;
-      }
-     .rte-container .ͼo{
-        @apply bg-slate-50;
-      }
-      .rte-container ._codeMirrorToolbar_uazmk_408{
-        @apply bg-zinc-200 dark:bg-zinc-800 rounded ;
-      }
-      .rte-container ._codeMirrorWrapper_uazmk_391{
-        @apply border-[--border] rounded ;
-        }
-  .toolbar{
+  }
+
+  .rte-container button {
+    @apply bg-[--foreground];
+  }
+
+  .rte-container div {
+    @apply text-primary;
+  }
+
+  .rte-container .ͼo  {
+    @apply bg-zinc-50 dark:bg-zinc-900 backdrop-blur-md;
+  }
+
+  .rte-container ._codeMirrorToolbar_uazmk_408 {
+    @apply bg-zinc-200 dark:bg-zinc-800 rounded;
+  }
+
+  .rte-container ._codeMirrorWrapper_uazmk_391 {
+    @apply border-gray-200 dark:border-zinc-800 rounded;
+  }
+
+  .toolbar {
     @apply bg-background;
   }
-  
+
 }

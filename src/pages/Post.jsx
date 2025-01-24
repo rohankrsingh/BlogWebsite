@@ -39,7 +39,7 @@ export default function Post() {
   const renderCodeBlock = ({ inline, className, children }) => {
     const language = className ? className.replace("language-", "") : "javascript";
     return !inline ? (
-      <Code language={language} style={nightOwl}>
+      <Code language={language} style={nightOwl} >
         {String(children).trim()}
       </Code>
     ) : (

@@ -11,6 +11,7 @@ import {
   BlockTypeSelect,
   CreateLink,
   DiffSourceToggleWrapper,
+  
   InsertThematicBreak,
   Separator,
   ConditionalContents,
@@ -136,7 +137,7 @@ export default function RTE({ name, control, label, defaultValue = "" }) {
                   <Card className="w-full flex justify-between p-2">
                     <DiffSourceToggleWrapper>
                     <UndoRedo />
-                    <BoldItalicUnderlineToggles className="text-red-500"/>
+                    <BoldItalicUnderlineToggles />
                     <Separator />
                     <ListsToggle />
                     <Separator />
