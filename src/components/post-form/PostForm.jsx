@@ -108,8 +108,9 @@ export default function PostForm({ post }) {
 
     return (
         <form onSubmit={handleSubmit(submit)} className="flex flex-wrap w-full">
-            <div className="grid grid-cols-12 gap-6">
-                <Card className="grid m-auto p-6 space-y-4 col-span-8">
+            <div className="grid grid-flow-col-dense gap-6 m-auto justify-items-center ,
+            max-lg:grid-flow-row-dense">
+                <Card className="grid m-auto p-6 space-y-4 ">
                     <div className="">
                         <div className="flex gap-4">
                             <Label htmlFor="picture" className="text-xl font-normal"> Add your Cover Image: </Label>
@@ -174,7 +175,8 @@ export default function PostForm({ post }) {
                     </div>
 
                 </Card>
-                <Card className='flex flex-col items-center p-4 space-y-4 col-span-4'>
+                <Card className='flex flex-col items-center p-4 space-y-4 ,
+                 max-lg:col-span-full max-lg:w-full '>
                     
                         <Select value={register.status} // Integrate React Hook Form's state
                             onValueChange={(value) => setValue("status", value)}

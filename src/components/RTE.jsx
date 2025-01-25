@@ -96,7 +96,7 @@ export default function RTE({ name, control, label, defaultValue = "" }) {
   // const mdxEditorRef = useRef < MDXEditorMethods > (null);
 
   return (
-    <div className="w-full !text-[--primary]">
+    <div className=" !text-[--primary] overflow-x-auto">
       {label && <label className="inline-block mb-1 pl-1">{label}</label>}
 
       <Controller
@@ -112,7 +112,7 @@ export default function RTE({ name, control, label, defaultValue = "" }) {
               setValue(newValue); // Update local state
               onChange(newValue); // Pass content to react-hook-form
             }}
-            className="!bg-[--card]"
+            className="!bg-[--card] min-h-96"
             placeholder="Write your content here..."
             // height={300}
             plugins={[
@@ -130,11 +130,11 @@ export default function RTE({ name, control, label, defaultValue = "" }) {
               diffSourcePlugin({ viewMode: "rich-text", diffMarkdown: "" }),
               codeBlockPlugin({ defaultCodeBlockLanguage: 'js' }),
               sandpackPlugin({ sandpackConfig: simpleSandpackConfig }),
-              codeMirrorPlugin({ codeBlockLanguages: { js: 'JavaScript', css: 'CSS', html: 'HTML' } }),
+              codeMirrorPlugin({ codeBlockLanguages: { text:'text', js: 'JavaScript', css: 'CSS', html: 'HTML' } }),
               toolbarPlugin({
                 toolbarClassName: 'toolbar',
                 toolbarContents: () => (
-                  <Card className="w-full flex justify-between p-2">
+                  <span className=" flex flex-row flex-wrap justify-between w-full items-center p-2 overflow-x-hidden max-md:justify-normal">
                     <DiffSourceToggleWrapper>
                     <UndoRedo />
                     <BoldItalicUnderlineToggles />
@@ -165,73 +165,10 @@ export default function RTE({ name, control, label, defaultValue = "" }) {
                     <Separator />
                     </DiffSourceToggleWrapper>
 
-                  </Card>
+                  </span>
                 )
               }),
-              //   jsxPlugin({
-              //   jsxComponentDescriptors: [
 
-              //     {
-              //       name: "CodeGroup",
-              //       kind: "flow",
-              //       hasChildren: true,
-              //       props: [],
-              //       Editor: () => {
-              //         return (
-              //           <div
-              //             style={{
-              //               border: "1px solid red",
-              //               padding: 8,
-              //               margin: 8,
-              //               display: "inline-block",
-              //             }}
-              //           >
-              //             <NestedLexicalEditor MdxJsxTextElement
-              //               getContent={(node) => node.children}
-
-              //               getUpdatedMdastNode={(mdastNode, children) => {
-              //                 return { ...mdastNode, children };
-              //               }}
-              //             />
-              //           </div>
-              //         );
-              //       },
-              //     },
-              //     {
-              //       name: "*",
-              //       kind: "flow",
-              //       hasChildren: false,
-              //       props: [],
-              //       Editor: ({ mdastNode }) => {
-              //         // you can read the attributes of the JSX node here.
-              //         // A more convoluted example is present here: https://github.com/mdx-editor/editor/blob/c6d1067dbe4faeb18246a27988d9b4c334565551/src/jsx-editors/GenericJsxEditor.tsx?plain=1#L40
-              //         void mdastNode;
-              //         const updateMdastNode = useMdastNodeUpdater();
-              //         // here, you can render a custom component for the JSX node.
-              //         return (
-              //           <div>
-              //             Unknown element
-              //             <button
-              //               onClick={() => {
-              //                 updateMdastNode({
-              //                   attributes: [
-              //                     {
-              //                       type: "mdxJsxAttribute",
-              //                       name: "foo",
-              //                       value: "moo",
-              //                     },
-              //                   ],
-              //                 });
-              //               }}
-              //             >
-              //               Change the foo attribute to "moo"
-              //             </button>
-              //           </div>
-              //         );
-              //       },
-              //     },
-              //   ],
-              // }),
 
             ]}
 
