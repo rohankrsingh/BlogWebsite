@@ -117,7 +117,7 @@ export default function PostForm({ post }) {
                             <Input
                                 label="Cover Image :"
                                 type="file"
-                                className="w-30 mb-4 flex justify-center align-middle"
+                                className="w-30 mb-4 flex justify-center align-middle max-sm:w-auto"
                                 accept="image/png, image/jpg, image/jpeg, image/gif"
                                 {...register("image", { required: !post })}
                             />
@@ -141,7 +141,7 @@ export default function PostForm({ post }) {
                             label="Slug :"
                             type="text"
                             placeholder="Add your post title here..."
-                            className="!ring-0 outline-none border-none font-normal shadow-none line-clamp-3  !text-4xl placeholder:text-4xl resize-none"
+                            className="!ring-0 outline-none border-none font-normal shadow-none line-clamp-3  !text-4xl placeholder:text-4xl max-md:placeholder:text-3xl"
                             {...register("slug", { required: true })}
                             onInput={(e) => {
                                 setValue("slug", slugTransform(e.currentTarget.value), { shouldValidate: true });

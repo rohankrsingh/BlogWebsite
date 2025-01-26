@@ -225,28 +225,28 @@ export class Service {
                 conf.appwriteCollectionId,
                 slug,
                 {
-                    likes: this.databases.fieldAdd(userId),
+                    likes: [...likes, userId],
                 }
             )
         } catch (error) {
             console.log("Appwrite service :: updatePostLikes :: error", error);
         }
     }
-    async addLikedPost(slug) {
+    async addLikedPost(slug, userId) {
         try {
             return await this.databases.updateDocument(
                 conf.appwriteDatabaseId,
                 "user",
                 userId,
                 {
-                    liked: this.databases.fieldAppend(slug),
+                    liked: [...slugs, slug],
                 }
             )
         } catch (error) {
             console.log("Appwrite service :: updatePostLikesUser :: error", error);
         }
     }
-    async removeLikedPost(slug) {
+    async removeLikedPost(slug, userId) {
         try {
             return await this.databases.updateDocument(
                 conf.appwriteDatabaseId,

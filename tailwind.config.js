@@ -10,7 +10,7 @@ export default {
 	theme: {
 		extend: {
 			fontFamily: {
-				poppins: ['"Poppins"', "sans-serif"],
+				poppins: ['-apple-system','"Poppins"', "sans-serif"],
 				sourceCode: ['"Source Code Pro"', "monospace"],
 				sans: ['"Open Sans"', "sans-serif"], // Set Open Sans as the default sans-serif font
 				openSans: ['"Open Sans"', "sans-serif"],
