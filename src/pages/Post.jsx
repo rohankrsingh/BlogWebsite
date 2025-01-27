@@ -14,8 +14,8 @@ import SideInfoBar from "@/components/SideInfoBar";
 
 export default function Post() {
   const [post, setPost] = useState("");
-  const [liked, setLiked] = useState(false);
-  const [likeCount, setLikeCount] = useState(0);
+  const [liked, setLiked] = useState("");
+  const [likes, setLikes] = useState([]);
   const { slug } = useParams();
   const navigate = useNavigate();
   const userData = useSelector((state) => state.auth.userData);
@@ -26,7 +26,9 @@ export default function Post() {
       appwriteService.getPost(slug).then((post) => {
         if (post) {
           setPost(post)
-          setLikeCount(post.likes.length);
+          setLikes(post.likes);
+          console.log(post.likes.includes(userData?.$id));
+          
           setLiked(post.likes.includes(userData?.$id));
         }
         else {
@@ -76,7 +78,7 @@ export default function Post() {
     <div className="mb-8">
       <ScrollProgress className="top-[68px] " />
       <div className="grid grid-flow-col grid-cols-12 gap-5 mx-6">
-        <SideInfoBar isliked={liked} likesCount={likeCount} slug={slug} className={"col-span-1"}/>
+        <SideInfoBar isliked={liked} likes={likes} slug={slug} className={"col-span-1"}/>
         <Card className='col-span-8'>
           <Container>
             <div className="w-full flex justify-center relative rounded-t-xl">

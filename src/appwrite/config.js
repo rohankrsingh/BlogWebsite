@@ -204,34 +204,21 @@ export class Service {
 
     // Like feature
 
-    async removePostLikes(slug, userId, query) {
+    async updatePostLikes(slug, likes){
         try {
             return await this.databases.updateDocument(
                 conf.appwriteDatabaseId,
                 conf.appwriteCollectionId,
                 slug,
                 {
-                    likes: this.databases.fieldRemove(userId),
+                    likes
                 }
             )
         } catch (error) {
             console.log("Appwrite service :: updatePostLikes :: error", error);
         }
     }
-    async addPostLikes(slug, userId, query) {
-        try {
-            return await this.databases.updateDocument(
-                conf.appwriteDatabaseId,
-                conf.appwriteCollectionId,
-                slug,
-                {
-                    likes: [...likes, userId],
-                }
-            )
-        } catch (error) {
-            console.log("Appwrite service :: updatePostLikes :: error", error);
-        }
-    }
+
     async addLikedPost(slug, userId) {
         try {
             return await this.databases.updateDocument(
