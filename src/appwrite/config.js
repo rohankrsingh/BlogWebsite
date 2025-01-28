@@ -204,7 +204,7 @@ export class Service {
 
     // Like feature
 
-    async updatePostLikes(slug, likes){
+    async updatePostLikes(slug, likes) {
         try {
             return await this.databases.updateDocument(
                 conf.appwriteDatabaseId,
@@ -219,32 +219,31 @@ export class Service {
         }
     }
 
-    async addLikedPost(slug, userId) {
+    async getLikedPost(userId) {
+        try {
+            return await this.databases.getDocument(
+                conf.appwriteDatabaseId,
+                "user",
+                userId,
+                
+            )
+        } catch (error) {
+            console.log("Appwrite service :: getLikedPost :: error", error);
+        }
+
+    }
+    async updateLikedPost(userId, liked) {
         try {
             return await this.databases.updateDocument(
                 conf.appwriteDatabaseId,
                 "user",
                 userId,
                 {
-                    liked: [...slugs, slug],
+                    liked: liked,
                 }
             )
         } catch (error) {
             console.log("Appwrite service :: updatePostLikesUser :: error", error);
-        }
-    }
-    async removeLikedPost(slug, userId) {
-        try {
-            return await this.databases.updateDocument(
-                conf.appwriteDatabaseId,
-                "user",
-                userId,
-                {
-                    liked: this.databases.fieldRemove(slug),
-                }
-            )
-        } catch (error) {
-            console.log("Appwrite service :: removePostLikesUser :: error", error);
         }
     }
 

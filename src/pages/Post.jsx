@@ -14,11 +14,13 @@ import SideInfoBar from "@/components/SideInfoBar";
 
 export default function Post() {
   const [post, setPost] = useState("");
-  const [liked, setLiked] = useState("");
+  const [liked, setLiked] = useState(false);
   const [likes, setLikes] = useState([]);
   const { slug } = useParams();
   const navigate = useNavigate();
   const userData = useSelector((state) => state.auth.userData);
+  console.log(userData);
+  
   const isAuthor = post && userData ? post.userId === userData.$id : false;
 
   useEffect(() => {
@@ -28,14 +30,14 @@ export default function Post() {
           setPost(post)
           setLikes(post.likes);
           console.log(post.likes.includes(userData?.$id));
-          
+
           setLiked(post.likes.includes(userData?.$id));
         }
         else {
           navigate("/");
         }
         // console.log(post.likes.length);
-        
+
       });
     } else navigate("/");
   }, [slug, navigate, userData]);
@@ -77,8 +79,18 @@ export default function Post() {
   return post ? (
     <div className="mb-8">
       <ScrollProgress className="top-[68px] " />
-      <div className="grid grid-flow-col grid-cols-12 gap-5 mx-6">
-        <SideInfoBar isliked={liked} likes={likes} slug={slug} className={"col-span-1"}/>
+      <div className="w-[70vw] max-lg:w-full mx-auto grid grid-flow-col grid-cols-12 gap-5 max-md:mx-6">
+        <SideInfoBar
+          isLiked={liked}
+          likes={likes}
+          slug={slug}
+          className="col-span-1"
+          onLikeUpdate={(updatedLikes, userLiked) => {
+            setLikes(updatedLikes); // Update likes state
+            setLiked(userLiked); // Update liked state
+          }}
+        />
+
         <Card className='col-span-8'>
           <Container>
             <div className="w-full flex justify-center relative rounded-t-xl">
@@ -104,18 +116,18 @@ export default function Post() {
             <div className="mx-6">
               <h1 className="">{post.title}</h1>
               <div className="text-current list-disc">
-              <ReactMarkdown
-                remarkPlugins={[remarkGfm]}
-                rehypePlugins={[rehypeRaw]}
-                components={markdownElements}
-              >
-                {post.content}
-              </ReactMarkdown>
+                <ReactMarkdown
+                  remarkPlugins={[remarkGfm]}
+                  rehypePlugins={[rehypeRaw]}
+                  components={markdownElements}
+                >
+                  {post.content}
+                </ReactMarkdown>
+              </div>
             </div>
-            </div>
-              
-            
-            
+
+
+
           </Container>
         </Card>
         <Card className='col-span-3'>
