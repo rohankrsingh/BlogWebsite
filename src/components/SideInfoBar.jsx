@@ -14,20 +14,16 @@ import {
     TooltipContent,
     TooltipProvider,
     TooltipTrigger,
-} from "@/components/ui/tooltip"
-
+} from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
+
 function SideInfoBar({ className, likes, isLiked, slug, onLikeUpdate }) {
     const [postLikes, setLikes] = useState(likes); // Manage like count locally
     const [liked, setLiked] = useState(isLiked); // Track the liked state
     const userData = useSelector((state) => state.auth.userData);
-    const authStatus = useSelector((state) => state.auth.status) // Current logged-in user
-    const likedPostsByUser = service.getLikedPost(userData.$id).then((liked) => {
-        return liked;
-    })
-    console.log(likedPostsByUser);
-
+    const authStatus = useSelector((state) => state.auth.status); // Current logged-in user
     const [likedPosts, setLikedPosts] = useState([]); // Store liked posts
+
     useEffect(() => {
         // Sync local state when parent updates props
         setLikes(likes);
@@ -35,31 +31,24 @@ function SideInfoBar({ className, likes, isLiked, slug, onLikeUpdate }) {
     }, [likes, isLiked]);
 
     const toggleLike = async () => {
-        console.log(userData);
-        
-        if (!userData && !authStatus) { return }
-        else {
-            const newLikedStatus = !liked; // Toggle like status
-            const updatedLikes = newLikedStatus
-                ? [...postLikes, userData.$id] // Add user ID to likes
-                : postLikes.filter((id) => id !== userData.$id); // Remove user ID 
+        if (!userData || !authStatus) return; // Prevent action for unauthenticated users
 
-            setLikes(updatedLikes);
-            setLiked(newLikedStatus);
-            onLikeUpdate(updatedLikes, newLikedStatus);
+        const newLikedStatus = !liked; // Toggle like status
+        const updatedLikes = newLikedStatus
+            ? [...postLikes, userData.$id] // Add user ID to likes
+            : postLikes.filter((id) => id !== userData.$id); // Remove user ID 
 
-            const updatedLikedPosts = newLikedStatus
-                ? [...likedPosts, slug] // Add post slug to liked posts
-                : likedPosts.filter((slug) => slug !== slug); // Remove post slug
-            setLikes(updatedLikes);
-            setLikedPosts(updatedLikedPosts);
+        setLikes(updatedLikes);
+        setLiked(newLikedStatus);
+        onLikeUpdate(updatedLikes, newLikedStatus);
 
-            await appwriteService.updateLikedPost(userData.$id, updatedLikedPosts);
+        const updatedLikedPosts = newLikedStatus
+            ? [...likedPosts, slug] // Add post slug to liked posts
+            : likedPosts.filter((s) => s !== slug); // Remove post slug
+        setLikedPosts(updatedLikedPosts);
 
-            await appwriteService.updatePostLikes(slug, updatedLikes);
-        } // Prevent action for unauthenticated users
-
-
+        await appwriteService.updateLikedPost(userData.$id, updatedLikedPosts);
+        await appwriteService.updatePostLikes(slug, updatedLikes);
     };
 
     const handleShare = (platform) => {
@@ -77,12 +66,12 @@ function SideInfoBar({ className, likes, isLiked, slug, onLikeUpdate }) {
     };
 
     return (
-        <aside className={`h-full pt-10 flex flex-col gap-4 items-center ${className}`}>
+        <aside className={`h-full pt-10 flex flex-col gap-4 items-center max-md:flex-row max-md:justify-around max-md:w-screen max-md:bg-primary-foreground max-md:p-0  ${className}`}>
             <TooltipProvider>
                 <Tooltip>
                     <TooltipTrigger asChild>
                         <button
-                            className="h-14 flex flex-col items-center gap-2 text-primary dark:text-white"
+                            className="h-14 flex flex-col items-center gap-2 text-primary dark:text-white max-md:flex-row"
                             onClick={toggleLike}
                         >
                             {liked ? <ThumbsUp className="fill-primary" /> : <ThumbsUp />}
@@ -95,22 +84,20 @@ function SideInfoBar({ className, likes, isLiked, slug, onLikeUpdate }) {
                 </Tooltip>
             </TooltipProvider>
 
-
-            {/* /* Share Dropdown Menu */}
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                    <TooltipProvider>
-                        <Tooltip>
-                            <TooltipTrigger asChild>
-                                <button className="h-14 flex flex-col items-center justify-center">
+                    <button className="h-14 flex flex-col items-center justify-center">
+                        <TooltipProvider>
+                            <Tooltip>
+                                <TooltipTrigger asChild>
                                     <Share />
-                                </button>
-                            </TooltipTrigger>
-                            <TooltipContent side="right">
-                                <p>Share </p>
-                            </TooltipContent>
-                        </Tooltip>
-                    </TooltipProvider>
+                                </TooltipTrigger>
+                                <TooltipContent side="right">
+                                    <p>Share </p>
+                                </TooltipContent>
+                            </Tooltip>
+                        </TooltipProvider>
+                    </button>
 
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
@@ -126,21 +113,23 @@ function SideInfoBar({ className, likes, isLiked, slug, onLikeUpdate }) {
                 </DropdownMenuContent>
             </DropdownMenu>
 
-            {/* Post Info Dropdown Menu */}
+
+
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                    <TooltipProvider>
-                        <Tooltip>
-                            <TooltipTrigger asChild>
-                                <button className="h-14 flex flex-col items-center justify-center">
+
+                    <button className="h-14 flex flex-col items-center justify-center">
+                        <TooltipProvider>
+                            <Tooltip>
+                                <TooltipTrigger asChild>
                                     <Ellipsis />
-                                </button>
-                            </TooltipTrigger>
-                            <TooltipContent side="right">
-                                <p>More</p>
-                            </TooltipContent>
-                        </Tooltip>
-                    </TooltipProvider>
+                                </TooltipTrigger>
+                                <TooltipContent side="right">
+                                    <p>More</p>
+                                </TooltipContent>
+                            </Tooltip>
+                        </TooltipProvider>
+                    </button>
 
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
