@@ -8,12 +8,12 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import Home from './pages/Home.jsx'
 import { AuthLayout } from './components/index.js'
 import { ThemeProvider } from "@/components/theme-provider"
-
+import { HeroUIProvider } from "@heroui/react";
 import AddPost from "./pages/AddPost";
 import Signup from './pages/Signup'
 import Login from './pages/Login'
 import EditPost from "./pages/EditPost";
-
+import { useNavigate } from 'react-router-dom'
 import Post from "./pages/Post";
 
 import AllPosts from "./pages/AllPosts";
@@ -91,11 +91,14 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Provider store={store}>
-    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <RouterProvider router={router} future={{
-        v7_startTransition: true,
-        v7_relativeSplatPath: true,
-      }} />
+      <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+        
+          <RouterProvider router={router} future={{
+            v7_startTransition: true,
+            v7_relativeSplatPath: true,
+          }} />
+        
+
       </ThemeProvider>
     </Provider>
   </React.StrictMode>,
