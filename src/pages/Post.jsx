@@ -100,7 +100,7 @@ export default function Post() {
   return post ? (
     <div className="mb-8">
       <ScrollProgress className="top-[68px]" />
-      <div className="w-[70vw] max-lg:w-full mx-auto grid grid-cols-12 gap-5 ">
+      <div className="w-[80vw] max-lg:w-full mx-auto grid grid-cols-12 gap-5 ">
         <SideInfoBar
           isLiked={liked}
           likes={likes}

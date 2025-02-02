@@ -4,7 +4,7 @@ import './App.css'
 import authService from "./appwrite/auth"
 import { login, logout } from "./store/authSlice"
 import { Footer, Header } from './components'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useNavigate } from 'react-router-dom'
 import BaseLayout from './BaseLayout'
 import "@fontsource/poppins";
 import "@fontsource/poppins/400.css"; 
@@ -15,11 +15,12 @@ import "@fontsource/open-sans/700.css"; // Optionally import bold weight
 import "@fontsource/source-code-pro"; // Default weight (400)
 import "@fontsource/source-code-pro/400.css"; // Optional: Regular weight
 import "@fontsource/source-code-pro/700.css"; // Optional: Bold weight
-
+import { HeroUIProvider } from '@heroui/system'
 
 function App() {
   const [loading, setLoading] = useState(true)
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   useEffect(() => {
     authService.getCurrentUser()
@@ -35,9 +36,12 @@ function App() {
 
   return !loading ? (
     <>
+    <HeroUIProvider navigate={navigate}>
       <BaseLayout>
         <Outlet />
       </BaseLayout>
+    </HeroUIProvider>
+      
     </>
 
 
