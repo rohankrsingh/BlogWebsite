@@ -49,7 +49,7 @@ function Header() {
 
 
   return (
-    <header className='w-full fixed z-10 backdrop-blur-3xl shadow'>
+    <header className='w-full sticky top-0 z-10 backdrop-blur-3xl shadow'>
       <Card className='flex bg-white/60 justify-between items-center p-4 border-none rounded-none  ,
       dark:bg-black/70 '>
         <Logo className="text-xl"/>
