@@ -96,7 +96,7 @@ export default function RTE({ name, control, label, defaultValue = "" }) {
   // const mdxEditorRef = useRef < MDXEditorMethods > (null);
 
   return (
-    <div className=" !text-[--primary] overflow-x-auto">
+    <div className=" !text-[--primary] w-full">
       {label && <label className="inline-block mb-1 pl-1">{label}</label>}
 
       <Controller
@@ -112,7 +112,7 @@ export default function RTE({ name, control, label, defaultValue = "" }) {
               setValue(newValue); // Update local state
               onChange(newValue); // Pass content to react-hook-form
             }}
-            className="!bg-[--card] min-h-96"
+            className="!bg-[--card]"
             placeholder="Write your content here..."
             // height={300}
             plugins={[
@@ -134,7 +134,7 @@ export default function RTE({ name, control, label, defaultValue = "" }) {
               toolbarPlugin({
                 toolbarClassName: 'toolbar',
                 toolbarContents: () => (
-                  <span className=" flex flex-row flex-wrap justify-between w-full items-center p-2 overflow-x-hidden max-md:justify-normal">
+                  <span className=" flex flex-row overflow-x-scroll justify-between w-full items-center p-2 max-md:justify-normal">
                     <DiffSourceToggleWrapper>
                     <UndoRedo />
                     <BoldItalicUnderlineToggles />

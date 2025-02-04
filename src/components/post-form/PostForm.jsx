@@ -108,8 +108,8 @@ export default function PostForm({ post }) {
 
     return (
         <form onSubmit={handleSubmit(submit)} className="flex flex-wrap w-full">
-            <div className="grid grid-flow-col-dense gap-6 m-auto justify-items-center ,
-            max-lg:grid-flow-row-dense">
+            <div className="max-md:max-w-[100vw] grid grid-flow-col-dense gap-6 m-auto justify-items-center ,
+            max-lg:grid-flow-row-dense max-md:flex max-md:flex-col">
                 <Card className="grid m-auto p-6 space-y-4 ">
                     <div className="">
                         <div className="flex gap-4">
@@ -135,7 +135,7 @@ export default function PostForm({ post }) {
 
                     </div>
 
-                    <div className=" space-x-2 space-y-4">
+                    <div className="max-md:w-[90vw] space-x-2 space-y-4">
 
                         <Input
                             label="Slug :"
@@ -177,22 +177,22 @@ export default function PostForm({ post }) {
                 </Card>
                 <Card className='flex flex-col items-center p-4 space-y-4 ,
                  max-lg:col-span-full max-lg:w-full '>
-                    
-                        <Select value={register.status} // Integrate React Hook Form's state
-                            onValueChange={(value) => setValue("status", value)}
-                            className='w-full'
-                            >
-                            <SelectTrigger className="w-[180px]">
-                                <SelectValue placeholder="Status" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="active">Active</SelectItem>
-                                <SelectItem value="inactive">Inactive</SelectItem>
 
-                            </SelectContent>
-                        </Select>
+                    <Select value={register.status} // Integrate React Hook Form's state
+                        onValueChange={(value) => setValue("status", value)}
+                        className='w-full'
+                    >
+                        <SelectTrigger className="w-[180px]">
+                            <SelectValue placeholder="Status" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="active">Active</SelectItem>
+                            <SelectItem value="inactive">Inactive</SelectItem>
 
-                    
+                        </SelectContent>
+                    </Select>
+
+
                     <Button type="submit" bgColor={post ? "bg-green-500" : undefined} className="w-full">
                         {post ? "Update" : "Submit"}
                     </Button>
