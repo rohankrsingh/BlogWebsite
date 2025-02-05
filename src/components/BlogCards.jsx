@@ -1,36 +1,41 @@
 import React, { useState } from 'react';
 import { Avatar, AvatarImage, AvatarFallback } from './ui/avatar';
-import { Card, CardContent } from './ui/card';
+import {  CardContent } from './ui/card';
 import { ThumbsUp } from 'lucide-react';
 import { Link } from '@heroui/link'; // Ensure Link is imported if using Next.js
-import { Image } from '@heroui/react'; // Ensure Image is imported if using Next.js
+import { Image } from '@heroui/react';
+import { Card } from '@heroui/react';
 import appwriteService from "../appwrite/config"
 
 
-function BlogCards({ variant, postData, className }) {
+function BlogCards({ variant, postData, index, className }) {
     const [post] = useState(postData || {});
 
     const defaultImage = "/placeholder.svg"; // Default image path
 
     console.log(post);
-    
+
     if (variant === 'featured') {
         return (
-            <Card className={`bg-zinc-900 border-zinc-800 overflow-hidden ${className}`}>
-                <Link to={`/post/${$id}`} className="block">
+            <Card className={`h-full overflow-hidden  ${className}`}>
+                <Link href={`/post/${post.$id}`} className="p-2 grid grid-cols-2 h-[inherit] items-start ">
                     <Image
-                        src={appwriteService.getFilePreview(post.featuredImage) || defaultImage}
+                        src={post.featuredImage ? appwriteService.getFilePreview(post.featuredImage) : defaultImage}
                         alt={post.title || "Featured Post"}
                         width={800}
-                        height={400}
-                        className="w-full object-cover"
+                        // height={410}
+                        removeWrapper
+                        className="w-full h-full  col-span-1 object-cover z-0 rounded-small"
                     />
-                    <CardContent className="p-6">
+                    <CardContent className="p-6 col-span-1">
                         <div className="space-y-4">
-                            <span className="text-emerald-500 text-sm font-medium">Features</span>
-                            <h2 className="text-2xl font-bold leading-tight">
-                                {post.title || "Untitled"}
-                            </h2>
+                            <div className='flec flex-col '>
+                                <span className="text-emerald-500 text-sm font-medium">Features</span>
+                                <h2 className="text-3xl leading-tight">
+                                    {post?.title || "Untitled"}
+                                </h2>
+                            </div>
+
                             <div className="flex items-center gap-2">
                                 <Avatar className="h-6 w-6">
                                     <AvatarImage src={post.authorImage || defaultImage} />
@@ -46,18 +51,19 @@ function BlogCards({ variant, postData, className }) {
                 </Link>
             </Card>
         );
-    } else if (variant === 'grid') {
+    } else if (variant === 'compact') {
         return (
-            <Card className="bg-zinc-900 border-zinc-800 overflow-hidden">
-                <Link href="#" className="block">
+            <Card className=" overflow-hidden">
+                <Link href={`/post/${post.$id}`} className="flex flex-col items-start p-2">
                     <Image
                         src={appwriteService.getFilePreview(post.featuredImage) || defaultImage}
                         alt={post.title || "Grid Post"}
-                        width={400}
-                        height={300}
-                        className="w-full object-cover"
+                        // width={400}
+                        height={250}
+                        removeWrapper
+                        className="w-full object-cover rounded-small z-0"
                     />
-                    <CardContent className="p-6">
+                    <CardContent className="p-2">
                         <div className="space-y-4">
                             <span className="text-emerald-500 text-sm font-medium">{post?.tags[0] || "No Tags"}</span>
                             <h3 className="text-xl font-bold leading-tight">{post.title || "Untitled"}</h3>
@@ -76,19 +82,19 @@ function BlogCards({ variant, postData, className }) {
                 </Link>
             </Card>
         );
-    } else if (variant === 'compact') {
+    } else if (variant === 'grid') {
         return (
             <Link href={`/post/${post.$id}`} className="flex gap-4 group">
-                <div className="flex-none">
-                    <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-emerald-500 text-black font-bold">
-                        {post.authorInitials || "?"}
+                <div className="flex-none self-start">
+                    <span className="inline-flex mt-2 size-7 items-center justify-center rounded-full bg-emerald-500 text-black font-bold">
+                        {index || "?"}
                     </span>
                 </div>
                 <div className="flex-1 space-y-2">
                     <span className="text-emerald-500 text-sm font-medium">{post?.tags || "No Tags"}</span>
                     <h3 className="font-bold group-hover:text-emerald-500 transition-colors">{post.title || "Untitled"}</h3>
                     <div className="flex items-center gap-2 text-sm text-zinc-400">
-                        <span>{post.date || "Date not available"}</span>
+                        <span>{post.$createdAt ? new Date(post.$createdAt).toLocaleDateString() : "Date not available"}</span>
                         <div className="flex items-center">
                             <ThumbsUp className="h-4 w-4 mr-1" />
                             {post.likes?.length || 0}
@@ -101,7 +107,7 @@ function BlogCards({ variant, postData, className }) {
                         alt={post.title || "Compact Post"}
                         width={96}
                         height={96}
-                        className="rounded object-cover"
+                        className="rounded object-cover z-0"
                     />
                 </div>
             </Link>
