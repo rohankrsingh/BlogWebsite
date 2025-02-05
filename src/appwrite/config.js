@@ -83,20 +83,19 @@ export class Service {
         }
     }
 
-    async getPosts(queries = [Query.equal("status", "active")]) {
+    async getPosts(queries = [Query.equal("status", "active"), ], additionalQueries = []) {
         try {
+            const combinedQueries = [...queries, ...additionalQueries];
+    
             return await this.databases.listDocuments(
                 conf.appwriteDatabaseId,
                 conf.appwriteCollectionId,
-                queries,
-
-
-            )
+                combinedQueries
+            );
         } catch (error) {
             console.log("Appwrite service :: getPosts :: error", error);
-            return false
+            return false;
         }
-
     }
 
     // file upload service
@@ -204,14 +203,15 @@ export class Service {
 
     // Like feature
 
-    async updatePostLikes(slug, likes) {
+    async updatePostLikes(slug, likes, likesCount) {
         try {
             return await this.databases.updateDocument(
                 conf.appwriteDatabaseId,
                 conf.appwriteCollectionId,
                 slug,
                 {
-                    likes
+                    likes,
+                    likesCount,
                 }
             )
         } catch (error) {

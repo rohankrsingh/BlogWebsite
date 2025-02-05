@@ -46,9 +46,9 @@ function SideInfoBar({ className, likes, isLiked, slug, onLikeUpdate }) {
             ? [...likedPosts, slug] // Add post slug to liked posts
             : likedPosts.filter((s) => s !== slug); // Remove post slug
         setLikedPosts(updatedLikedPosts);
-
+        const likesCount = updatedLikes.length;
         await appwriteService.updateLikedPost(userData.$id, updatedLikedPosts);
-        await appwriteService.updatePostLikes(slug, updatedLikes);
+        await appwriteService.updatePostLikes(slug, updatedLikes, likesCount);
     };
 
     const handleShare = (platform) => {

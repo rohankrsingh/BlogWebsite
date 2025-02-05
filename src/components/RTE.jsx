@@ -134,7 +134,7 @@ export default function RTE({ name, control, label, defaultValue = "" }) {
               toolbarPlugin({
                 toolbarClassName: 'toolbar',
                 toolbarContents: () => (
-                  <span className=" flex flex-row overflow-x-scroll justify-between w-full items-center p-2 max-md:justify-normal">
+                  <span className=" flex flex-row overflow-x-auto justify-between w-full items-center p-2 max-md:justify-normal">
                     <DiffSourceToggleWrapper>
                     <UndoRedo />
                     <BoldItalicUnderlineToggles />
