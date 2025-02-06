@@ -54,7 +54,6 @@ export default function PostForm({ post }) {
             }
         } else {
             const file = await appwriteService.uploadFile(data.image[0]);
-            console.log(file);
 
             if (file) {
                 const fileId = file.$id;
@@ -73,15 +72,21 @@ export default function PostForm({ post }) {
     };
 
     const slugTransform = useCallback((value) => {
-        if (value && typeof value === "string")
-            return value
+        if (value && typeof value === "string") {
+            const transformed = value
                 .trim()
                 .toLowerCase()
-                .replace(/[^a-zA-Z\d\s]+/g, "-")
-                .replace(/\s/g, "-");
-
+                .replace(/[^a-zA-Z\d\s]+/g, "_") // Replace invalid chars with underscores
+                .replace(/^\_+/, "") // Remove leading underscores
+                .replace(/\s+/g, "_"); // Replace spaces with underscores
+    
+            // Ensure the UID is at most 36 characters
+            return transformed.slice(0, 36);
+        }
+    
         return "";
     }, []);
+    
 
     React.useEffect(() => {
         const subscription = watch((value, { name }) => {
@@ -135,17 +140,25 @@ export default function PostForm({ post }) {
 
                     </div>
 
-                    <div className="max-md:w-[90vw] space-x-2 space-y-4">
+                    <div className="max-md:w-[90vw]  space-y-4">
 
                         <Input
                             label="Slug :"
                             type="text"
-                            placeholder="Add your post title here..."
-                            className="!ring-0 outline-none border-none font-normal shadow-none line-clamp-3  !text-4xl placeholder:text-4xl max-md:placeholder:text-3xl"
+                            placeholder="Slug"
+                            className="!ring-0 outline-none font-normal shadow-none !text-2xl placeholder:text-2xl max-md:placeholder:text-xl"
                             {...register("slug", { required: true })}
                             onInput={(e) => {
                                 setValue("slug", slugTransform(e.currentTarget.value), { shouldValidate: true });
                             }}
+                        />
+                        <Input
+                            label="Title :"
+                            type="text"
+                            placeholder="Add your post title here..."
+                            className="!ring-0 outline-none border-none font-normal shadow-none line-clamp-3  !text-4xl placeholder:text-4xl max-md:placeholder:text-3xl"
+                            {...register("title", { required: true })}
+
                         />
                         <div className="flex gap-2 content-center">
                             {tags?.map((val, index) => (
@@ -193,7 +206,7 @@ export default function PostForm({ post }) {
                     </Select>
 
 
-                    <Button type="submit" bgColor={post ? "bg-green-500" : undefined} className="w-full">
+                    <Button type="submit" className="w-full">
                         {post ? "Update" : "Submit"}
                     </Button>
                 </Card>

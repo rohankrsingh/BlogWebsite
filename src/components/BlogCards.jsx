@@ -91,7 +91,7 @@ function BlogCards({ variant, postData, index, className }) {
                     </span>
                 </div>
                 <div className="flex-1 space-y-2">
-                    <span className="text-emerald-500 text-sm font-medium">{post?.tags || "No Tags"}</span>
+                    <span className="text-emerald-500 text-sm font-medium">{post?.tags[0] || "No Tags"}</span>
                     <h3 className="font-bold group-hover:text-emerald-500 transition-colors">{post.title || "Untitled"}</h3>
                     <div className="flex items-center gap-2 text-sm text-zinc-400">
                         <span>{post.$createdAt ? new Date(post.$createdAt).toLocaleDateString() : "Date not available"}</span>
