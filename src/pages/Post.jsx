@@ -8,10 +8,12 @@ import { useSelector } from "react-redux";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
-import { Button, Card } from "@/components/ui/index";
+import { Button } from "@/components/ui/index";
+import { Card, Chip, Image } from "@heroui/react";
 import ScrollProgress from "../components/ui/scroll-progress";
 import SideInfoBar from "@/components/SideInfoBar";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import Tags from "@/components/ui/Tags";
 
 export default function Post() {
   const [post, setPost] = useState("");
@@ -85,12 +87,13 @@ export default function Post() {
 
   const markdownElements = {
     code: renderCodeBlock,
-    h1: ({ children }) => <h1 className="text-5xl">{children}</h1>,
+    h1: ({ children }) => <h1 className="text-3xl">{children}</h1>,
     h2: ({ children }) => <h2 className="text-2xl font-semibold">{children}</h2>,
     p: ({ children }) => <p className="text-lg font-poppins font-light tracking-wide mb-4">{children}</p>,
     a: ({ href, children }) => (
       <a href={href} className="text-blue-500 hover:underline">{children}</a>
     ),
+    img: ({src, alt, children}) => (<Image src={src} alt={alt} className="rounded-small z-0">{children}</Image>),
     strong: ({ children }) => <strong className="text-xl font-bold">{children}</strong>
   };
 
@@ -98,21 +101,21 @@ export default function Post() {
   if (error) return <div className="text-red-500">Error loading post: {error.message}</div>;
 
   return post ? (
-    <div className="mb-8">
+    <div className="">
       <ScrollProgress className="top-[68px]" />
-      <div className="w-[80vw] max-lg:w-full mx-auto grid grid-cols-12 gap-5 ">
+      <div className="max-w-[1300px] px-2 max-lg:w-full mx-auto grid grid-cols-12 gap-5 ">
         <SideInfoBar
           isLiked={liked}
           likes={likes}
           slug={slug}
-          className="sticky bottom-0 -inset-0 z-10"
+          className=""
           onLikeUpdate={(updatedLikes, userLiked) => {
             setLikes(updatedLikes);
             setLiked(userLiked);
           }}
         />
 
-        <Card className="bg-white/5 col-span-12 md:col-span-8">
+        <Card className="col-span-12 md:col-span-8">
           <Container>
             <div className="w-full flex justify-center relative rounded-t-xl">
               <img
@@ -130,13 +133,15 @@ export default function Post() {
                 </div>
               )}
             </div>
-            <div className="mx-6">
-              <h1 className="text-3xl font-bold">{post.title}</h1>
+            <div className="mx-10 space-y-4">
+              <h1 className="text-4xl mt-8 font-semibold">{post.title}</h1>
+              <div className="flex space-x-4"><Tags tags={post.tags} className={'px-0'}/></div>
               <div className="text-current list-disc">
                 <ReactMarkdown
                   remarkPlugins={[remarkGfm]}
                   rehypePlugins={[rehypeRaw]}
                   components={markdownElements}
+                  className="space-y-5 mb-10"
                 >
                   {post.content}
                 </ReactMarkdown>
