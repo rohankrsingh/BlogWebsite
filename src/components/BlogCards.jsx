@@ -18,7 +18,8 @@ function BlogCards({ variant, postData, index, className }) {
     if (variant === 'featured') {
         return (
             <Card className={`h-full overflow-hidden  ${className}`}>
-                <Link href={`/post/${post.$id}`} className="p-2 grid grid-cols-2 h-[inherit] items-start ">
+                <Link href={`/post/${post.$id}`} className="p-2 grid grid-cols-2 h-[inherit] items-start 
+                max-md:grid-cols-1">
                     <Image
                         src={post.featuredImage ? appwriteService.getFilePreview(post.featuredImage) : defaultImage}
                         alt={post.title || "Featured Post"}

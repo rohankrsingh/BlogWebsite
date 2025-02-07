@@ -130,7 +130,7 @@ export default function RTE({ name, control, label, defaultValue = "" }) {
               diffSourcePlugin({ viewMode: "rich-text", diffMarkdown: "" }),
               codeBlockPlugin({ defaultCodeBlockLanguage: 'js' }),
               sandpackPlugin({ sandpackConfig: simpleSandpackConfig }),
-              codeMirrorPlugin({ codeBlockLanguages: { text:'text', js: 'JavaScript', css: 'CSS', html: 'HTML' , bash: 'bash'} }),
+              codeMirrorPlugin({ codeBlockLanguages: { text:'text', js: 'JavaScript', css: 'CSS', html: 'HTML' , bash: 'bash', java: 'java', cpp: 'cpp'} }),
               toolbarPlugin({
                 toolbarClassName: 'toolbar',
                 toolbarContents: () => (
