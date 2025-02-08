@@ -70,7 +70,7 @@ function LoginComponent() {
     <div
     className='flex items-center justify-center'
     >
-        <Card className=" shadow-2xl">
+        <Card className="shadow-2xl bg-opacity-50">
                 <CardHeader>
                     <CardTitle className="font-normal text-4xl">Login</CardTitle>
                     {error && <p className="text-red-600 mt-8 text-center">{error}</p>}

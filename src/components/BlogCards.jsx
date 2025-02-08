@@ -7,13 +7,10 @@ import { Image } from '@heroui/react';
 import { Card } from '@heroui/react';
 import appwriteService from "../appwrite/config"
 
-
 function BlogCards({ variant, postData, index, className }) {
     const [post] = useState(postData || {});
 
-    const defaultImage = "/placeholder.svg"; // Default image path
-
-    console.log(post);
+    const defaultImage = "/placeholder.svg";
 
     if (variant === 'featured') {
         return (

@@ -14,7 +14,8 @@ import ScrollProgress from "../components/ui/scroll-progress";
 import SideInfoBar from "../components/SideInfoBar";
 import { ScrollArea, ScrollBar } from "../components/ui/scroll-area";
 import Tags from "../components/ui/Tags";
-import { motion } from 'framer-motion'; // Import Framer Motion
+import { motion } from 'framer-motion';
+import Loader from "@/components/Loader";
 
 export default function Post() {
   const [post, setPost] = useState("");
@@ -96,7 +97,7 @@ export default function Post() {
     strong: ({ children }) => <strong className="text-xl font-bold">{children}</strong>
   };
 
-  if (loading) return <div className="text-center">Loading...</div>;
+  if (loading) return <div className="text-center"><Loader/></div>;
   if (error) return <div className="text-red-500">Error loading post: {error.message}</div>;
 
   return post ? (
@@ -107,7 +108,7 @@ export default function Post() {
       transition={{ duration: 0.5 }} // Transition duration
     >
       <div className="py-4">
-        <ScrollProgress className="top-[52px] max-md:top-[56px]" />
+        <ScrollProgress className="top-[52px] max-md:top-[56px] z-30" />
         <div className="max-w-[1300px] px-2 max-lg:w-full mx-auto grid grid-cols-12 gap-5 max-md:px-0">
           <SideInfoBar
             isLiked={liked}
