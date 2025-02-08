@@ -1,8 +1,19 @@
 {
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/src/pages/$1"
-    }
-  ]
+    "routes": [
+        {
+            "src": "/(.*)",
+            "dest": "/src/pages/$1"
+        }
+    ],
+    "headers": [
+        {
+            "source": "/(.*).(html|js|css)",
+            "headers": [
+                {
+                    "key": "Cache-Control",
+                    "value": "public, max-age=31536000"
+                }
+            ]
+        }
+    ]
 }
