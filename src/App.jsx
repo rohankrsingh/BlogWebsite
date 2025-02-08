@@ -5,17 +5,17 @@ import authService from "./appwrite/auth";
 import { login, logout } from "./store/authSlice";
 import { Outlet, useNavigate } from 'react-router-dom';
 import BaseLayout from './BaseLayout';
-import { AnimatePresence, motion } from 'framer-motion'; // Import Framer Motion components
-import Loader from './components/Loader'; // Import the Loader component
+import { AnimatePresence, motion } from 'framer-motion';
+import Loader from './components/Loader';
 import "@fontsource/poppins";
 import "@fontsource/poppins/400.css"; 
 import "@fontsource/poppins/700.css";
-import "@fontsource/open-sans"; // Defaults to 400 weight (normal)
-import "@fontsource/open-sans/400.css"; // Optionally import specific weights
-import "@fontsource/open-sans/700.css"; // Optionally import bold weight
-import "@fontsource/source-code-pro"; // Default weight (400)
-import "@fontsource/source-code-pro/400.css"; // Optional: Regular weight
-import "@fontsource/source-code-pro/700.css"; // Optional: Bold weight
+import "@fontsource/open-sans";
+import "@fontsource/open-sans/400.css";
+import "@fontsource/open-sans/700.css";
+import "@fontsource/source-code-pro";
+import "@fontsource/source-code-pro/400.css";
+import "@fontsource/source-code-pro/700.css";
 import { HeroUIProvider } from '@heroui/system';
 
 function App() {

@@ -1,4 +1,4 @@
-import React from "react";
+import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { Header, Footer } from "./components";
 
@@ -6,7 +6,10 @@ import { Header, Footer } from "./components";
 const BaseLayout = ({ children }) => {
   const location = useLocation();
 
-  // Routes that should not display header and footer
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
+
   const noHeaderFooterRoutes = ["/login", "/signup"];
 
   const shouldShowHeaderFooter = !noHeaderFooterRoutes.includes(location.pathname);
