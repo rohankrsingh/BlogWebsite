@@ -14,11 +14,11 @@ const Loader = () => {
         justifyContent: 'center',
         alignItems: 'center',
         height: '100vh',
-        width: '100vw',
-        backgroundColor: '#f0f0f0', // Optional: background color
+        width: '100%',
+        backgroundColor: 'var(--card)', 
       }}
     >
-      <div className="loader"><Spinner color="default" label="Loading..." />;</div> {/* You can replace this with a spinner or any loader graphic */}
+      <div className="loader"><Spinner color="default" label="Loading..." /></div> 
     </motion.div>
   );
 };

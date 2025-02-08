@@ -5,16 +5,18 @@ import BlogCards from '../components/BlogCards';
 import { Query } from 'appwrite';
 import { Separator } from '../components/ui';
 import { motion } from 'framer-motion'; // Import Framer Motion
+import Loader from '@/components/Loader';
 
 function Home() {
     const [posts, setPosts] = useState({
         latest: [],
         featured: [],
     });
+    const [loading, setLoading] = useState(true); // Loading state
 
     const latestQuery = [
         Query.orderDesc('$createdAt'),
-        Query.limit(10)
+        Query.limit(10),
     ];
 
     const featuredQuery = [
@@ -35,13 +37,19 @@ function Home() {
                 });
             } catch (error) {
                 console.error('Error fetching posts:', error);
+            } finally {
+                setLoading(false);
             }
         };
 
         fetchPosts();
     }, []);
 
-    if (posts.length === 0) {
+    if (loading) {
+        return <Loader />;
+    }
+
+    if (posts.latest.length === 0) {
         return (
             <div className="w-full py-8 mt-4 text-center">
                 <Container>
@@ -69,13 +77,11 @@ function Home() {
                     <div className="grid grid-cols-1 lg:grid-cols-12 lg:grid-rows-2 gap-6">
                         <div className="grid space-y-6 col-span-7 row-span-1 max-md:order-1">
                             {
-                                posts?.featured.slice(0, 1).map((post, index) => {
-                                    return (
-                                        <div key={index} className='h-full'>
-                                            <BlogCards postData={post} variant='featured' />
-                                        </div>
-                                    );
-                                })
+                                posts.featured.slice(0, 1).map((post, index) => (
+                                    <div key={index} className='h-full'>
+                                        <BlogCards postData={post} variant='featured' />
+                                    </div>
+                                ))
                             }
                         </div>
 
@@ -83,26 +89,22 @@ function Home() {
                             <h2 className="text-2xl font-bold">Latest</h2>
                             <div className="space-y-6">
                                 {
-                                    posts?.latest.map((post, index) => {
-                                        return (
-                                            <div key={index}>
-                                                <BlogCards postData={post} variant='grid' index={index + 1} />
-                                                <Separator orientation="horizontal" className="my-2" />
-                                            </div>
-                                        );
-                                    })
+                                    posts.latest.map((post, index) => (
+                                        <div key={index}>
+                                            <BlogCards postData={post} variant='grid' index={index + 1} />
+                                            <Separator orientation="horizontal" className="my-2" />
+                                        </div>
+                                    ))
                                 }
                             </div>
                         </div>
                         <div className="grid grid-cols-[repeat(2,minmax(0,1fr))] col-span-7 row-span-1 gap-4 max-sm:grid-cols-1 max-md:order-2">
                             {
-                                posts?.latest.slice(1, 3).map((post, index) => {
-                                    return (
-                                        <div key={index} className='col-span-1'>
-                                            <BlogCards postData={post} variant='compact' />
-                                        </div>
-                                    );
-                                })
+                                posts.latest.slice(1, 3).map((post, index) => (
+                                    <div key={index} className='col-span-1'>
+                                        <BlogCards postData={post} variant='compact' />
+                                    </div>
+                                ))
                             }
                         </div>
                     </div>

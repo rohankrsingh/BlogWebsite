@@ -68,7 +68,7 @@ function Signup() {
 
     return (
         <div className="mx-auto flex items-center justify-center">
-            <Card className="w-96 border-none">
+            <Card className="w-96 !shadow-none !border-none max-md:bg-opacity-85 max-sm:w-auto">
                 <CardHeader>
                     <CardTitle className="font-normal text-4xl">Sign Up</CardTitle>
                     {error && <p className="text-red-600 mt-8 text-center">{error}</p>}

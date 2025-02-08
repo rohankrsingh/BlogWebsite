@@ -38,12 +38,16 @@ export class AuthService {
         }
     }
     async loginGoogle() {
-        const res = this.account.createOAuth2Session(
-            OAuthProvider.Google,
-            "http://localhost:5173",
-            "http://localhost:5173"
-        )
-        console.log(res)
+        try {
+            const res = await this.account.createOAuth2Session(
+                OAuthProvider.Google,
+                "http://localhost:5173",
+                "http://localhost:5173"
+            );
+            console.log(res);
+        } catch (error) {
+            console.error("Error during Google login:", error);
+        }
     }
     async getCurrentUser() {
         try {

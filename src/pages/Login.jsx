@@ -20,16 +20,17 @@ function Login() {
       exit={{ opacity: 0 }} // Exit state
       transition={{ duration: 0.5 }} // Transition duration
     >
-      <Card className="h-screen w-screen grid rounded-none p-8 space-x-6 border-none">
-        <Card className="relative col-span-6 overflow-hidden rounded-lg border bg-background md:shadow-xl z-0 place-content-center">
-          <LoginComponent />
+      <Card className="h-screen w-screen grid rounded-none p-8 space-x-6 border-none 
+      max-md:p-2">
+        <Card className="relative col-span-6 overflow-hidden rounded-lg border bg-background md:shadow-xl z-0 place-content-center max-md:p-2">
           <Particles
-            className="absolute inset-0 z-1"
+            className="absolute inset-0 z-0"
             quantity={100}
             ease={80}
             color={color}
             refresh
           />
+          <LoginComponent />
         </Card>
       </Card>
     </motion.div>
