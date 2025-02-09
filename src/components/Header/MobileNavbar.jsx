@@ -33,7 +33,7 @@ function MobileNavbar({ navItems, className }) {
                             <DrawerBody>
                                 {navItems.map((item, index) => item.active ? (
                                     <span key={index}>
-                                        <Button key={item.key} variant={item.variant} onClick={() => navigate(item.slug)}>
+                                        <Button key={item.key} variant={item.variant} onPress={() => navigate(item.slug)}>
                                             {item.name}
                                         </Button>
                                     </span>
