@@ -1,19 +1,15 @@
-import { useEffect, useState } from "react"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import * as z from "zod"
-import { Button } from "@/components/ui/button"
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import {
-    Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue,
-} from "@/components/ui/select"
-import { Card, Image } from "@heroui/react"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Separator } from "@/components/ui/separator"
-import avatarList from "./avatarList"
-import AvatarSelector from "./AvatarSelector"
-// import { Facebook, Twitter, Github } from "lucide-react"
+import { useEffect, useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+import { Button } from "../ui";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
+import { Card } from "@heroui/react"; // Removed unused Image import
+import { Input } from "../ui";
+import { Textarea } from "../ui";
+import { Separator } from "../ui";
+import AvatarSelector from "./AvatarSelector";
+import service from "@/appwrite/config";
 
 const profileFormSchema = z.object({
     avatar: z.string().url().optional(),
@@ -26,12 +22,12 @@ const profileFormSchema = z.object({
     bio: z.string().max(160).optional(),
     website: z.string().url().optional(),
     location: z.string().optional(),
-})
+});
 
 export default function Profile() {
-    const [userData, setUserData] = useState(null);
     const [selectedAvatar, setSelectedAvatar] = useState("");
-    const [error, setError] = useState("")
+    const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
     const form = useForm({
         resolver: zodResolver(profileFormSchema),
         defaultValues: {
@@ -42,20 +38,41 @@ export default function Profile() {
             website: "",
             location: "",
         },
-    })
+    });
+
+    const userId = "placeholder_user_id"; // Define userId as a placeholder
 
     useEffect(() => {
-        console.log(selectedAvatar);
+        const fetchUserProfile = async () => {
+            setLoading(true);
+            try {
+                const details = await service.getUserProfile(userId);
+                if (details) form.reset(details); // Reset form with fetched details
+            } catch {
+                setError("Failed to fetch user profile.");
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchUserProfile();
+    }, []);
 
-    }, [selectedAvatar])
-    function onSubmit(data) {
-        console.log(data)
-    }
+    const onSubmit = async (data) => {
+        setLoading(true);
+        try {
+            await service.updateAuthUserName(data.name);
+            await service.updateUserProfile(data);
+        } catch {
+            setError("Failed to update profile.");
+        } finally {
+            setLoading(false);
+        }
+    };
 
     return (
         <Card className="max-w-2xl mx-auto space-y-8 p-8">
-
-
+            {loading && <p>Loading...</p>}
+            {error && <p className="text-red-500">{error}</p>}
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                     <div className="space-y-4">
@@ -139,7 +156,6 @@ export default function Profile() {
                                     </FormItem>
                                 )}
                             />
-
                         </div>
                     </div>
 
@@ -149,6 +165,5 @@ export default function Profile() {
                 </form>
             </Form>
         </Card>
-    )
+    );
 }
-

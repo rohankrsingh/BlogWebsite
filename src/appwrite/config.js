@@ -154,6 +154,19 @@ export class Service {
             console.log("Appwrite service :: createPost :: error", error);
         }
     }
+
+    async updateAuthUserName(userId, name){
+        try{
+            return await this.users.updateName(
+                userId,
+                name
+            )
+
+        }
+        catch (error) {
+            console.log("Appwrite service :: updateAuthUserName :: error", error);
+        }
+    }
     async updateUserProfile(userId, name, email, description, location, liked, avatar) {
         try {
             return await this.databases.updateDocument(

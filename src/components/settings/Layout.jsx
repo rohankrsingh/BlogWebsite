@@ -14,7 +14,7 @@ export default function Layout({ children }) {
     console.log(select);
     
     return (
-        <div className="flex max-w-[1200px] mx-auto p-8 max-md:flex-col">
+        <div className="flex max-w-[1200px] mx-auto p-8 max-md:flex-col max-md:p-2">
             <aside className="w-64 max-md:w-auto">
                 <nav className="p-6 space-y-2 items-center max-md:space-x-0  max-md:flex  max-md:p-2 max-md:overflow-auto">
                     {sidebarItems.map((item) => (
@@ -29,7 +29,7 @@ export default function Layout({ children }) {
                     ))}
                 </nav>
             </aside>
-            <main className="flex-1 p-6"><Outlet /></main>
+            <main className="flex-1 p-6 max-md:p-2"><Outlet /></main>
         </div>
     )
 
