@@ -3,6 +3,7 @@ import { Image } from "@heroui/react";
 import { ScrollArea, ScrollBar } from '../ui/scroll-area';
 
 const AvatarSelector = ({ selectedAvatar, onSelect }) => {
+    
     return (
         <ScrollArea className="whitespace-nowrap py-2">
             <div className='w-max flex'>

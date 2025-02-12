@@ -29,9 +29,6 @@ export default function PostForm({ post }) {
     const [tags, setTags] = useState(post?.tags ? post.tags : []);
     const navigate = useNavigate();
     const userData = useSelector((state) => state.auth.userData);
-    console.log(tags);
-
-
 
     const submit = async (data) => {
         data.tags = tags;

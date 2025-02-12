@@ -4,15 +4,17 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { Button } from "../ui";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
-import { Card } from "@heroui/react"; // Removed unused Image import
+import { Card } from "@heroui/react";
 import { Input } from "../ui";
 import { Textarea } from "../ui";
 import { Separator } from "../ui";
 import AvatarSelector from "./AvatarSelector";
 import service from "@/appwrite/config";
+import authService from "@/appwrite/auth";
+import { useSelector } from "react-redux";
+import Loader from "../Loader";
 
 const profileFormSchema = z.object({
-    avatar: z.string().url().optional(),
     name: z.string().min(2, {
         message: "Name must be at least 2 characters.",
     }),
@@ -40,14 +42,24 @@ export default function Profile() {
         },
     });
 
-    const userId = "placeholder_user_id"; // Define userId as a placeholder
+    const userId = useSelector((state) => state.auth.userData.$id);
 
     useEffect(() => {
         const fetchUserProfile = async () => {
             setLoading(true);
             try {
                 const details = await service.getUserProfile(userId);
-                if (details) form.reset(details); // Reset form with fetched details
+                if (details) {
+                    form.reset({
+                        avatar: details.avatar || "",
+                        name: details.name || "",
+                        email: details.email || "",
+                        bio: details.bio || "",
+                        website: details.website || "",
+                        location: details.location || "",
+                    });
+                    setSelectedAvatar(details.avatar)
+                }
             } catch {
                 setError("Failed to fetch user profile.");
             } finally {
@@ -55,15 +67,21 @@ export default function Profile() {
             }
         };
         fetchUserProfile();
-    }, []);
+    }, [userId, form]);
 
     const onSubmit = async (data) => {
         setLoading(true);
         try {
-            await service.updateAuthUserName(data.name);
-            await service.updateUserProfile(data);
-        } catch {
+            await authService.updateAccountName(data.name);
+            data.userId = userId;
+            data.avatar = selectedAvatar;
+            data.bio = data.bio.trim() === "" ? null : data.bio;
+            data.website = data.website.trim() === "" ? null : data.website;
+            data.location = data.location.trim() === "" ? null : data.location;
+            await service.updateUserProfile(data.userId, data.name, data.email, data.bio, data.location, data.avatar, data.website);
+        } catch (err) {
             setError("Failed to update profile.");
+            console.log(err.message); // Log the error to the console
         } finally {
             setLoading(false);
         }
@@ -71,7 +89,7 @@ export default function Profile() {
 
     return (
         <Card className="max-w-2xl mx-auto space-y-8 p-8">
-            {loading && <p>Loading...</p>}
+            {loading && <Loader />}
             {error && <p className="text-red-500">{error}</p>}
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -92,7 +110,7 @@ export default function Profile() {
                                         <FormControl>
                                             <Input placeholder="Your name" {...field} />
                                         </FormControl>
-                                        <FormMessage />
+                                        <FormMessage {...form.error} />
                                     </FormItem>
                                 )}
                             />
@@ -106,7 +124,7 @@ export default function Profile() {
                                         <FormControl>
                                             <Input placeholder="email@example.com" {...field} />
                                         </FormControl>
-                                        <FormMessage />
+                                        <FormMessage {...form.error} />
                                     </FormItem>
                                 )}
                             />
@@ -126,7 +144,7 @@ export default function Profile() {
                                             <Textarea placeholder="A short bio about yourself" className="resize-none" {...field} />
                                         </FormControl>
                                         <FormDescription>Brief description for your profile.</FormDescription>
-                                        <FormMessage />
+                                        <FormMessage {...form.error} />
                                     </FormItem>
                                 )}
                             />
@@ -139,7 +157,7 @@ export default function Profile() {
                                         <FormControl>
                                             <Input placeholder="https://example.com" {...field} />
                                         </FormControl>
-                                        <FormMessage />
+                                        <FormMessage {...form.error} />
                                     </FormItem>
                                 )}
                             />
@@ -152,7 +170,7 @@ export default function Profile() {
                                         <FormControl>
                                             <Input placeholder="City, Country" {...field} />
                                         </FormControl>
-                                        <FormMessage />
+                                        <FormMessage {...form.error} />
                                     </FormItem>
                                 )}
                             />

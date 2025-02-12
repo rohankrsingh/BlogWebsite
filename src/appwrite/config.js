@@ -155,19 +155,8 @@ export class Service {
         }
     }
 
-    async updateAuthUserName(userId, name){
-        try{
-            return await this.users.updateName(
-                userId,
-                name
-            )
-
-        }
-        catch (error) {
-            console.log("Appwrite service :: updateAuthUserName :: error", error);
-        }
-    }
-    async updateUserProfile(userId, name, email, description, location, liked, avatar) {
+    
+    async updateUserProfile(userId, name, email, bio, location, avatar, website, liked) {
         try {
             return await this.databases.updateDocument(
                 conf.appwriteDatabaseId,
@@ -176,14 +165,15 @@ export class Service {
                 {
                     name,
                     email,
-                    description,
+                    bio,
                     location,
                     liked,
+                    website,
                     avatar
                 }
             )
         } catch (error) {
-            console.log("Appwrite service :: updatePost :: error", error);
+            console.log("Appwrite service :: updateUserProfile :: error", error);
         }
     }
     async getUserProfile(userId) {

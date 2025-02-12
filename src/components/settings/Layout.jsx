@@ -9,9 +9,7 @@ const sidebarItems = [
     { icon: Extension, label: "Extensions", href: "/settings/extensions" },
 ]
 
-export default function Layout({ children }) {
-    const select = useParams()
-    console.log(select);
+export default function Layout() {
     
     return (
         <div className="flex max-w-[1200px] mx-auto p-8 max-md:flex-col max-md:p-2">
