@@ -94,7 +94,7 @@ export default function Profile() {
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                     <div className="space-y-4">
-                        <h2 className="text-2xl font-bold">Avatar</h2>
+                        <h2 className="text-2xl font-semibold">Avatar</h2>
                         <div className="grid gap-4">
                             <AvatarSelector selectedAvatar={selectedAvatar} onSelect={setSelectedAvatar} />
                         </div>

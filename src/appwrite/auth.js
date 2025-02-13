@@ -11,26 +11,26 @@ export class AuthService {
             .setEndpoint(conf.appwriteUrl)
             .setProject(conf.appwriteProjectId);
         this.account = new Account(this.client);
-            
+
     }
 
-    async createAccount({email, password, name}) {
+    async createAccount({ email, password, name }) {
         try {
             const userAccount = await this.account.create(ID.unique(), email, password, name);
             if (userAccount) {
                 // call another method
                 service.createUserProfile(userAccount.$id, userAccount.name, userAccount.$createdAt, userAccount.email);
 
-                return this.login({email, password});
+                return this.login({ email, password });
             } else {
-               return  userAccount;
+                return userAccount;
             }
         } catch (error) {
             throw error;
         }
     }
 
-    async login({email, password}) {
+    async login({ email, password }) {
         try {
             return await this.account.createEmailPasswordSession(email, password);
         } catch (error) {
@@ -68,12 +68,24 @@ export class AuthService {
         }
     }
 
-    async updateAccountName(name){
-        try{
+    async updateAccountName(name) {
+        try {
             return await this.account.updateName(
                 name
             )
 
+        }
+        catch (error) {
+            console.log("Appwrite service :: updateAuthUserName :: error", error);
+        }
+    }
+
+    async updateAccountPassword(password, oldPassword) {
+        try {
+            return await this.account.updatePassword(
+                password,
+                oldPassword
+            )
         }
         catch (error) {
             console.log("Appwrite service :: updateAuthUserName :: error", error);

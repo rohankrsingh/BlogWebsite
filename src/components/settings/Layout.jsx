@@ -1,16 +1,16 @@
 import { Link } from "@heroui/link"
 import { Outlet, useParams } from 'react-router-dom';
-import { Settings, User, Bell, Building2, ExpandIcon as Extension } from "lucide-react"
+import { Settings, User, Bell, UserCog, ExpandIcon as Extension } from "lucide-react"
 const sidebarItems = [
     { icon: User, label: "Profile", href: "/settings/profile" },
     { icon: Settings, label: "Customization", href: "/settings/customization" },
-    { icon: Bell, label: "Notifications", href: "/settings/notifications" },
-    { icon: Building2, label: "Organization", href: "/settings/organization" },
-    { icon: Extension, label: "Extensions", href: "/settings/extensions" },
+    // { icon: Bell, label: "Notifications", href: "/settings/notifications" },
+    { icon: UserCog, label: "Account", href: "/settings/account" },
+    // { icon: Extension, label: "Extensions", href: "/settings/extensions" },
 ]
 
 export default function Layout() {
-    
+
     return (
         <div className="flex max-w-[1200px] mx-auto p-8 max-md:flex-col max-md:p-2">
             <aside className="w-64 max-md:w-auto">

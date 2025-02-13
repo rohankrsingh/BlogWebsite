@@ -16,6 +16,7 @@ import Post from "./pages/Post";
 import Layout from './components/settings/Layout.jsx'
 import Profile from './components/settings/Profile.jsx'
 import AllPosts from "./pages/AllPosts";
+import Account from './components/settings/Account.jsx'
 
 const router = createBrowserRouter([
   {
@@ -81,7 +82,7 @@ const router = createBrowserRouter([
           { path: "profile", element: <Profile /> }, // Create the Profile component
           // { path: "customization", element: <Customization /> }, // Create the Customization component
           // { path: "notifications", element: <Notifications /> }, // Create the Notifications component
-          // { path: "organization", element: <Organization /> }, // Create the Organization component
+          { path: "account", element: <Account /> }, // Create the Organization component
           // { path: "extensions", element: <Extensions /> }, // Create the Extensions component
         ],
       },

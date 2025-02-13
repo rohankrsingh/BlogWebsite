@@ -6,7 +6,7 @@ const AvatarSelector = ({ selectedAvatar, onSelect }) => {
     
     return (
         <ScrollArea className="whitespace-nowrap py-2">
-            <div className='w-max flex'>
+            <div className='w-max grid grid-rows-2 grid-flow-col gap-2'>
                 {avatarList.map((avatar, index) => (
                     <div
                         key={index}
