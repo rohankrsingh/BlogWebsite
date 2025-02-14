@@ -91,6 +91,26 @@ export class AuthService {
             console.log("Appwrite service :: updateAuthUserName :: error", error);
         }
     }
+
+    async getUserPref() {
+        try {
+            return await this.account.getPrefs();
+        }
+        catch (error) {
+            console.log("Appwrite service :: getUserPref :: error", error);
+        }
+    }
+
+    async updateUserPref(prefs) {
+        try {
+            return await this.account.updatePrefs(
+                prefs
+            )
+        }
+        catch (error) {
+            console.log("Appwrite service :: updateUserPref :: error", error);
+        }
+    }
 }
 
 const authService = new AuthService();

@@ -13,8 +13,6 @@ export function ThemeTogle() {
   const { theme, setTheme } = useTheme()
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
         <Button variant="outline" size="icon" onClick={() => {
             theme === "dark" ? setTheme("light") : setTheme("dark")
         }}>
@@ -22,8 +20,5 @@ export function ThemeTogle() {
           <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
           <span className="sr-only">Toggle theme</span>
         </Button>
-      </DropdownMenuTrigger>
-      
-    </DropdownMenu>
   )
 }

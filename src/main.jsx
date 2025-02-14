@@ -17,6 +17,7 @@ import Layout from './components/settings/Layout.jsx'
 import Profile from './components/settings/Profile.jsx'
 import AllPosts from "./pages/AllPosts";
 import Account from './components/settings/Account.jsx'
+import Customization from './components/settings/customization.jsx'
 
 const router = createBrowserRouter([
   {
@@ -79,11 +80,9 @@ const router = createBrowserRouter([
         path: "/settings",
         element: <Layout />,
         children: [
-          { path: "profile", element: <Profile /> }, // Create the Profile component
-          // { path: "customization", element: <Customization /> }, // Create the Customization component
-          // { path: "notifications", element: <Notifications /> }, // Create the Notifications component
-          { path: "account", element: <Account /> }, // Create the Organization component
-          // { path: "extensions", element: <Extensions /> }, // Create the Extensions component
+          { path: "profile", element: <Profile /> },
+          { path: "customization", element: <Customization /> },
+          { path: "account", element: <Account /> }
         ],
       },
     ],

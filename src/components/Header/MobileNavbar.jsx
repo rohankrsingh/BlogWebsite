@@ -23,13 +23,13 @@ function MobileNavbar({ navItems, className }) {
             <Button onPress={onOpen} isIconOnly disableRipple disableAnimation variant='' className={className}><MenuIcon /></Button>
             <Drawer isOpen={isOpen} size={'xs'} onOpenChange={onOpenChange}
                 closeButton={
-                <Button isIconOnly disableRipple disableAnimation variant=''><X /></Button>}
+                    <Button isIconOnly disableRipple disableAnimation variant=''><X /></Button>}
                 className='z-40'
             >
                 <DrawerContent >
                     {(onClose) => (
                         <>
-                            <DrawerHeader className="flex flex-col gap-1 ">Drawer Title</DrawerHeader>
+                            <DrawerHeader className="flex flex-col gap-1 "></DrawerHeader>
                             <DrawerBody>
                                 {navItems.map((item, index) => item.active ? (
                                     <span key={index}>
@@ -44,17 +44,11 @@ function MobileNavbar({ navItems, className }) {
                                 {
                                     authStatus && (<LogoutBtn />)
                                 }
-
-                                <Button isIconOnly disableRipple disableAnimation variant='' >
-                                    <ThemeTogle />
-                                </Button>
+                                <ThemeTogle />
                             </DrawerBody>
                             <DrawerFooter>
                                 <Button color="danger" variant="light" onPress={onClose}>
                                     Close
-                                </Button>
-                                <Button color="primary" onPress={onClose}>
-                                    Action
                                 </Button>
                             </DrawerFooter>
                         </>
