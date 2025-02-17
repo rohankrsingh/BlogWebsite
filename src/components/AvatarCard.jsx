@@ -25,7 +25,7 @@ const AvatarCard = ({ userId, variant = "default" }) => {
 
   return (
     <Card
-      className={`p-4 transition-all duration-300 text-primary 
+      className={`w-full p-4 transition-all duration-300 text-primary 
         max-md:p-2
         ${variant === "minimal"
           ? ""

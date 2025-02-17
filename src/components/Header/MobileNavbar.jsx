@@ -10,17 +10,13 @@ import {
     DrawerFooter,
     Button,
     useDisclosure,
+    DropdownSection,
+    DropdownTrigger,
+    Dropdown,
 } from "@heroui/react";
 import { MenuIcon, X } from "lucide-react";
 import AvatarCard from '../AvatarCard';
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+import { DropdownMenu, DropdownItem } from "@heroui/react"
 
 
 function MobileNavbar({ navItems, className }) {
@@ -51,24 +47,34 @@ function MobileNavbar({ navItems, className }) {
                                 {authStatus && (
                                     <div className="mt-2 flex flex-col gap-3">
                                         <LogoutBtn className="w-full" />
-                                        <DropdownMenu>
-                                            <DropdownMenuTrigger><AvatarCard userId={userId} variant="minimal" /></DropdownMenuTrigger>
-                                            <DropdownMenuContent className="w-72 font-openSans">
-                                                <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                                                <DropdownMenuSeparator/>
-                                                <DropdownMenuItem onClick={() => navigate('settings/profile')}>
-                                                    Profile
-                                                </DropdownMenuItem>
-                                                <DropdownMenuItem onClick={() => navigate('settings/customization')}>
-                                                    Customization
-                                                </DropdownMenuItem>
-                                                <DropdownMenuItem onClick={() => navigate('settings/account')}>
-                                                    Account
-                                                </DropdownMenuItem>
-                                            </DropdownMenuContent>
-                                        </DropdownMenu>
-
-
+                                        <Dropdown className='dropdown-list'>
+                                            <DropdownTrigger>
+                                                <Button variant="bordered" className='h-full w-full p-0'>
+                                                    <AvatarCard userId={userId} variant="minimal" />
+                                                </Button>
+                                            </DropdownTrigger>
+                                            <DropdownMenu className="w-72 font-openSans flex !p-0">
+                                                <DropdownSection className='list-none list-outside '>
+                                                    
+                                                        <DropdownItem
+                                                            description="Change your information"
+                                                            onPress={() => navigate('settings/profile')}>
+                                                            Profile
+                                                        </DropdownItem>
+                                                        <DropdownItem
+                                                            description="Personalize your experience"
+                                                            onPress={() => navigate('settings/customization')}>
+                                                            Customization
+                                                        </DropdownItem>
+                                                        <DropdownItem
+                                                            description="Manage your account"
+                                                            onPress={() => navigate('settings/account')}>
+                                                            Account
+                                                        </DropdownItem>
+                                                    
+                                                </DropdownSection>
+                                            </DropdownMenu>
+                                        </Dropdown>
                                     </div>
                                 )}
 

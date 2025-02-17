@@ -142,4 +142,8 @@ h6 {
     @apply bg-background top-16 flex justify-between;
   }
 
+  .dropdown-list ul{
+    @apply p-1 text-lg;
+  }
+
 }
