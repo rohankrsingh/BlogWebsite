@@ -21,7 +21,7 @@ const profileFormSchema = z.object({
     email: z.string().email({
         message: "Please enter a valid email address.",
     }),
-    bio: z.string().max(160).optional(),
+    bio: z.string().max(100).optional(),
     website: z.string().url().optional(),
     location: z.string().optional(),
 });

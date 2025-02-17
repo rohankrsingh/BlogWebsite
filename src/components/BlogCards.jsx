@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Avatar, AvatarImage, AvatarFallback } from './ui/avatar';
-import {  CardContent } from './ui/card';
+import { CardContent } from './ui/card';
 import { ThumbsUp } from 'lucide-react';
 import { Link } from '@heroui/link'; // Ensure Link is imported if using Next.js
 import { Image } from '@heroui/react';
@@ -18,18 +18,18 @@ function BlogCards({ variant, postData, index, className }) {
                 <Link href={`/post/${post.$id}`} className="p-2 grid grid-cols-2 h-[inherit] items-start 
                 max-md:grid-cols-1">
                     <Image
-                        src={post.featuredImage ? appwriteService.getFilePreview(post.featuredImage) : defaultImage}
+                        src={post.featuredImage ? appwriteService.getFilePreview(post.featuredImage, 720, undefined, undefined, 80) : defaultImage}
                         alt={post.title || "Featured Post"}
                         width={800}
                         // height={410}
                         removeWrapper
                         className="w-full h-full  col-span-1 object-cover z-0 rounded-small"
                     />
-                    <CardContent className="p-6 col-span-1">
+                    <CardContent className="p-6 col-span-1 max-sm:p-2">
                         <div className="space-y-4">
                             <div className='flec flex-col '>
-                                <span className="text-emerald-500 text-sm font-medium">Features</span>
-                                <h2 className="text-3xl leading-tight">
+                                <span className="text-emerald-500 text-sm font-medium">{post.tags[0]}</span>
+                                <h2 className="text-3xl leading-tight max-sm:text-2xl">
                                     {post?.title || "Untitled"}
                                 </h2>
                             </div>
@@ -54,7 +54,7 @@ function BlogCards({ variant, postData, index, className }) {
             <Card className=" overflow-hidden">
                 <Link href={`/post/${post.$id}`} className="flex flex-col items-start p-2">
                     <Image
-                        src={appwriteService.getFilePreview(post.featuredImage) || defaultImage}
+                        src={appwriteService.getFilePreview(post.featuredImage, undefined, undefined, undefined, 75) || defaultImage}
                         alt={post.title || "Grid Post"}
                         // width={400}
                         height={250}
@@ -64,7 +64,7 @@ function BlogCards({ variant, postData, index, className }) {
                     <CardContent className="p-2">
                         <div className="space-y-4">
                             <span className="text-emerald-500 text-sm font-medium">{post?.tags[0] || "No Tags"}</span>
-                            <h3 className="text-xl font-bold leading-tight">{post.title || "Untitled"}</h3>
+                            <h3 className="text-xl font-bold leading-tight max-sm:text-2xl">{post.title || "Untitled"}</h3>
                             <div className="flex items-center gap-2">
                                 <Avatar className="h-6 w-6">
                                     <AvatarImage src={post.authorImage || defaultImage} />
@@ -101,7 +101,7 @@ function BlogCards({ variant, postData, index, className }) {
                 </div>
                 <div className="flex-none w-24">
                     <Image
-                        src={appwriteService.getFilePreview(post.featuredImage) || defaultImage}
+                        src={appwriteService.getFilePreview(post.featuredImage, 480, 480, undefined, 75) || defaultImage}
                         alt={post.title || "Compact Post"}
                         width={96}
                         height={96}

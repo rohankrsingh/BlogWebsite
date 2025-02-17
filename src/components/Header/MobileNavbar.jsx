@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { ThemeTogle } from "../ui/ThemeTogle";
-import { LogoutBtn } from "..";
+import { Logo, LogoutBtn } from "..";
 import {
     Drawer,
     DrawerContent,
@@ -10,44 +10,72 @@ import {
     DrawerFooter,
     Button,
     useDisclosure,
-    Menu,
 } from "@heroui/react";
 import { MenuIcon, X } from "lucide-react";
+import AvatarCard from '../AvatarCard';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+
 
 function MobileNavbar({ navItems, className }) {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const authStatus = useSelector((state) => state.auth.status)
+    const userId = useSelector((state) => state.auth.userData.$id);
     const navigate = useNavigate()
     return (
         <>
-            <Button onPress={onOpen} isIconOnly disableRipple disableAnimation variant='' className={className}><MenuIcon /></Button>
+            <Button onPress={onOpen} isIconOnly variant='light' className={className}><MenuIcon size={24} /></Button>
             <Drawer isOpen={isOpen} size={'xs'} onOpenChange={onOpenChange}
-                closeButton={
-                    <Button isIconOnly disableRipple disableAnimation variant=''><X /></Button>}
-                className='z-40'
+                closeButton={<Button isIconOnly variant='light'><X size={24} /></Button>}
+                className='z-50 '
             >
                 <DrawerContent >
                     {(onClose) => (
                         <>
-                            <DrawerHeader className="flex flex-col gap-1 "></DrawerHeader>
-                            <DrawerBody>
+                            <DrawerHeader className="flex flex-col gap- border-b pb-2 px-6">
+                                <Logo />
+                            </DrawerHeader>
+                            <DrawerBody className="px-4 py-2 flex flex-col gap-3">
                                 {navItems.map((item, index) => item.active ? (
-                                    <span key={index}>
-                                        <Button key={item.key} variant={item.variant} onPress={() => navigate(item.slug)}>
-                                            {item.name}
-                                        </Button>
-                                    </span>
+                                    <Button key={index} variant={item.variant} className="justify-start w-full text-default-800 text-md font-medium" onPress={() => navigate(item.slug)}>
+                                        {item.name}
+                                    </Button>
+                                ) : null)}
+
+                                {authStatus && (
+                                    <div className="mt-2 flex flex-col gap-3">
+                                        <LogoutBtn className="w-full" />
+                                        <DropdownMenu>
+                                            <DropdownMenuTrigger><AvatarCard userId={userId} variant="minimal" /></DropdownMenuTrigger>
+                                            <DropdownMenuContent className="w-72 font-openSans">
+                                                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                                                <DropdownMenuSeparator/>
+                                                <DropdownMenuItem onClick={() => navigate('settings/profile')}>
+                                                    Profile
+                                                </DropdownMenuItem>
+                                                <DropdownMenuItem onClick={() => navigate('settings/customization')}>
+                                                    Customization
+                                                </DropdownMenuItem>
+                                                <DropdownMenuItem onClick={() => navigate('settings/account')}>
+                                                    Account
+                                                </DropdownMenuItem>
+                                            </DropdownMenuContent>
+                                        </DropdownMenu>
 
 
-                                ) : null
+                                    </div>
                                 )}
-                                {
-                                    authStatus && (<LogoutBtn />)
-                                }
-                                <ThemeTogle />
+
+                                <ThemeTogle className="mt-2" />
                             </DrawerBody>
-                            <DrawerFooter>
-                                <Button color="danger" variant="light" onPress={onClose}>
+                            <DrawerFooter className="border-t px-4 py-3">
+                                <Button color="danger" variant="light" className="w-full" onPress={onClose}>
                                     Close
                                 </Button>
                             </DrawerFooter>
@@ -59,4 +87,4 @@ function MobileNavbar({ navItems, className }) {
     );
 }
 
-export default MobileNavbar
+export default MobileNavbar;

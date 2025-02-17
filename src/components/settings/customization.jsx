@@ -10,7 +10,6 @@ import AccentSelector from "./AccentSelector";
 import authService from "@/appwrite/auth";
 import Loader from "../Loader";
 
-// Define validation schema
 const FormSchema = z.object({
     theme: z.enum(["light", "dark"], {
         required_error: "You need to select a theme.",

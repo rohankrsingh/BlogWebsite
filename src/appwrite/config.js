@@ -126,13 +126,17 @@ export class Service {
         }
     }
 
-    getFilePreview(fileId) {
+    getFilePreview(fileId, width, height, gravity = 'center', quality = 100) {
         return this.bucket.getFilePreview(
             conf.appwriteBucketId,
             fileId,
-
-        )
+            width,
+            height,
+            gravity,
+            quality
+        );
     }
+    
     // User Profile Services
     async createUserProfile(userId, name, createdAt, email, description, location, avatar) {
         try {

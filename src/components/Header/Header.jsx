@@ -30,7 +30,7 @@ function Header() {
       active: authStatus,
       variant: "secondary"
     },
-    
+
     {
       name: "Sign Up",
       slug: "/signup",
@@ -43,8 +43,8 @@ function Header() {
       active: !authStatus,
       variant: ""
     },
-    
-    
+
+
   ]
 
 
@@ -52,30 +52,27 @@ function Header() {
     <header className='w-full sticky top-0 z-10 backdrop-blur-3xl shadow'>
       <Card className='flex bg-white/60 justify-between items-center px-4 py-2 border-none rounded-none  ,
       dark:bg-black/70 '>
-        <Logo className="text-xl"/>
+        <Logo className="text-xl" />
         <nav className='flex justify-evenly items-center border-none space-x-4
         max-md:hidden'>
           {navItems.map((item, index) => item.active ? (
-             <span key={index}>
+            <span key={index}>
               <Button key={item.key} variant={item.variant} onClick={() => navigate(item.slug)}>
-                  {item.name}
+                {item.name}
               </Button>
-             </span>
-              
-            
+            </span>
+
+
           ) : null
           )}
           {
-            authStatus && (<LogoutBtn/>)
+            authStatus && (<LogoutBtn />)
           }
-          
-          <Button variant="icon">
-            <ThemeTogle/>
-          </Button>
+          <ThemeTogle />
         </nav>
-        
-          <MobileNavbar navItems={navItems} className='hidden max-md:flex'/> 
-          
+
+        <MobileNavbar navItems={navItems} className='hidden max-md:flex' />
+
       </Card>
 
     </header>
