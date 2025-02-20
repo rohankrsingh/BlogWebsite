@@ -9,6 +9,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import AccentSelector from "./AccentSelector";
 import authService from "@/appwrite/auth";
 import Loader from "../Loader";
+import { useSelector } from "react-redux";
 
 const FormSchema = z.object({
     theme: z.enum(["light", "dark"], {
@@ -37,27 +38,29 @@ const fontOptions = [
 ];
 
 const accentColors = [
-    'bg-orange-500', // Coral
-    'bg-teal-500',   // Teal
-    'bg-yellow-500', // Mustard Yellow
-    'bg-purple-200', // Lavender
-    'bg-blue-500',   // Electric Blue
-    'bg-orange-700', // Burnt Orange
-    'bg-gray-800',   // Charcoal Gray
-    'bg-green-200',  // Mint Green
-    'bg-red-600',    // Crimson Red
-    'bg-yellow-400'  // Gold
+    'orange-500', // Coral
+    'teal-500',   // Teal
+    'yellow-500', // Mustard Yellow
+    'violet-500', // Lavender
+    'sky-500',
+    'cyan-500',
+    'orange-700', // Burnt Orange
+    'emerald-500',
+    'green-200',  // Mint Green
+    'red-600',    // Crimson Red
+    'yellow-400'  // Gold
 ];
 
 export default function Customization() {
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
+    const prefs = useSelector((state) => state.auth.userData?.prefs);
     const form = useForm({
         resolver: zodResolver(FormSchema),
         defaultValues: {
-            theme: "dark",
-            font: "comic sans",
-            accentColor: accentColors[0],
+            theme: prefs?.theme || "dark",
+            font: prefs?.font || "comic sans",
+            accentColor: prefs?.accentColor || accentColors[7],
         },
     });
 
@@ -71,7 +74,7 @@ export default function Customization() {
         } finally {
             setLoading(false);
         }
-        
+
     };
 
     const renderRadioGroup = (name, options) => (
@@ -133,7 +136,10 @@ export default function Customization() {
                         <FormMessage />
                     </div>
 
-                    <Button type="submit" className="w-full mt-4">Save Settings</Button>
+                    <Button type="submit" className="w-full mt-4" disabled={loading}>
+                        {loading ? "Saving..." : "Save Settings"}
+                    </Button>
+
                 </form>
             </Form>
         </Card>

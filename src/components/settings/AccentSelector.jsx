@@ -1,16 +1,17 @@
 import React from 'react'
 import { ScrollArea, ScrollBar } from '../ui/scroll-area';
 const accentColors = [
-    'bg-orange-500', // Coral
-    'bg-teal-500',   // Teal
-    'bg-yellow-500', // Mustard Yellow
-    'bg-purple-200', // Lavender
-    'bg-blue-500',   // Electric Blue
-    'bg-orange-700', // Burnt Orange
-    'bg-gray-800',   // Charcoal Gray
-    'bg-green-200',  // Mint Green
-    'bg-red-600',    // Crimson Red
-    'bg-yellow-400'  // Gold
+    'orange-500', // Coral
+    'teal-500',   // Teal
+    'yellow-500', // Mustard Yellow
+    'violet-500', // Lavender
+    'sky-500',
+    'cyan-500',
+    'orange-700', // Burnt Orange
+    'emerald-500',  
+    'green-200',  // Mint Green
+    'red-600',    // Crimson Red
+    'yellow-400'  // Gold
 ];
 
 function AccentSelector({ selectedColor, onSelect }) {
@@ -22,7 +23,7 @@ function AccentSelector({ selectedColor, onSelect }) {
                     <div
                         key={index}
                         onClick={() => onSelect(color)}
-                        className={`flex items-center justify-center size-16 cursor-pointer rounded-full border transition-all ease-linear duration-150 ${color}
+                        className={`flex items-center justify-center size-16 cursor-pointer rounded-full border transition-all ease-linear duration-150 ${"bg-"+color}
                             ${selectedColor === color ? 'border-accent border-4 scale-90 bg-accent-foreground' : 'border-2'}`}
                         
                     >

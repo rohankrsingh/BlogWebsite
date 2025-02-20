@@ -28,6 +28,8 @@ function App() {
       .then((userData) => {
         if (userData) {
           dispatch(login({ userData }));
+          console.log(userData.prefs);
+          
         } else {
           dispatch(logout());
         }
@@ -41,11 +43,11 @@ function App() {
         <BaseLayout>
           <AnimatePresence>
             <motion.div
-              key={location.key} // Ensure a unique key for each transition
-              initial={{ opacity: 0 }} // Initial state
-              animate={{ opacity: 1 }} // Animate to this state
-              exit={{ opacity: 0 }} // Exit state
-              transition={{ duration: 0.5 }} // Transition duration
+              key={location.key}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.5 }}
             >
               <Outlet />
             </motion.div>

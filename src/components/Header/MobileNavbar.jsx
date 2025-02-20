@@ -22,7 +22,8 @@ import { DropdownMenu, DropdownItem } from "@heroui/react"
 function MobileNavbar({ navItems, className }) {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const authStatus = useSelector((state) => state.auth.status)
-    const userId = useSelector((state) => state.auth.userData.$id);
+    const userId = useSelector((state) => state.auth.userData?.$id);
+    
     const navigate = useNavigate()
     return (
         <>
