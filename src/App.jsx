@@ -16,26 +16,36 @@ import "@fontsource/open-sans/700.css";
 import "@fontsource/source-code-pro";
 import "@fontsource/source-code-pro/400.css";
 import "@fontsource/source-code-pro/700.css";
+// import 'typeface-comic-sans';
 import { HeroUIProvider } from '@heroui/system';
 
 function App() {
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [prefs, setPrefs] = useState([]);
 
   useEffect(() => {
     authService.getCurrentUser()
       .then((userData) => {
         if (userData) {
           dispatch(login({ userData }));
-          console.log(userData.prefs);
+          console.log(prefs);
+          setPrefs(userData.prefs)
           
         } else {
           dispatch(logout());
         }
       })
       .finally(() => setLoading(false));
+
   }, []);
+
+  useEffect(() => {
+    document.documentElement.style.setProperty('--accent', prefs.accentColor);
+    document.documentElement.style.setProperty('--font-family', prefs.font || 'Poppins, sans-serif');
+
+  }, [prefs]);
 
   return !loading ? (
     <>

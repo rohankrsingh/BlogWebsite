@@ -12,12 +12,17 @@ h5,
 h6 {
   font-size: revert;
   font-weight: revert;
-  font-family: 'poppins';
 }
 
-
+body{
+  font-family: "poppins";
+}
+.font-poppins {
+  font-family: var(--font-family);
+}
 @layer base {
   :root {
+    --font-family: 'Poppins', sans-serif;
     --background: 0 0% 100%;
     --foreground: 240 10% 3.9%;
     --card: 0 0% 100%;

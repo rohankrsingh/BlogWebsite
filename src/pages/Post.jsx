@@ -89,7 +89,7 @@ export default function Post() {
     code: renderCodeBlock,
     h1: ({ children }) => <h1 className="text-3xl">{children}</h1>,
     h2: ({ children }) => <h2 className="text-2xl font-semibold">{children}</h2>,
-    p: ({ children }) => <p className="text-lg font-poppins font-light tracking-wide mb-4">{children}</p>,
+    p: ({ children }) => <p className="text-lg  font-light tracking-wide mb-4">{children}</p>,
     a: ({ href, children }) => (
       <a href={href} className="text-blue-500 hover:underline">{children}</a>
     ),
@@ -102,12 +102,12 @@ export default function Post() {
 
   return post ? (
     <motion.div
-      initial={{ opacity: 0 }} // Initial state
-      animate={{ opacity: 1 }} // Animate to this state
-      exit={{ opacity: 0 }} // Exit state
-      transition={{ duration: 0.5 }} // Transition duration
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5 }}
     >
-      <div className="py-4">
+      <div className="py-4 font-poppins">
         <ScrollProgress className="top-[52px] max-md:top-[56px] z-30" />
         <div className="max-w-[1300px] px-2 max-lg:w-full mx-auto grid grid-cols-12 gap-5 max-md:px-0">
           <SideInfoBar
@@ -142,7 +142,7 @@ export default function Post() {
               <div className="mx-10 space-y-4 max-md:mx-2">
                 <h1 className="text-4xl mt-8 font-semibold">{post.title}</h1>
                 <div className="flex space-x-4"><Tags tags={post.tags} className={'px-0'} /></div>
-                <div className="text-current list-disc">
+                <div className="list-disc">
                   <ReactMarkdown
                     remarkPlugins={[remarkGfm]}
                     rehypePlugins={[rehypeRaw]}

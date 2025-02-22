@@ -28,7 +28,7 @@ function BlogCards({ variant, postData, index, className }) {
                     <CardContent className="p-6 col-span-1 max-sm:p-2">
                         <div className="space-y-4">
                             <div className='flec flex-col '>
-                                <span className="text-emerald-500 text-sm font-medium">{post.tags[0]}</span>
+                                <span className="text-accent text-sm font-medium">{post.tags[0]}</span>
                                 <h2 className="text-3xl leading-tight max-sm:text-2xl">
                                     {post?.title || "Untitled"}
                                 </h2>
@@ -63,7 +63,7 @@ function BlogCards({ variant, postData, index, className }) {
                     />
                     <CardContent className="p-2">
                         <div className="space-y-4">
-                            <span className="text-emerald-500 text-sm font-medium">{post?.tags[0] || "No Tags"}</span>
+                            <span className="text-accent text-sm font-medium">{post?.tags[0] || "No Tags"}</span>
                             <h3 className="text-xl font-bold leading-tight max-sm:text-2xl">{post.title || "Untitled"}</h3>
                             <div className="flex items-center gap-2">
                                 <Avatar className="h-6 w-6">
@@ -84,13 +84,13 @@ function BlogCards({ variant, postData, index, className }) {
         return (
             <Link href={`/post/${post.$id}`} className="flex gap-4 group">
                 <div className="flex-none self-start">
-                    <span className="inline-flex mt-2 size-7 items-center justify-center rounded-full bg-emerald-500 text-black font-bold">
+                    <span className="inline-flex mt-2 size-7 items-center justify-center rounded-full bg-accent text-black font-bold">
                         {index || "?"}
                     </span>
                 </div>
                 <div className="flex-1 space-y-2">
-                    <span className="text-emerald-500 text-sm font-medium">{post?.tags[0] || "No Tags"}</span>
-                    <h3 className="font-bold group-hover:text-emerald-500 transition-colors">{post.title || "Untitled"}</h3>
+                    <span className="text-accent text-sm font-medium">{post?.tags[0] || "No Tags"}</span>
+                    <h3 className="font-bold group-hover:text-accent transition-colors">{post.title || "Untitled"}</h3>
                     <div className="flex items-center gap-2 text-sm text-zinc-400">
                         <span>{post.$createdAt ? new Date(post.$createdAt).toLocaleDateString() : "Date not available"}</span>
                         <div className="flex items-center">

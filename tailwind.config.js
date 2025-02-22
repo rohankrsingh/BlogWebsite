@@ -18,10 +18,10 @@ export default {
 		},
 		extend: {
 			fontFamily: {
-				poppins: ['"Poppins"', "sans-serif"],
-				sourceCode: ['"Source Code Pro"', "monospace"],
-				sans: ['"Open Sans"', "sans-serif"], // Set Open Sans as the default sans-serif font
-				openSans: ['"Open Sans"', "sans-serif"],
+				poppins: ["Poppins", "sans-serif"],
+				sourceCode: ["Source Code Pro", "monospace"],
+				sans: ["Open Sans", "sans-serif"],
+				ComicSans: ["Comic Sans Ms", "Open Sans", "sans-serif"],
 			},
 			lists: [
 				'list-style-type: disc'

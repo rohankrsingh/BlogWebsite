@@ -16,7 +16,7 @@ const FormSchema = z.object({
         required_error: "You need to select a theme.",
     }),
     font: z.enum([
-        "default", "comic sans", "monospace", "open dyslexic", "sans serif", "serif"
+        "default", "ComicSans", "monospace", "open dyslexic", "sans serif", "serif"
     ], {
         required_error: "You need to select a font.",
     }),
@@ -30,7 +30,7 @@ const themeOptions = [
 
 const fontOptions = [
     { value: "default", label: "Default" },
-    { value: "comic sans", label: <i>Comic Sans</i> },
+    { value: "ComicSans", label: <i>Comic Sans</i> },
     { value: "monospace", label: "Monospace" },
     { value: "open dyslexic", label: "Open Dyslexic" },
     { value: "sans serif", label: "Sans Serif" },
@@ -38,17 +38,17 @@ const fontOptions = [
 ];
 
 const accentColors = [
-    'orange-500', // Coral
-    'teal-500',   // Teal
-    'yellow-500', // Mustard Yellow
-    'violet-500', // Lavender
-    'sky-500',
-    'cyan-500',
-    'orange-700', // Burnt Orange
-    'emerald-500',
-    'green-200',  // Mint Green
-    'red-600',    // Crimson Red
-    'yellow-400'  // Gold
+    'bg-orange-500', // Coral
+    'bg-teal-500',   // Teal
+    'bg-yellow-500', // Mustard Yellow
+    'bg-violet-500', // Lavender
+    '198.6 88.7% 48.4%',
+    'bg-cyan-500',
+    'bg-orange-700', // Burnt Orange
+    'bg-emerald-500',
+    'bg-green-200',  // Mint Green
+    'bg-red-600',    // Crimson Red
+    'bg-yellow-400'  // Gold
 ];
 
 export default function Customization() {

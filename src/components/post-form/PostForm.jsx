@@ -112,16 +112,16 @@ export default function PostForm({ post }) {
         <form onSubmit={handleSubmit(submit)} className="flex flex-wrap w-full">
             <div className="max-md:max-w-[100vw] grid grid-flow-col-dense gap-6 m-auto justify-items-center ,
             max-lg:grid-flow-row-dense max-md:flex max-md:flex-col">
-                <Card className="grid m-auto p-6 space-y-4 ">
+                <Card className="grid m-auto p-6 space-y-4 max-sm:p-4">
                     <div className="">
-                        <div className="flex gap-4">
+                        <div className="flex gap-4 max-sm:flex-col">
                             <Label htmlFor="picture" className="text-xl font-normal"> Add your Cover Image: </Label>
                             <Input
                                 label="Cover Image :"
                                 type="file"
-                                className="w-30 mb-4 flex justify-center align-middle max-sm:w-auto"
+                                className="w-30 mb-4 flex justify-center align-middle max-sm:w-min"
                                 accept="image/png, image/jpg, image/jpeg, image/gif"
-                                {...register("image", { required: !post })}
+                                {...register("image")}
                             />
                         </div>
 
