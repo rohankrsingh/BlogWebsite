@@ -30,9 +30,9 @@ function App() {
       .then((userData) => {
         if (userData) {
           dispatch(login({ userData }));
-          console.log(prefs);
-          setPrefs(userData.prefs)
           
+          setPrefs(userData.prefs)
+          console.log(prefs);
         } else {
           dispatch(logout());
         }
@@ -43,8 +43,8 @@ function App() {
 
   useEffect(() => {
     document.documentElement.style.setProperty('--accent', prefs.accentColor);
-    document.documentElement.style.setProperty('--font-family', prefs.font || 'Poppins, sans-serif');
-
+    document.documentElement.style.setProperty('--font-family', prefs.font || "system");
+    document.documentElement.style.setProperty('dark', prefs.theme || "dark");
   }, [prefs]);
 
   return !loading ? (

@@ -107,7 +107,7 @@ export default function Post() {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <div className="py-4 font-poppins">
+      <div className="py-4 font-system">
         <ScrollProgress className="top-[52px] max-md:top-[56px] z-30" />
         <div className="max-w-[1300px] px-2 max-lg:w-full mx-auto grid grid-cols-12 gap-5 max-md:px-0">
           <SideInfoBar

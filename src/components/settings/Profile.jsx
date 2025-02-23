@@ -81,7 +81,7 @@ export default function Profile() {
             await service.updateUserProfile(data.userId, data.name, data.email, data.bio, data.location, data.avatar, data.website);
         } catch (err) {
             setError("Failed to update profile.");
-            console.log(err.message); // Log the error to the console
+            console.log(err.message);
         } finally {
             setLoading(false);
         }
