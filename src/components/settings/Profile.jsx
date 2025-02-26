@@ -15,6 +15,9 @@ import { useSelector } from "react-redux";
 import Loader from "../Loader";
 
 const profileFormSchema = z.object({
+    username: z.string()
+        .min(2, "Username must be atleast 2 characters.")
+        .max(36, "Username must not be more than 36 characters"),
     name: z.string().min(2, {
         message: "Name must be at least 2 characters.",
     }),
@@ -30,30 +33,37 @@ export default function Profile() {
     const [selectedAvatar, setSelectedAvatar] = useState("");
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
+    const userId = useSelector((state) => state.auth.userData.$id);
+    const userEmail = useSelector((state) => state.auth.userData).email;
+    console.log(userEmail);
+
+
     const form = useForm({
         resolver: zodResolver(profileFormSchema),
         defaultValues: {
+            username: "",
             avatar: "",
             name: "",
-            email: "",
+            email: userEmail || "",
             bio: "",
             website: "",
             location: "",
         },
     });
 
-    const userId = useSelector((state) => state.auth.userData.$id);
 
     useEffect(() => {
         const fetchUserProfile = async () => {
             setLoading(true);
             try {
+                
                 const details = await service.getUserProfile(userId);
                 if (details) {
                     form.reset({
                         avatar: details.avatar || "",
                         name: details.name || "",
-                        email: details.email || "",
+                        username: details.username || "",
+                        // email: userEmail || details.email || "",
                         bio: details.bio || "",
                         website: details.website || "",
                         location: details.location || "",
@@ -69,16 +79,25 @@ export default function Profile() {
         fetchUserProfile();
     }, [userId, form]);
 
-    const onSubmit = async (data) => {
-        setLoading(true);
-        try {
-            await authService.updateAccountName(data.name);
-            data.userId = userId;
-            data.avatar = selectedAvatar;
-            data.bio = data.bio.trim() === "" ? null : data.bio;
-            data.website = data.website.trim() === "" ? null : data.website;
-            data.location = data.location.trim() === "" ? null : data.location;
-            await service.updateUserProfile(data.userId, data.name, data.email, data.bio, data.location, data.avatar, data.website);
+const onSubmit = async (data) => {
+    setLoading(true);
+    try {
+        const existingUsernames = await service.getUsernames(data.username);
+        if (existingUsernames && existingUsernames.length > 0) {
+            const existingUserId = existingUsernames[0].$id;
+            if (existingUserId !== userId) {
+                setError("Username already exists.");
+                return;
+            }
+        }
+        await authService.updateAccountName(data.name);
+        data.userId = userId;
+        data.avatar = selectedAvatar;
+        data.bio = data.bio.trim() === "" ? null : data.bio;
+        data.website = data.website.trim() === "" ? null : data.website;
+        data.location = data.location.trim() === "" ? null : data.location;
+        await service.updateUserProfile(data.userId, data.username, data.name, data.email, data.bio, data.location, data.avatar, data.website);
+
         } catch (err) {
             setError("Failed to update profile.");
             console.log(err.message);
@@ -109,6 +128,19 @@ export default function Profile() {
                                         <FormLabel>Name</FormLabel>
                                         <FormControl>
                                             <Input placeholder="Your name" {...field} />
+                                        </FormControl>
+                                        <FormMessage {...form.error} />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="username"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Username</FormLabel>
+                                        <FormControl>
+                                            <Input placeholder="Your username" {...field} />
                                         </FormControl>
                                         <FormMessage {...form.error} />
                                     </FormItem>

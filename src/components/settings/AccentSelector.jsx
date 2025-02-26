@@ -16,12 +16,6 @@ const accentColors = [
 ];
 
 function AccentSelector({ selectedColor, onSelect }) {
-    const getBackgroundColor = (color) => {
-        if (color.includes(' ')) {
-            return `hsl(${color})`;
-        }
-        return `bg-${color}`;
-    };
 
     return (
         <ScrollArea className="whitespace-nowrap py-2">
@@ -33,7 +27,7 @@ function AccentSelector({ selectedColor, onSelect }) {
                         className={`flex items-center justify-center size-16 cursor-pointer rounded-full border transition-all ease-linear duration-150
                             ${selectedColor === color ? 'border-accent border-4 scale-90 bg-accent-foreground' : 'border-2'}`}
                         style={{
-                            backgroundColor: `hsl(${color})`, // Apply color dynamically
+                            backgroundColor: `hsl(${color})`,
                         }}
                     >
                         {/* Optionally, you can include a checkmark or icon for selected color */}

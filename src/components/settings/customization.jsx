@@ -1,13 +1,14 @@
 import { useState } from "react";
+import { useTheme } from "../theme-provider"; // Correct import for useTheme
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Button } from "../ui"; // Correct import for Button
+import { Card } from "../ui/card"; // Correct import for Card
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form"; // Correct import for Form components
+import { RadioGroup, RadioGroupItem } from "../ui/radio-group"; // Correct import for RadioGroup
 import AccentSelector from "./AccentSelector";
-import authService from "@/appwrite/auth";
+import authService from "@/appwrite/auth"; // Correct import for authService
 import Loader from "../Loader";
 import { useSelector } from "react-redux";
 
@@ -54,6 +55,7 @@ const accentColors = [
 export default function Customization() {
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
+    const { setTheme } = useTheme();
     const prefs = useSelector((state) => state.auth.userData?.prefs);
     const form = useForm({
         resolver: zodResolver(FormSchema),
@@ -65,16 +67,17 @@ export default function Customization() {
     });
 
     const onSubmit = async (values) => {
+        setTheme(values.theme); // Set the theme based on user selection
+
         setLoading(true);
         try {
             await authService.updateUserPref(values);
         } catch (err) {
-            setError("Failed to update profile.");
+            setError("Failed to update profile."); // Handle error
             console.log(err.message); // Log the error to the console
         } finally {
             setLoading(false);
         }
-
     };
 
     const renderRadioGroup = (name, options) => (
@@ -139,7 +142,6 @@ export default function Customization() {
                     <Button type="submit" className="w-full mt-4" disabled={loading}>
                         {loading ? "Saving..." : "Save Settings"}
                     </Button>
-
                 </form>
             </Form>
         </Card>

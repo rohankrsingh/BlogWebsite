@@ -14,7 +14,6 @@ import {
 } from './ui/card'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Label } from './ui/label'
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod"
 import {
@@ -26,8 +25,12 @@ import {
     FormMessage,
 } from "@/components/ui/form"
 import { Separator } from './ui/separator'
+import service from '@/appwrite/config'
 
 const formSchema = z.object({
+    username: z.string()
+    .min(2, "Username must be atleast 2 characters.")
+    .max(36, "Username must not be more than 36 characters"),
     name: z.string().min(1, "Fullname is required").max(50),
     email: z.string().email("Invalid email address"),
     password: z.string()
@@ -46,6 +49,7 @@ function Signup() {
     const form = useForm({
         resolver: zodResolver(formSchema),
         defaultValues: {
+            username: "",
             name: "",
             email: "",
             password: "",
@@ -53,18 +57,26 @@ function Signup() {
     });
 
     const create = async (data) => {
-        setError("")
+        setError("");
         try {
-            const userData = await authService.createAccount(data)
-            if (userData) {
-                const userData = await authService.getCurrentUser()
-                if (userData) dispatch(login(userData));
-                navigate("/")
+            const usernames = await service.getUsernames(data.username);
+            if (usernames.length === 0) { 
+                const userData = await authService.createAccount(data);
+                if (userData) {
+                    const currentUser = await authService.getCurrentUser();
+                    if (currentUser) {
+                        dispatch(login(currentUser));
+                        navigate("/");
+                    }
+                }
+            } else {
+                setError("Username already exists");
             }
         } catch (error) {
-            setError(error.message)
+            setError(error.message);
         }
-    }
+    };
+    
 
     return (
         <div className="mx-auto flex items-center justify-center">
@@ -76,6 +88,22 @@ function Signup() {
                 <CardContent className="space-y-8 ">
                     <Form {...form}>
                         <form onSubmit={form.handleSubmit(create)} className="space-y-6">
+                        <FormField
+                                control={form.control}
+                                name="username"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Username</FormLabel>
+                                        <FormControl>
+                                            <Input placeholder="Enter your Full Username" {...field} />
+                                        </FormControl>
+
+                                        <FormMessage {...form.error} />
+                                    </FormItem>
+
+
+                                )}
+                            />
                             <FormField
                                 control={form.control}
                                 name="name"

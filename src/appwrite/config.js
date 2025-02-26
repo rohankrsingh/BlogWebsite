@@ -159,8 +159,26 @@ export class Service {
         }
     }
 
+    async getUsernames(username) {
+        try {
+            const response = await this.databases.listDocuments(
+                conf.appwriteDatabaseId,
+                "user",
+                [
+                    Query.select(["$id", "username"]),
+                    Query.contains("username", [username])
+                ]
+            );
+            return response.documents;
+        } catch (error) {
+            console.log("Appwrite service :: getUsernames :: error", error);
+            return null;
+        }
+    }
     
-    async updateUserProfile(userId, name, email, bio, location, avatar, website, liked) {
+    
+
+    async updateUserProfile(userId, username, name, email, bio, location, avatar, website, liked) {
         try {
             return await this.databases.updateDocument(
                 conf.appwriteDatabaseId,
@@ -173,7 +191,8 @@ export class Service {
                     location,
                     liked,
                     website,
-                    avatar
+                    avatar,
+                    username
                 }
             )
         } catch (error) {

@@ -23,7 +23,12 @@ function App() {
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [prefs, setPrefs] = useState([]);
+  const [prefs, setPrefs] = useState({
+    theme: "dark",
+    accentColor: "",
+    font: "system"
+  });
+
 
   useEffect(() => {
     authService.getCurrentUser()
@@ -44,7 +49,8 @@ function App() {
   useEffect(() => {
     document.documentElement.style.setProperty('--accent', prefs.accentColor);
     document.documentElement.style.setProperty('--font-family', prefs.font || "system");
-    document.documentElement.style.setProperty('dark', prefs.theme || "dark");
+    document.documentElement.style.setProperty('dark', prefs.theme);
+
   }, [prefs]);
 
   return !loading ? (

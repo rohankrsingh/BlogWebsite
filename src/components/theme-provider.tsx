@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react"
+import React, { createContext, useContext, useEffect, useState } from "react"
 
 type Theme = "dark" | "light" | "system"
 
@@ -14,9 +14,10 @@ type ThemeProviderState = {
 }
 
 const initialState: ThemeProviderState = {
-  theme: "system",
+  theme: "dark", // Default to dark theme
   setTheme: () => null,
 }
+
 
 const ThemeProviderContext = createContext<ThemeProviderState>(initialState)
 
@@ -52,9 +53,12 @@ export function ThemeProvider({
     theme,
     setTheme: (theme: Theme) => {
       localStorage.setItem(storageKey, theme)
-      setTheme(theme)
+      setTheme(theme);
+      document.documentElement.classList.remove("light", "dark"); // Remove old theme classes
+      document.documentElement.classList.add(theme); // Add new theme class
     },
   }
+
 
   return (
     <ThemeProviderContext.Provider {...props} value={value}>
