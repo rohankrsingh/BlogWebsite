@@ -11,6 +11,7 @@ import AccentSelector from "./AccentSelector";
 import authService from "@/appwrite/auth"; // Correct import for authService
 import Loader from "../Loader";
 import { useSelector } from "react-redux";
+import { addToast } from "@heroui/react";
 
 const FormSchema = z.object({
     theme: z.enum(["light", "dark"], {
@@ -72,9 +73,19 @@ export default function Customization() {
         setLoading(true);
         try {
             await authService.updateUserPref(values);
+            addToast({
+                title: "Success",
+                description: "Your preferences have been updated successfully.",
+                color: "success",
+            })
         } catch (err) {
-            setError("Failed to update profile."); // Handle error
-            console.log(err.message); // Log the error to the console
+            setError("Failed to update profile.");
+            addToast({
+                title: "Error",
+                description: "Failed to update profile.",
+                color: "danger",
+            })
+            console.log(err.message);
         } finally {
             setLoading(false);
         }

@@ -7,8 +7,9 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import BaseLayout from './BaseLayout';
 import { AnimatePresence, motion } from 'framer-motion';
 import Loader from './components/Loader';
+import { addToast, ToastProvider } from "@heroui/react";
 import "@fontsource/poppins";
-import "@fontsource/poppins/400.css"; 
+import "@fontsource/poppins/400.css";
 import "@fontsource/poppins/700.css";
 import "@fontsource/open-sans";
 import "@fontsource/open-sans/400.css";
@@ -35,7 +36,7 @@ function App() {
       .then((userData) => {
         if (userData) {
           dispatch(login({ userData }));
-          
+
           setPrefs(userData.prefs)
           console.log(prefs);
         } else {
@@ -56,6 +57,7 @@ function App() {
   return !loading ? (
     <>
       <HeroUIProvider navigate={navigate}>
+        <ToastProvider />
         <BaseLayout>
           <AnimatePresence>
             <motion.div
@@ -72,7 +74,7 @@ function App() {
       </HeroUIProvider>
     </>
   ) : (
-    <Loader /> // Render the Loader component while loading
+    <Loader />
   );
 }
 

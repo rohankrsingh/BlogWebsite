@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { addToast } from "@heroui/react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import appwriteService from "../appwrite/config";
 import { Container } from "../components";
@@ -29,7 +30,13 @@ export default function Post() {
 
   const isAuthor = post && userData ? post.userId === userData.$id : false;
 
-  useEffect(() => {
+    useEffect(() => {
+        addToast({
+            title: "Loading Post",
+            description: "Fetching the post details...",
+            color: "info",
+        });
+
     if (slug) {
       appwriteService.getPost(slug).then(
         (post) => {
@@ -43,7 +50,13 @@ export default function Post() {
           setLoading(false);
         },
         (err) => {
-          setError(err);
+            addToast({
+                title: "Error Loading Post",
+                description: "There was an error loading the post.",
+                color: "danger",
+            });
+            setError(err);
+
           setLoading(false);
         }
       );
@@ -52,11 +65,23 @@ export default function Post() {
     }
   }, [slug, navigate, userData]);
 
-  const deletePost = () => {
+    const deletePost = () => {
+        addToast({
+            title: "Deleting Post",
+            description: "Your post is being deleted...",
+            color: "info",
+        });
+
     appwriteService.deletePost(post.$id).then((status) => {
       if (status) {
         appwriteService.deleteFile(post.featuredImage);
-        navigate("/");
+            addToast({
+                title: "Post Deleted",
+                description: "Your post has been deleted successfully.",
+                color: "success",
+            });
+            navigate("/");
+
       }
     });
   };
@@ -116,7 +141,13 @@ export default function Post() {
             slug={slug}
             className="max-md:fixed h-min left-0 bottom-0 max-md:z-30"
             onLikeUpdate={(updatedLikes, userLiked) => {
-              setLikes(updatedLikes);
+            setLikes(updatedLikes);
+            addToast({
+                title: userLiked ? "Post Liked" : "Post Unliked",
+                description: userLiked ? "You liked the post." : "You unliked the post.",
+                color: userLiked ? "success" : "info",
+            });
+
               setLiked(userLiked);
             }}
           />

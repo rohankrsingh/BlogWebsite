@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { Button } from "../ui";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
-import { Card } from "@heroui/react";
+import { addToast, Card } from "@heroui/react";
 import { Input } from "../ui";
 import { Textarea } from "../ui";
 import { Separator } from "../ui";
@@ -83,6 +83,11 @@ export default function Profile() {
             const existingUsername = await service.getUsernames(data.username);
             if (existingUsername && existingUsername.length > 0 && existingUsername[0].$id !== userId) {
                 setError("Username already exists.");
+                addToast({
+                    title: "Error",
+                    description: "Username already exists.",
+                    color: "danger"
+                })
                 return;
             }
             await authService.updateAccountName(data.name);
@@ -92,6 +97,11 @@ export default function Profile() {
             data.website = data.website.trim() === "" ? null : data.website;
             data.location = data.location.trim() === "" ? null : data.location;
             await service.updateUserProfile(data.userId, data.username, data.name, data.email, data.bio, data.location, data.avatar, data.website);
+            addToast({
+                title: "Profile updated successfully.",
+                color: "success",
+                
+            })
         } catch (err) {
             setError("Failed to update profile.");
             console.log(err.message);
