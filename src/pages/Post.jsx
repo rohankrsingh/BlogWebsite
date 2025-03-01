@@ -31,11 +31,6 @@ export default function Post() {
   const isAuthor = post && userData ? post.userId === userData.$id : false;
 
     useEffect(() => {
-        addToast({
-            title: "Loading Post",
-            description: "Fetching the post details...",
-            color: "info",
-        });
 
     if (slug) {
       appwriteService.getPost(slug).then(

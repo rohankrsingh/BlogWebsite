@@ -10,14 +10,10 @@ import {
     DrawerFooter,
     Button,
     useDisclosure,
-    DropdownSection,
-    DropdownTrigger,
-    Dropdown,
 } from "@heroui/react";
 import { MenuIcon, X } from "lucide-react";
 import AvatarCard from '../AvatarCard';
-import { DropdownMenu, DropdownItem } from "@heroui/react"
-
+import AvatarDropdown from '../AvatarDropdown';
 
 function MobileNavbar({ navItems, className }) {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -48,34 +44,7 @@ function MobileNavbar({ navItems, className }) {
                                 {authStatus && (
                                     <div className="mt-2 flex flex-col gap-3">
                                         <LogoutBtn className="w-full" />
-                                        <Dropdown className='dropdown-list'>
-                                            <DropdownTrigger>
-                                                <Button variant="bordered" className='h-full w-full p-0'>
-                                                    <AvatarCard userId={userId} variant="minimal" />
-                                                </Button>
-                                            </DropdownTrigger>
-                                            <DropdownMenu className="w-72 font-openSans flex !p-0">
-                                                <DropdownSection className='list-none list-outside '>
-                                                    
-                                                        <DropdownItem
-                                                            description="Change your information"
-                                                            onPress={() => navigate('settings/profile')}>
-                                                            Profile
-                                                        </DropdownItem>
-                                                        <DropdownItem
-                                                            description="Personalize your experience"
-                                                            onPress={() => navigate('settings/customization')}>
-                                                            Customization
-                                                        </DropdownItem>
-                                                        <DropdownItem
-                                                            description="Manage your account"
-                                                            onPress={() => navigate('settings/account')}>
-                                                            Account
-                                                        </DropdownItem>
-                                                    
-                                                </DropdownSection>
-                                            </DropdownMenu>
-                                        </Dropdown>
+                                        <AvatarDropdown variant="minimal" />
                                     </div>
                                 )}
 

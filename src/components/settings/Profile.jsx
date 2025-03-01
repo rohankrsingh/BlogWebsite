@@ -15,9 +15,7 @@ import { useSelector } from "react-redux";
 import Loader from "../Loader";
 
 const profileFormSchema = z.object({
-    username: z.string()
-        .min(2, "Username must be at least 2 characters.")
-        .max(36, "Username must not be more than 36 characters."),
+    username: z.string().min(2, "Username must be at least 2 characters.").max(36, "Username must not be more than 36 characters."),
     name: z.string().min(2, "Name must be at least 2 characters."),
     email: z.string().email("Please enter a valid email address."),
     bio: z.string().max(100).optional(),

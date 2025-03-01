@@ -28,10 +28,10 @@ const AvatarCard = ({ userId, variant = "default" }) => {
       className={`w-full p-4 transition-all duration-300 text-primary 
         max-md:p-2
         ${variant === "minimal"
-          ? ""
+          ? "w-full p-4 rounded-lg"
           : variant === "detailed"
             ? ""
-            : ""
+            : "p-0 rounded-full w-min size-10"
         }`}
     >
       <CardContent className="p-0">
@@ -41,14 +41,14 @@ const AvatarCard = ({ userId, variant = "default" }) => {
               <AvatarImage src={user.avatar} alt={user.name} />
               <AvatarFallback>{user.name}</AvatarFallback>
             </Avatar>
-            <h2 className="text-xl font-semibold">{user.name}</h2>
+            {variant !== 'default' && (
+              <h2 className="text-xl font-semibold">{user.name}</h2>
+            )}
+
           </div>
 
           <div className="w-full flex-1 px-2">
-
-
-
-            {variant !== "minimal" && (
+            {variant !== "minimal" && variant !== "default" && (
               <p className="text-sm text-default-600 mt-2">{user.bio}</p>
             )}
             {variant === "detailed" && (

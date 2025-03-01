@@ -18,6 +18,7 @@ import Profile from './components/settings/Profile.jsx'
 import AllPosts from "./pages/AllPosts";
 import Account from './components/settings/Account.jsx'
 import Customization from './components/settings/customization.jsx'
+import User from './pages/User.jsx'
 
 const router = createBrowserRouter([
   {
@@ -85,6 +86,11 @@ const router = createBrowserRouter([
           { path: "account", element: <Account /> }
         ],
       },
+      // user Dashboard
+      {
+        path: "/:username",
+        element: <User />
+      }
     ],
   },
 ], {

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Avatar, AvatarImage, AvatarFallback } from './ui/avatar';
 import { CardContent } from './ui/card';
 import { ThumbsUp } from 'lucide-react';
-import { Link } from '@heroui/link'; // Ensure Link is imported if using Next.js
+import { Link } from '@heroui/link';
 import { Image } from '@heroui/react';
 import { Card } from '@heroui/react';
 import appwriteService from "../appwrite/config"

@@ -83,10 +83,10 @@ export class Service {
         }
     }
 
-    async getPosts(queries = [Query.equal("status", "active"), ], additionalQueries = []) {
+    async getPosts(queries = [Query.equal("status", "active"),], additionalQueries = []) {
         try {
             const combinedQueries = [...queries, ...additionalQueries];
-    
+
             return await this.databases.listDocuments(
                 conf.appwriteDatabaseId,
                 conf.appwriteCollectionId,
@@ -136,7 +136,7 @@ export class Service {
             quality
         );
     }
-    
+
     // User Profile Services
     async createUserProfile(userId, name, createdAt, email, description, location, avatar) {
         try {
@@ -159,13 +159,13 @@ export class Service {
         }
     }
 
-    async getUsernames(username) {
+    async getUsernames(username, attributes, selectall) {
         try {
             const response = await this.databases.listDocuments(
                 conf.appwriteDatabaseId,
                 "user",
                 [
-                    Query.select(["$id", "username"]),
+                    Query.select(attributes ? attributes : selectall ? [] : ["$id", "username"]),
                     Query.contains("username", [username])
                 ]
             );
@@ -175,8 +175,6 @@ export class Service {
             return null;
         }
     }
-    
-    
 
     async updateUserProfile(userId, username, name, email, bio, location, avatar, website, liked) {
         try {
@@ -199,12 +197,15 @@ export class Service {
             console.log("Appwrite service :: updateUserProfile :: error", error);
         }
     }
-    async getUserProfile(userId) {
+    async getUserProfile(userId, attributes) {
         try {
             return await this.databases.getDocument(
                 conf.appwriteDatabaseId,
                 "user",
-                userId
+                userId,
+                [
+                    Query.select(attributes ? attributes : [])
+                ]
             )
         } catch (error) {
             console.log("Appwrite service :: getUserProfile :: error", error);
@@ -251,7 +252,7 @@ export class Service {
                 conf.appwriteDatabaseId,
                 "user",
                 userId,
-                
+
             )
         } catch (error) {
             console.log("Appwrite service :: getLikedPost :: error", error);

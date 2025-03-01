@@ -1,15 +1,17 @@
-import { useState } from 'react'
+import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, DropdownSection } from '@heroui/react'
 import { Logo, LogoutBtn } from '../index'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { ThemeTogle } from '../ui/ThemeTogle'
 import { Button, Card } from '../ui'
 import MobileNavbar from './MobileNavbar'
+import AvatarCard from '../AvatarCard'
+import AvatarDropdown from '../AvatarDropdown'
 
 function Header() {
   const authStatus = useSelector((state) => state.auth.status)
   const navigate = useNavigate()
-
+  const userId = useSelector((state) => state.auth.userData?.$id || null);
   const navItems = [
     {
       name: 'Home',
@@ -47,7 +49,6 @@ function Header() {
 
   ]
 
-
   return (
     <header className='w-full sticky top-0 z-10 backdrop-blur-3xl shadow'>
       <Card className='flex bg-white/60 justify-between items-center px-4 py-2 border-none rounded-none  ,
@@ -61,12 +62,13 @@ function Header() {
                 {item.name}
               </Button>
             </span>
-
-
           ) : null
           )}
           {
-            authStatus && (<LogoutBtn />)
+            authStatus && (<>
+              <LogoutBtn />
+              <AvatarDropdown variant={'default'} />
+            </>)
           }
           <ThemeTogle />
         </nav>
