@@ -17,6 +17,7 @@ import { ScrollArea, ScrollBar } from "../components/ui/scroll-area";
 import Tags from "../components/ui/Tags";
 import { motion } from 'framer-motion';
 import Loader from "@/components/Loader";
+import AvatarCard from "@/components/AvatarCard";
 
 export default function Post() {
   const [post, setPost] = useState("");
@@ -30,14 +31,15 @@ export default function Post() {
 
   const isAuthor = post && userData ? post.userId === userData.$id : false;
 
-    useEffect(() => {
+  useEffect(() => {
 
     if (slug) {
       appwriteService.getPost(slug).then(
         (post) => {
           if (post) {
             setPost(post);
-            setLikes(post.likes);
+            setLikes(post.likes); console.log(post);
+
             setLiked(post.likes.includes(userData?.$id));
           } else {
             navigate("/");
@@ -45,12 +47,12 @@ export default function Post() {
           setLoading(false);
         },
         (err) => {
-            addToast({
-                title: "Error Loading Post",
-                description: "There was an error loading the post.",
-                color: "danger",
-            });
-            setError(err);
+          addToast({
+            title: "Error Loading Post",
+            description: "There was an error loading the post.",
+            color: "danger",
+          });
+          setError(err);
 
           setLoading(false);
         }
@@ -60,22 +62,22 @@ export default function Post() {
     }
   }, [slug, navigate, userData]);
 
-    const deletePost = () => {
-        addToast({
-            title: "Deleting Post",
-            description: "Your post is being deleted...",
-            color: "info",
-        });
+  const deletePost = () => {
+    addToast({
+      title: "Deleting Post",
+      description: "Your post is being deleted...",
+      color: "info",
+    });
 
     appwriteService.deletePost(post.$id).then((status) => {
       if (status) {
         appwriteService.deleteFile(post.featuredImage);
-            addToast({
-                title: "Post Deleted",
-                description: "Your post has been deleted successfully.",
-                color: "success",
-            });
-            navigate("/");
+        addToast({
+          title: "Post Deleted",
+          description: "Your post has been deleted successfully.",
+          color: "success",
+        });
+        navigate("/");
 
       }
     });
@@ -117,7 +119,7 @@ export default function Post() {
     strong: ({ children }) => <strong className="text-xl font-bold">{children}</strong>
   };
 
-  if (loading) return <div className="text-center"><Loader/></div>;
+  if (loading) return <div className="text-center"><Loader /></div>;
   if (error) return <div className="text-red-500">Error loading post: {error.message}</div>;
 
   return post ? (
@@ -136,12 +138,12 @@ export default function Post() {
             slug={slug}
             className="max-md:fixed h-min left-0 bottom-0 max-md:z-30"
             onLikeUpdate={(updatedLikes, userLiked) => {
-            setLikes(updatedLikes);
-            addToast({
+              setLikes(updatedLikes);
+              addToast({
                 title: userLiked ? "Post Liked" : "Post Unliked",
                 description: userLiked ? "You liked the post." : "You unliked the post.",
                 color: userLiked ? "success" : "info",
-            });
+              });
 
               setLiked(userLiked);
             }}
@@ -182,9 +184,9 @@ export default function Post() {
             </Container>
           </Card>
 
-          <Card className="col-span-12 md:col-span-3">
-            {/* Additional content can go here */}
-          </Card>
+          <div className="col-span-12 md:col-span-3">
+            <AvatarCard userId={post.userId} variant="detailed"/>
+          </div>
         </div>
       </div>
     </motion.div>

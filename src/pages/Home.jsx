@@ -4,7 +4,7 @@ import { Container } from '../components';
 import BlogCards from '../components/BlogCards';
 import { Query } from 'appwrite';
 import { Separator } from '../components/ui';
-import { motion } from 'framer-motion'; // Import Framer Motion
+import { motion } from 'framer-motion';
 import Loader from '@/components/Loader';
 
 function Home() {
@@ -12,7 +12,7 @@ function Home() {
         latest: [],
         featured: [],
     });
-    const [loading, setLoading] = useState(true); // Loading state
+    const [loading, setLoading] = useState(true);
 
     const latestQuery = [
         Query.orderDesc('$createdAt'),
@@ -29,8 +29,6 @@ function Home() {
             try {
                 const latest = await appwriteService.getPosts(latestQuery);
                 const featured = await appwriteService.getPosts(featuredQuery);
-
-                // Update the posts state with the fetched data
                 setPosts({
                     latest: latest ? latest.documents : [],
                     featured: featured ? featured.documents : [],
@@ -40,11 +38,13 @@ function Home() {
             } finally {
                 setLoading(false);
             }
+            
+            
         };
 
         fetchPosts();
     }, []);
-
+console.log(posts.featured);
     if (loading) {
         return <Loader />;
     }
@@ -67,10 +67,10 @@ function Home() {
 
     return (
         <motion.div
-            initial={{ opacity: 0 }} // Initial state
-            animate={{ opacity: 1 }} // Animate to this state
-            exit={{ opacity: 0 }} // Exit state
-            transition={{ duration: 1 }} // Transition duration
+            initial={{ opacity: 0 }} 
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1 }}
         >
             <div className="w-full min-h-screen">
                 <div className="container mx-auto px-4 py-8">

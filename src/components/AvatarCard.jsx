@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Card } from "@heroui/react";
 import { CardContent } from "@/components/ui/card";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { Globe, MapPin, Calendar } from "lucide-react";
+import { MapPin, Calendar } from "lucide-react";
 import service from "@/appwrite/config";
+import { useNavigate } from 'react-router-dom'
 
 const AvatarCard = ({ userId, variant = "default" }) => {
   const [user, setUser] = useState({});
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -26,7 +28,7 @@ const AvatarCard = ({ userId, variant = "default" }) => {
   return (
     <Card
       className={`w-full p-4 transition-all duration-300 text-primary 
-        max-md:p-2
+        max-md:p-2 font-poppins
         ${variant === "minimal"
           ? "w-full p-4 rounded-lg"
           : variant === "detailed"
@@ -42,7 +44,10 @@ const AvatarCard = ({ userId, variant = "default" }) => {
               <AvatarFallback>{user.name}</AvatarFallback>
             </Avatar>
             {variant !== 'default' && (
+              <div className="flex flex-col">
               <h2 className="text-xl font-semibold">{user.name}</h2>
+              <h4 onClick={() => navigate(`/${user.username}`)} className="text-sm font-light">@{user.username}</h4>
+              </div>
             )}
 
           </div>

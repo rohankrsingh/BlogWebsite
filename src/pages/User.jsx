@@ -1,7 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { MapPin, Calendar, Hash } from "lucide-react";
-import { Avatar, Image } from "@heroui/react";
+import { Avatar } from "@heroui/react";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import service from "@/appwrite/config";
@@ -44,7 +44,7 @@ export default function User() {
               <Calendar size={16} /> <span>{user.createdAt ? new Date(user.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) : 'Date not available'}</span>
             </div>
           </div>
-          <a href="https://github.com/rohankrsinghH" target="_blank" rel="noopener noreferrer" className=" mt-2">
+          <a href={user.website} target="_blank" rel="noopener noreferrer" className=" mt-2">
             {user.website}
           </a>
           <Button className="mt-4 ">Edit Profile</Button>
