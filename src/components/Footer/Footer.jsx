@@ -7,8 +7,8 @@ import { FaTelegram } from "react-icons/fa";
 function Footer() {
     return (
         <section className="relative overflow-hidden ">
-            <Card className="relative w-full rounded-none border-0 border-t-small">
-                <div className='flex justify-between items-center py-8 px-6 max-sm:flex-col space-y-4'>
+            <Card className="py-4 relative w-full rounded-none border-0 border-t-small">
+                <div className='flex justify-between items-center py-4 px-6 max-sm:flex-col space-y-4'>
                     <div className="flex items-center space-x-2">
                         <Logo />
                     </div>
@@ -27,7 +27,7 @@ function Footer() {
                         </a>
                     </div>
                 </div>
-                <p className='text-sm text-muted-foreground text-center mb-4'>Discover insights, stories, and tips from our community.</p>
+                <p className='text-sm text-muted-foreground text-center'>Discover insights, stories, and tips from our community.</p>
             </Card>
 
         </section>

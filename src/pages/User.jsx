@@ -1,68 +1,80 @@
-import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { MapPin, Calendar, Hash } from "lucide-react";
+import { Card } from "@heroui/react";
+import { MapPin, Calendar, Hash, ThumbsUp } from "lucide-react";
 import { Avatar } from "@heroui/react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import service from "@/appwrite/config";
+import { useSelector } from "react-redux";
+import Loader from "@/components/Loader";
 
 export default function User() {
   const { username } = useParams();
-  console.log(username);
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate();
+  const currentUserId = useSelector((state) => state.auth.userData?.$id);
+  const isAuthor = user && currentUserId ? user.userId === currentUserId : false;
 
-  const [user, setUser] = useState([]);
   useEffect(() => {
     const fetchUserProfile = async () => {
       if (username) {
         try {
           const profile = await service.getUsernames(username, "", 1);
           setUser(profile[0]);
-          console.log(profile[0]);
         } catch (error) {
           console.error("Error fetching user profile:", error);
-          setUser('');
+          setUser(null);
         }
       }
     };
     fetchUserProfile();
   }, [username]);
+
+  if (!user) {
+    return <Loader />
+  }
+
+  const { name, avatar, bio, location, createdAt, website, liked } = user;
+
   return (
-    <div className="min-h-screen flex flex-col items-center">
-      <div className="w-full h-32 bg-accent"></div>
-      <Card className="relative -top-16 w-[600px]  rounded-xl shadow-lg p-6 overflow-visible">
-        <div className="relative flex flex-col items-center">
-          {typeof window !== "undefined" && (
-            <Avatar showFallback name={user.name} src={user.avatar} className="relative size-32 -top-20 -mb-14" />
-          )}
-          <h2 className="text-2xl font-semibold">{user.name}</h2>
-          <p className="text-gray-400">{user.bio}</p>
-          <div className="flex items-center gap-4 mt-2 text-gray-400">
-            <div className="flex items-center gap-1">
-              <MapPin size={16} /> <span>{user.location}</span>
+    <div className="min-h-screen relative flex flex-col items-center ">
+      <div className="w-full h-32 bg-accent absolute z-0"></div>
+      <div className="min-h-screen max-w-[1200px] flex flex-col gap-4 p-4 mx-auto z-10 max-sm:p-2">
+        <Card className="w-full mt-16 rounded-xl shadow-lg p-6 overflow-visible ">
+          <div className="min-w-[800px] flex flex-col items-center max-md:min-w-full">
+            {typeof window !== "undefined" && (
+              <Avatar showFallback name={name} src={avatar} className="relative size-32 -top-20 -mb-14 ring-8 ring-accent" />
+            )}
+            <h2 className="text-2xl font-semibold">{name}</h2>
+            <p className="max-w-96 text-default-600">{bio}</p>
+            <div className="flex items-center gap-4 mt-2 text-default-600">
+              <div className="flex items-center gap-1">
+                <MapPin size={16} /> <span>{location}</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <Calendar size={16} /> <span>{createdAt ? new Date(createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) : 'Date not available'}</span>
+              </div>
             </div>
-            <div className="flex items-center gap-1">
-              <Calendar size={16} /> <span>{user.createdAt ? new Date(user.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) : 'Date not available'}</span>
-            </div>
+            <a href={website} target="_blank" rel="noopener noreferrer" className="mt-2">
+              {website}
+            </a>
+            {isAuthor && (
+              <Button className="mt-4" onclick={() => navigate('settings/profile')}>Edit Profile</Button>
+            )}
           </div>
-          <a href={user.website} target="_blank" rel="noopener noreferrer" className=" mt-2">
-            {user.website}
-          </a>
-          <Button className="mt-4 ">Edit Profile</Button>
-        </div>
-      </Card>
-      <Card className="w-[400px] p-4 mt-4">
-        <CardContent className="flex flex-col gap-2">
-          <p className="flex items-center gap-2 text-gray-400">
-            <span>📄</span> 0 posts published
+        </Card>
+        <Card className="w-full flex flex-row items-center justify-between p-6">
+          <p className="flex items-center gap-2 text-default-600">
+            <ThumbsUp/> {liked?.length} posts liked
           </p>
-          <p className="flex items-center gap-2 text-gray-400">
+          <p className="flex items-center gap-2 text-default-600">
             <span>💬</span> 0 comments written
           </p>
-          <p className="flex items-center gap-2 text-gray-400">
+          <p className="flex items-center gap-2 text-default-600">
             <Hash size={16} /> 7 tags followed
           </p>
-        </CardContent>
-      </Card>
+        </Card>
+      </div>
     </div>
   );
 }

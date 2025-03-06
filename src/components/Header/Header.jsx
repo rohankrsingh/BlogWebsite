@@ -50,8 +50,8 @@ function Header() {
   ]
 
   return (
-    <header className='w-full sticky top-0 z-10 backdrop-blur-3xl shadow'>
-      <Card className='flex bg-white/60 justify-between items-center px-4 py-2 border-none rounded-none  ,
+    <header className='w-full sticky top-0 z-20 backdrop-blur-3xl shadow'>
+      <Card className='flex bg-white/60 justify-between items-center px-4 py-3 border-none rounded-none ,
       dark:bg-black/70 '>
         <Logo className="text-xl" />
         <nav className='flex justify-evenly items-center border-none space-x-4
