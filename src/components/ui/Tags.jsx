@@ -17,7 +17,6 @@ function Tags({ tags, className }) {
             {tags.map((tag, index) => (
                 <Button 
                     variant='ghost' 
-                     
                     key={index} 
                     className={className}
                 >

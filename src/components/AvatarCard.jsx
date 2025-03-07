@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Card } from "@heroui/react";
+import { Card, Link } from "@heroui/react";
 import { CardContent } from "@/components/ui/card";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { MapPin, Calendar } from "lucide-react";
@@ -38,19 +38,19 @@ const AvatarCard = ({ userId, variant = "default" }) => {
     >
       <CardContent className="p-0">
         <div className="flex flex-col items-center">
-          <div className="w-full flex items-center gap-1">
+          <Link onPress={() => navigate(`/${user.username}`)} className="w-full flex items-center gap-1 group">
             <Avatar>
               <AvatarImage src={user.avatar} alt={user.name} />
               <AvatarFallback>{user.name}</AvatarFallback>
             </Avatar>
             {variant !== 'default' && (
               <div className="flex flex-col">
-              <h2 className="text-xl font-semibold">{user.name}</h2>
-              <h4 onClick={() => navigate(`/${user.username}`)} className="text-sm font-light">@{user.username}</h4>
+              <h2 className="text-xl font-semibold group-hover:text-accent transition-colors">{user.name}</h2>
+              <h4 onClick={() => navigate(`/${user.username}`)} className="text-sm font-light text-blue-600">@{user.username}</h4>
               </div>
             )}
 
-          </div>
+          </Link>
 
           <div className="w-full flex-1 px-2">
             {variant !== "minimal" && variant !== "default" && (

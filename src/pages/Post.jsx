@@ -18,9 +18,13 @@ import Tags from "../components/ui/Tags";
 import { motion } from 'framer-motion';
 import Loader from "@/components/Loader";
 import AvatarCard from "@/components/AvatarCard";
+import service from "../appwrite/config";
+import { Query } from "appwrite";
+import BlogCards from "@/components/BlogCards";
 
 export default function Post() {
   const [post, setPost] = useState("");
+  const [recommendedPosts, setRecommendedPosts] = useState([])
   const [liked, setLiked] = useState(false);
   const [likes, setLikes] = useState([]);
   const { slug } = useParams();
@@ -61,6 +65,24 @@ export default function Post() {
       navigate("/");
     }
   }, [slug, navigate, userData]);
+
+
+
+  useEffect(() => {
+    if (post) {
+      const query = [
+        Query.select(["title", "featuredImage", "userId", "tags", "likesCount", "$id", "$createdAt"]),
+        Query.limit(5),
+        Query.contains("tags", post.tags ? post.tags : ["none"]),
+        Query.notEqual("$id", [post.$id])
+      ]
+      service.getPosts(query).then((recomendedPosts) => {
+        setRecommendedPosts(recomendedPosts.documents);
+        console.log(recomendedPosts);
+
+      })
+    }
+  }, [post]);
 
   const deletePost = () => {
     addToast({
@@ -167,9 +189,9 @@ export default function Post() {
                   </div>
                 )}
               </div>
-              <div className="mx-10 space-y-4 max-md:mx-2">
+              <div className="mx-10 space-y-4 max-md:mx-3">
                 <h1 className="text-4xl mt-8 font-semibold">{post.title}</h1>
-                <div className="flex space-x-4"><Tags tags={post.tags} className={'px-0'} /></div>
+                <div className="flex space-x-2"><Tags tags={post.tags} className={'p-2 h-auto'} /></div>
                 <div className="list-disc">
                   <ReactMarkdown
                     remarkPlugins={[remarkGfm]}
@@ -184,8 +206,26 @@ export default function Post() {
             </Container>
           </Card>
 
-          <div className="col-span-12 md:col-span-3">
-            <AvatarCard userId={post.userId} variant="detailed"/>
+          <div className="col-span-12 md:col-span-3 space-y-6 mx-2">
+            <AvatarCard userId={post.userId} variant="detailed" />
+
+            <div className="flex flex-col">
+              <h3 className="font-poppins max-md:mx-3">You might like</h3>
+              <div className="py-4 flex overflow-visible max-md:overflow-x-auto space-y-4 max-md:grid max-md:grid-cols-1">
+
+                <div className="space-y-4 max-md:grid grid-flow-col auto-cols-[280px] gap-4 max-md:px-2">
+                  {recommendedPosts && recommendedPosts.length > 0 ? (
+                    recommendedPosts.map((post, index) => (
+                      <BlogCards key={index} postData={post} variant="compact" />
+                    ))
+                  ) : (
+                    <p>No recommended posts available.</p>
+                  )}
+                </div>
+              </div>
+
+            </div>
+
           </div>
         </div>
       </div>

@@ -59,7 +59,7 @@ export default function User() {
               {website}
             </a>
             {isAuthor && (
-              <Button className="mt-4" onclick={() => navigate('settings/profile')}>Edit Profile</Button>
+              <Button className="mt-4" onClick={() => navigate('../settings/profile')}>Edit Profile</Button>
             )}
           </div>
         </Card>
