@@ -24,7 +24,7 @@ import BlogCards from "@/components/BlogCards";
 
 export default function Post() {
   const [post, setPost] = useState("");
-  const [recommendedPosts, setRecommendedPosts] = useState([])
+  const [recommendedPosts, setRecommendedPosts] = useState([]);
   const [liked, setLiked] = useState(false);
   const [likes, setLikes] = useState([]);
   const { slug } = useParams();
@@ -36,84 +36,101 @@ export default function Post() {
   const isAuthor = post && userData ? post.userId === userData.$id : false;
 
   useEffect(() => {
-
-    if (slug) {
-      appwriteService.getPost(slug).then(
-        (post) => {
-          if (post) {
-            setPost(post);
-            setLikes(post.likes); console.log(post);
-
-            setLiked(post.likes.includes(userData?.$id));
+    const fetchPost = async () => {
+      if (slug) {
+        try {
+          const fetchedPost = await appwriteService.getPost(slug);
+          if (fetchedPost) {
+            setPost(fetchedPost);
+            setLikes(fetchedPost.likes);
+            setLiked(fetchedPost.likes.includes(userData?.$id));
+            console.log(post.$id);
+            
           } else {
             navigate("/");
           }
-          setLoading(false);
-        },
-        (err) => {
+        } catch (err) {
           addToast({
             title: "Error Loading Post",
             description: "There was an error loading the post.",
             color: "danger",
           });
           setError(err);
-
+        } finally {
           setLoading(false);
         }
-      );
-    } else {
-      navigate("/");
-    }
+      } else {
+        navigate("/");
+      }
+    };
+
+    
+    fetchPost();
+    
   }, [slug, navigate, userData]);
 
-
-
   useEffect(() => {
-    if (post) {
+    const fetchRecommendedPosts = async () => {
+      if (!post) return; // Early return if post is not available
+  
       const query = [
         Query.select(["title", "featuredImage", "userId", "tags", "likesCount", "$id", "$createdAt"]),
         Query.limit(5),
-        Query.contains("tags", post.tags ? post.tags : ["none"]),
-        Query.notEqual("$id", [post.$id])
-      ]
-      service.getPosts(query).then((recomendedPosts) => {
-        setRecommendedPosts(recomendedPosts.documents);
-        console.log(recomendedPosts);
+        Query.contains("tags", post.tags || ["none"]),
+        Query.notEqual("$id", [post.$id]),
+      ];
+  
+      console.log(post.$id);
+      
+      try {
+        const { documents } = await service.getPosts(query);
+        setRecommendedPosts(documents);
+      } catch (error) {
+        console.error("Error fetching recommended posts:", error);
+        addToast({
+          title: "Error",
+          description: "Could not load recommended posts.",
+          color: "danger",
+        });
+      }
+    };
+  
+    fetchRecommendedPosts();
+  }, [slug, post, post.$id]);
+  
 
-      })
-    }
-  }, [post]);
-
-  const deletePost = () => {
+  const deletePost = async () => {
     addToast({
       title: "Deleting Post",
       description: "Your post is being deleted...",
       color: "info",
     });
 
-    appwriteService.deletePost(post.$id).then((status) => {
+    try {
+      const status = await appwriteService.deletePost(post.$id);
       if (status) {
-        appwriteService.deleteFile(post.featuredImage);
+        await appwriteService.deleteFile(post.featuredImage);
         addToast({
           title: "Post Deleted",
           description: "Your post has been deleted successfully.",
           color: "success",
         });
         navigate("/");
-
       }
-    });
+    } catch (err) {
+      console.error("Failed to delete post:", err);
+    }
   };
 
   const renderCodeBlock = ({ inline, className, children }) => {
     const language = className ? className.replace("language-", "") : "javascript";
     return !inline ? (
-      <ScrollArea className=" whitespace-nowrap rounded-md border">
+      <ScrollArea className="whitespace-nowrap rounded-md border">
         <Code
           language={language}
           style={nightOwl}
           customStyle={{
-            margin: ' 0px',
+            margin: '0',
             borderRadius: '0.5rem',
             backgroundColor: 'black',
             overflow: 'auto',
@@ -133,12 +150,12 @@ export default function Post() {
     code: renderCodeBlock,
     h1: ({ children }) => <h1 className="text-3xl">{children}</h1>,
     h2: ({ children }) => <h2 className="text-2xl font-semibold">{children}</h2>,
-    p: ({ children }) => <p className="text-lg  font-light tracking-wide mb-4">{children}</p>,
+    p: ({ children }) => <p className="text-lg font-light tracking-wide mb-4">{children}</p>,
     a: ({ href, children }) => (
       <a href={href} className="text-blue-500 hover:underline">{children}</a>
     ),
-    img: ({ src, alt, children }) => (<Image src={src} alt={alt} className="rounded-small z-0">{children}</Image>),
-    strong: ({ children }) => <strong className="text-xl font-bold">{children}</strong>
+    img: ({ src, alt }) => <Image src={src} alt={alt} className="rounded-small z-0" />,
+    strong: ({ children }) => <strong className="text-xl font-bold">{children}</strong>,
   };
 
   if (loading) return <div className="text-center"><Loader /></div>;
@@ -166,11 +183,9 @@ export default function Post() {
                 description: userLiked ? "You liked the post." : "You unliked the post.",
                 color: userLiked ? "success" : "info",
               });
-
               setLiked(userLiked);
             }}
           />
-
           <Card className="col-span-12 md:col-span-8 max-md:rounded-none max-md:bg-card">
             <Container>
               <div className="w-full flex justify-center relative rounded-t-xl max-md:rounded-t-none">
@@ -179,7 +194,6 @@ export default function Post() {
                   alt={post.title}
                   className="rounded-t-xl object-contain max-md:rounded-t-none"
                 />
-
                 {isAuthor && (
                   <div className="absolute right-6 top-6">
                     <Link to={`/edit-post/${post.$id}`}>
@@ -191,7 +205,9 @@ export default function Post() {
               </div>
               <div className="mx-10 space-y-4 max-md:mx-3">
                 <h1 className="text-4xl mt-8 font-semibold">{post.title}</h1>
-                <div className="flex space-x-2"><Tags tags={post.tags} className={'p-2 h-auto'} /></div>
+                <div className="flex space-x-2">
+                  <Tags tags={post.tags} className="p-2 h-auto" />
+                </div>
                 <div className="list-disc">
                   <ReactMarkdown
                     remarkPlugins={[remarkGfm]}
@@ -205,27 +221,20 @@ export default function Post() {
               </div>
             </Container>
           </Card>
-
           <div className="col-span-12 md:col-span-3 space-y-6 mx-2">
             <AvatarCard userId={post.userId} variant="detailed" />
-
-            <div className="flex flex-col">
-              <h3 className="font-poppins max-md:mx-3">You might like</h3>
-              <div className="py-4 flex overflow-visible max-md:overflow-x-auto space-y-4 max-md:grid max-md:grid-cols-1">
-
-                <div className="space-y-4 max-md:grid grid-flow-col auto-cols-[280px] gap-4 max-md:px-2">
-                  {recommendedPosts && recommendedPosts.length > 0 ? (
-                    recommendedPosts.map((post, index) => (
-                      <BlogCards key={index} postData={post} variant="compact" />
-                    ))
-                  ) : (
-                    <p>No recommended posts available.</p>
-                  )}
+            {recommendedPosts.length > 0 && (
+              <div className="flex flex-col">
+                <h3 className="font-poppins max-md:mx-3">You might like</h3>
+                <div className="py-4 flex overflow-visible max-md:overflow-x-auto space-y-4 max-md:grid max-md:grid-cols-1">
+                  <div className="max-md:grid grid-flow-col auto-cols-[280px] gap-4 max-md:px-2 space-y-4 max-md:space-y-0">
+                    {recommendedPosts.map((recommendedPost, index) => (
+                      <BlogCards key={index} postData={recommendedPost} variant="compact" />
+                    ))}
+                  </div>
                 </div>
               </div>
-
-            </div>
-
+            )}
           </div>
         </div>
       </div>

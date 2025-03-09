@@ -51,8 +51,8 @@ function BlogCards({ variant, postData, index, className }) {
         );
     } else if (variant === 'compact') {
         return (
-            <Card className=" overflow-hidden">
-                <Link href={`/post/${post.$id}`} className="flex flex-col items-start p-2">
+            <Card className=" overflow-hidden ">
+                <Link href={`/post/${post.$id}`} className="flex flex-col items-start p-2 h-full">
                     <Image
                         src={appwriteService.getFilePreview(post.featuredImage, undefined, undefined, undefined, 75) || defaultImage}
                         alt={post.title || "Grid Post"}
@@ -61,16 +61,19 @@ function BlogCards({ variant, postData, index, className }) {
                         removeWrapper
                         className="w-full object-cover rounded-small z-0"
                     />
-                    <CardContent className="p-2">
-                        <div className="space-y-4">
+                    <CardContent className="min-h-fit p-2">
+                        <div className="h-full flex flex-col space-y-4">
                             <span className="text-accent text-sm font-medium">{post?.tags[0] || "No Tags"}</span>
-                            <h3 className="text-xl font-bold leading-tight max-sm:text-2xl">{post.title || "Untitled"}</h3>
-                            <div className="flex items-center gap-2">
-                                <Avatar className="h-6 w-6">
-                                    <AvatarImage src={post.authorImage || defaultImage} />
-                                    <AvatarFallback>{post.authorInitials || "?"}</AvatarFallback>
-                                </Avatar>
-                                <span className="text-sm text-zinc-400">{post.authorName || "Unknown Author"}</span>
+                            <h3 className="text-xl min-h-24 font-bold leading-tight line-clamp-3 max-sm:text-2xl">{post.title || "Untitled"}</h3>
+                            <div className="flex items-center justify-between gap-2 place-items-end">
+                                <div className='flex items-center'>
+                                    <Avatar className="h-6 w-6">
+                                        <AvatarImage src={post.authorImage || defaultImage} />
+                                        <AvatarFallback>{post.authorInitials || "?"}</AvatarFallback>
+                                    </Avatar>
+                                    <span className="text-sm text-zinc-400">{post.authorName || "Unknown Author"}</span>
+                                </div>
+
                                 <div className="flex items-center text-zinc-400 text-sm">
                                     <ThumbsUp className="h-4 w-4 mr-1" />{post.likes?.length || 0}
                                 </div>
