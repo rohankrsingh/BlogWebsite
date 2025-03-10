@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import AvatarCard from './AvatarCard'
 import service from '@/appwrite/config'
+import LogoutBtn from './Header/LogoutBtn';
 
 function AvatarDropdown({ variant }) {
     const navigate = useNavigate();
@@ -55,6 +56,15 @@ function AvatarDropdown({ variant }) {
                         description="Manage your account"
                         onPress={() => navigate('settings/account')}>
                         Account
+                    </DropdownItem>
+                    <DropdownItem classNames={{
+                        base: "pointer-events-none",
+                        
+                    }}>
+                        
+                            {/* <LogoutBtn /> */}
+                        
+                        
                     </DropdownItem>
                 </DropdownSection>
             </DropdownMenu>

@@ -71,7 +71,7 @@ export default function Post() {
 
   useEffect(() => {
     const fetchRecommendedPosts = async () => {
-      if (!post) return; // Early return if post is not available
+      if (!post) return;
   
       const query = [
         Query.select(["title", "featuredImage", "userId", "tags", "likesCount", "$id", "$createdAt"]),
@@ -79,8 +79,6 @@ export default function Post() {
         Query.contains("tags", post.tags || ["none"]),
         Query.notEqual("$id", [post.$id]),
       ];
-  
-      console.log(post.$id);
       
       try {
         const { documents } = await service.getPosts(query);

@@ -7,6 +7,7 @@ import { Button, Card } from '../ui'
 import MobileNavbar from './MobileNavbar'
 import AvatarCard from '../AvatarCard'
 import AvatarDropdown from '../AvatarDropdown'
+import Search from '../Search'
 
 function Header() {
   const authStatus = useSelector((state) => state.auth.status)
@@ -54,6 +55,7 @@ function Header() {
       <Card className='flex bg-white/60 justify-between items-center px-4 py-3 border-none rounded-none ,
       dark:bg-black/70 '>
         <Logo className="text-xl" />
+        <Search />
         <nav className='flex justify-evenly items-center border-none space-x-4
         max-md:hidden'>
           {navItems.map((item, index) => item.active ? (
@@ -64,9 +66,9 @@ function Header() {
             </span>
           ) : null
           )}
+          
           {
             authStatus && (<>
-              <LogoutBtn />
               <AvatarDropdown variant={'default'} />
             </>)
           }
