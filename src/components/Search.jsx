@@ -2,8 +2,16 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Query } from "appwrite";
 import service from '../appwrite/config.js';
 import { SearchIcon } from 'lucide-react';
-import { Card, Input } from '@heroui/react';
-
+import { Input, Button } from '@heroui/react';
+import { Card } from './ui/card.jsx';
+import {
+    Modal,
+    ModalContent,
+    ModalHeader,
+    ModalBody,
+    ModalFooter,
+    useDisclosure
+} from "@heroui/modal";
 function Search() {
     const [query, setQuery] = useState('');
     const [results, setResults] = useState([]);
@@ -22,36 +30,66 @@ function Search() {
         }
     };
 
+    const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
     return (
-        <div className='w-full max-w-[800px] relative backdrop-blur-3xl shadow'>
-            <Input
-                ref={inputRef}
+        <>
+            <Button onPress={onOpen} variant='light' isIconOnly radius='full' className='text-default-600 ring-1 ring-default-200 shadow-sm'><SearchIcon size={20} /></Button>
+            <Modal
+                isOpen={isOpen}
+                onOpenChange={onOpenChange}
+                scrollBehavior={"inside"}
+                closeButton={<></>}
+                size='2xl'
+                backdrop="blur"
                 classNames={{
-                    base: "max-w-[800px]  ",
-                    mainWrapper: "h-full ",
-                    input: "text-medium ",
-                    inputWrapper: "h-full px-4 font-normal text-default-500 bg-default-300/20 dark:bg-default-400/20 rounded-full",
-                }}
-                onChange={(e) => setQuery(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
-                placeholder="Type to search..."
-                size="sm"
-                startContent={<SearchIcon size={18} />}
-                type="search"
-            />
-            {results.length > 0 && (
-                <Card  className="absolute w-full z-10 mt-2 bg-white/60 backdrop-blur-3xl dark:bg-black/70 shadow-2xl">
-                    <div className='max-w-[800px] w-full'>
-                        {results.map((result) => (
-                            <div key={result.$id} className="p-2 hover:bg-gray-100">
-                                {result.title}
-                            </div>
-                        ))}
-                    </div>
-                </Card>
-            )}
-        </div>
+                    backdrop: "  backdrop-blur-sm",
+                }} >
+                <ModalContent className='bg-background/60 backdrop-blur-2xl backdrop-opacity-60'>
+                    {(onClose) => (
+                        <>
+                            <ModalHeader className="flex flex-col gap-1">
+                                <Input
+                                    ref={inputRef}
+                                    classNames={{
+                                        base: "max-w-[800px]  h-10",
+                                        mainWrapper: "h-full ",
+                                        input: "text-medium",
+                                        inputWrapper: "h-full px-4 font-normal text-default-500 bg-default-100/40 dark:bg-default-100/40",
+                                    }}
+                                    onChange={(e) => setQuery(e.target.value)}
+                                    onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
+                                    placeholder="Type to search..."
+                                    size="md"
+                                    startContent={<SearchIcon size={18} />}
+                                    type="search"
+                                />
+                            </ModalHeader>
+                            <ModalBody >
+                                {results.length > 0 && (
+                                    <Card className="bg-default-100/40 dark:bg-default-100/40">
+                                        <div className='max-w-[800px] w-full'>
+                                            {results.map((result) => (
+                                                <div key={result.$id} className="p-2 ">
+                                                    {result.title}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </Card>
+                                )}
+                            </ModalBody>
+                            <ModalFooter>
+                                <Button color="danger" variant="light" onPress={onClose}>
+                                    Close
+                                </Button>
+                            </ModalFooter>
+                        </>
+                    )}
+                </ModalContent>
+            </Modal>
+        </>
     );
+    
 }
 
 export default Search;

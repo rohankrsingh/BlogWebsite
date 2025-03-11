@@ -55,7 +55,7 @@ function Header() {
       <Card className='flex bg-white/60 justify-between items-center px-4 py-3 border-none rounded-none ,
       dark:bg-black/70 '>
         <Logo className="text-xl" />
-        <Search />
+        
         <nav className='flex justify-evenly items-center border-none space-x-4
         max-md:hidden'>
           {navItems.map((item, index) => item.active ? (
@@ -66,7 +66,7 @@ function Header() {
             </span>
           ) : null
           )}
-          
+          <Search />
           {
             authStatus && (<>
               <AvatarDropdown variant={'default'} />
