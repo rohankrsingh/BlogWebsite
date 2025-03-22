@@ -1,12 +1,11 @@
-import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, DropdownSection } from '@heroui/react'
 import { Logo, LogoutBtn } from '../index'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { ThemeTogle } from '../ui/ThemeTogle'
 import { Button, Card } from '../ui'
 import MobileNavbar from './MobileNavbar'
-import AvatarCard from '../AvatarCard'
 import AvatarDropdown from '../AvatarDropdown'
+import Search from '../Search'
 
 function Header() {
   const authStatus = useSelector((state) => state.auth.status)
@@ -64,9 +63,10 @@ function Header() {
             </span>
           ) : null
           )}
+          <Search />
           {
             authStatus && (<>
-              <LogoutBtn />
+              
               <AvatarDropdown variant={'default'} />
             </>)
           }

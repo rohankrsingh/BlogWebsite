@@ -15,7 +15,7 @@ function LogoutBtn() {
         })
     }
   return (
-    <Button onClick={logoutHandler}>
+    <Button onClick={logoutHandler} className="w-full">
       Logout
     </Button>
   )
