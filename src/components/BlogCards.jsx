@@ -6,6 +6,7 @@ import { Link } from '@heroui/link';
 import { Image } from '@heroui/react';
 import { Card } from '@heroui/react';
 import appwriteService from "../appwrite/config"
+import Tags from './ui/Tags';
 
 function BlogCards({ variant, postData, index, className }) {
     const [post] = useState(postData || {});
@@ -95,7 +96,7 @@ function BlogCards({ variant, postData, index, className }) {
                     <span className="text-accent text-sm font-medium">{post?.tags[0] || "No Tags"}</span>
                     <h3 className="font-bold group-hover:text-accent transition-colors">{post.title || "Untitled"}</h3>
                     <div className="flex items-center gap-2 text-sm text-zinc-400">
-                        <span>{post.$createdAt ? new Date(post.$createdAt).toLocaleDateString() : "Date not available"}</span>
+                        <span>{post.$createdAt ? new Date(post.$createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) : 'Date not available'}</span>
                         <div className="flex items-center">
                             <ThumbsUp className="h-4 w-4 mr-1" />
                             {post.likes?.length || 0}
@@ -113,6 +114,35 @@ function BlogCards({ variant, postData, index, className }) {
                 </div>
             </Link>
         );
+    }
+    else if(variant == 'list'){
+        return (
+            <Link href={`/post/${post.$id}`} className="flex gap-4 group p-2">
+                <div className="flex-1 space-y-2">
+                    <h3 className="font-bold group-hover:text-accent transition-colors">{post.title || "Untitled"}</h3>
+                    <div className='space-x-4'>
+                        <Tags tags={post.tags} className='p-0'/>
+                    </div>
+                    
+                    <div className="flex items-center gap-2 text-sm text-zinc-400">
+                        <span>{post.$createdAt ? new Date(post.$createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) : 'Date not available'}</span>
+                        <div className="flex items-center">
+                            <ThumbsUp className="h-4 w-4 mr-1" />
+                            {post.likes?.length || 0}
+                        </div>
+                    </div>
+                </div>
+                <div className="flex-none w-24">
+                    <Image
+                        src={appwriteService.getFilePreview(post.featuredImage, 480, 480, undefined, 75) || defaultImage}
+                        alt={post.title || "Compact Post"}
+                        width={96}
+                        height={96}
+                        className="rounded object-cover z-0"
+                    />
+                </div>
+            </Link>
+        )
     }
     return <div>BlogCards</div>;
 }

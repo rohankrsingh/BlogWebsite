@@ -45,7 +45,7 @@ export default function Post() {
             setLikes(fetchedPost.likes);
             setLiked(fetchedPost.likes.includes(userData?.$id));
             console.log(post.$id);
-            
+
           } else {
             navigate("/");
           }
@@ -64,24 +64,22 @@ export default function Post() {
       }
     };
 
-    
+
     fetchPost();
-    
+
   }, [slug, navigate, userData]);
 
   useEffect(() => {
     const fetchRecommendedPosts = async () => {
-      if (!post) return; // Early return if post is not available
-  
+      if (!post) return;
+
       const query = [
         Query.select(["title", "featuredImage", "userId", "tags", "likesCount", "$id", "$createdAt"]),
         Query.limit(5),
         Query.contains("tags", post.tags || ["none"]),
         Query.notEqual("$id", [post.$id]),
       ];
-  
-      console.log(post.$id);
-      
+
       try {
         const { documents } = await service.getPosts(query);
         setRecommendedPosts(documents);
@@ -94,10 +92,10 @@ export default function Post() {
         });
       }
     };
-  
+
     fetchRecommendedPosts();
   }, [slug, post, post.$id]);
-  
+
 
   const deletePost = async () => {
     addToast({
@@ -168,8 +166,8 @@ export default function Post() {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <div className="py-4 font-system">
-        <ScrollProgress className="top-[52px] max-md:top-[56px] z-30" />
+      <div className="py-4 font-system max-md:py-0">
+        <ScrollProgress className="top-[64px] max-md:top-[56px] z-30" />
         <div className="max-w-[1300px] px-2 max-lg:w-full mx-auto grid grid-cols-12 gap-5 max-md:px-0">
           <SideInfoBar
             isLiked={liked}

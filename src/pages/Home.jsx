@@ -38,13 +38,10 @@ function Home() {
             } finally {
                 setLoading(false);
             }
-            
-            
         };
-
         fetchPosts();
     }, []);
-console.log(posts.featured);
+    console.log(posts.featured);
     if (loading) {
         return <Loader />;
     }
@@ -67,14 +64,14 @@ console.log(posts.featured);
 
     return (
         <motion.div
-            initial={{ opacity: 0 }} 
+            initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 1 }}
         >
-            <div className="w-full min-h-screen">
-                <div className="container mx-auto px-4 py-8">
-                    <div className="grid grid-cols-1 lg:grid-cols-12 lg:grid-rows-2 gap-6">
+            <div className="w-full min-h-screen h-max">
+                <div className="container h-max mx-auto px-4 py-8">
+                    <div className="h-min grid grid-cols-1 lg:grid-cols-12 lg:grid-rows-2 gap-6">
                         <div className="grid space-y-6 col-span-7 row-span-1 max-md:order-1">
                             {
                                 posts.featured.slice(0, 1).map((post, index) => (
@@ -92,7 +89,9 @@ console.log(posts.featured);
                                     posts.latest.map((post, index) => (
                                         <div key={index}>
                                             <BlogCards postData={post} variant='grid' index={index + 1} />
-                                            <Separator orientation="horizontal" className="my-2" />
+                                            {index < posts.latest.length - 1 && (
+                                                <Separator orientation="horizontal" className="my-2" />
+                                            )}
                                         </div>
                                     ))
                                 }
