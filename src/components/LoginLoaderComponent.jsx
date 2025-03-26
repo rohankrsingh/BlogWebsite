@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import authService from '../appwrite/auth';
 import service from '../appwrite/config';
 import { login as authLogin } from '../store/authSlice';
-import Loader from './Loader';
+import { motion } from 'framer-motion';
 import { Spinner } from '@heroui/react';
 
 function LoginLoaderComponent() {
