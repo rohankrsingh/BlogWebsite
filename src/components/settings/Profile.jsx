@@ -19,7 +19,7 @@ const profileFormSchema = z.object({
     name: z.string().min(2, "Name must be at least 2 characters."),
     email: z.string().email("Please enter a valid email address."),
     bio: z.string().max(100).optional(),
-    website: z.string().url().optional(),
+    website: z.string().url().optional().or(z.literal('')),
     location: z.string().optional(),
 });
 

@@ -26,7 +26,7 @@ function App() {
   const navigate = useNavigate();
   const [prefs, setPrefs] = useState({
     theme: "dark",
-    accentColor: "",
+    accentColor: "160.1 84.1% 39.4%",
     font: "system"
   });
 

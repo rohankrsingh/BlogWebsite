@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@heroui/react";
 import { MapPin, Calendar, Hash, ThumbsUp } from "lucide-react";
-import { Avatar } from "@heroui/react";
+import { Avatar, ScrollShadow  } from "@heroui/react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import service from "@/appwrite/config";
@@ -21,6 +21,8 @@ export default function User() {
         try {
           const profile = await service.getUsernames(username, "", 1);
           setUser(profile[0]);
+          console.log(profile);
+          
         } catch (error) {
           console.error("Error fetching user profile:", error);
           setUser(null);
@@ -74,6 +76,21 @@ export default function User() {
             <Hash size={16} /> 7 tags followed
           </p>
         </Card>
+        <div className="">
+          <ScrollShadow className="max-h-[100vh] overflow-y-auto">
+            <h3 className="text-xl font-semibold mt-4">Posts Liked</h3>
+            {liked && liked.length > 0 ? (
+              liked.map((post) => (
+                <div key={post.id} className="p-4 border-b">
+                  <h4 className="font-bold">{post.title}</h4>
+                  <p>{post.content}</p>
+                </div>
+              ))
+            ) : (
+              <p>No posts liked yet.</p>
+            )}
+          </ScrollShadow>
+        </div>
       </div>
     </div>
   );

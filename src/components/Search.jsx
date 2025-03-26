@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { Query } from "appwrite";
 import service from '../appwrite/config.js';
+import { Heading2, SearchIcon } from 'lucide-react';
+import { Input, Button } from '@heroui/react';
+import { Card } from './ui/card.jsx';
 import { SearchIcon } from 'lucide-react';
 import { Input } from '@heroui/react';
 import {
@@ -26,6 +29,77 @@ function Search() {
     }
   };
 
+    return (
+        <>
+            <Button
+                onPress={onOpen}
+                variant='light'
+                isIconOnly
+                radius='full'
+                className='text-default-600 ring-1 ring-default-200 shadow-sm'
+            >
+                <SearchIcon size={20} />
+            </Button>
+
+            <Modal
+                isOpen={isOpen}
+                onOpenChange={onClose}
+                scrollBehavior="inside"
+                closeButton={<></>}
+                size='2xl'
+                backdrop="blur"
+                placement='center'
+                classNames={{
+                    backdrop: "backdrop-blur-sm",
+                }}
+            >
+                <ModalContent className='bg-background/60 backdrop-blur-2xl backdrop-opacity-60'>
+                    <ModalHeader className="flex flex-col gap-1">
+                        <Input
+                            ref={inputRef}
+                            classNames={{
+                                base: "max-w-[800px] h-10",
+                                mainWrapper: "h-full",
+                                input: "text-medium",
+                                inputWrapper: "h-full px-4 font-normal text-default-500 bg-default-100/40 dark:bg-default-100/40",
+                            }}
+                            onChange={(e) => setQuery(e.target.value)}
+                            value={query}
+                            placeholder="Type to search..."
+                            size="md"
+                            startContent={<SearchIcon size={18} />}
+                            type="search"
+                            aria-label="Search"
+                        />
+                    </ModalHeader>
+
+                    {results.length > 0 ? (
+        <>
+            <h2>Search results</h2>
+            <Card className="bg-default-100/40 dark:bg-default-100/40">
+                <div className='max-w-[800px] w-full'>
+                    {results.map((result, index) => (
+                        <div key={index} className="p-2">
+                            <BlogCards variant='list' postData={result} />
+                            {index < results.length - 1 && <Separator className='mt-3 px-2' />}
+                        </div>
+                    ))}
+                </div>
+            </Card>
+        </>
+    ) : (
+        <h2>No results found</h2> // Optional message when no results are found
+    )}
+
+                    <ModalFooter>
+                        <Button color="danger" variant="shadow" onPress={onClose}>
+                            Close
+                        </Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
+        </>
+    );
   return (
     <Popover className='flex' >
       <PopoverTrigger asChild>

@@ -65,7 +65,7 @@ function BlogCards({ variant, postData, index, className }) {
                     <CardContent className="min-h-fit p-2">
                         <div className="h-full flex flex-col space-y-4">
                             <span className="text-accent text-sm font-medium">{post?.tags[0] || "No Tags"}</span>
-                            <h3 className="text-xl min-h-24 font-bold leading-tight line-clamp-3 max-sm:text-2xl">{post.title || "Untitled"}</h3>
+                            <h3 className="text-2xl min-h-24 font-bold leading-tight line-clamp-3 max-sm:text-2xl">{post.title || "Untitled"}</h3>
                             <div className="flex items-center justify-between gap-2 place-items-end">
                                 <div className='flex items-center'>
                                     <Avatar className="h-6 w-6">
