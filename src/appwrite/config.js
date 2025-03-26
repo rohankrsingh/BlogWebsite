@@ -206,9 +206,10 @@ export class Service {
                 [
                     Query.select(attributes ? attributes : [])
                 ]
-            )
+            );
         } catch (error) {
             console.log("Appwrite service :: getUserProfile :: error", error);
+            return null;
         }
     }
     async getPostsByUser(userId) {

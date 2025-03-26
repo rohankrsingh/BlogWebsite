@@ -58,9 +58,10 @@ function AvatarDropdown({ variant }) {
                         Account
                     </DropdownItem>
                     <DropdownItem classNames={{
-                        base: "pointer-events-none",
-                    }}>
-                        <LogoutBtn />
+                        base: "pointer-events-non",
+                    }}
+                    children={<LogoutBtn />}>
+                        
                     </DropdownItem>
                 </DropdownSection>
             </DropdownMenu>

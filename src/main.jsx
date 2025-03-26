@@ -6,7 +6,7 @@ import { Provider } from 'react-redux'
 import store from './store/store.js'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import Home from './pages/Home.jsx'
-import { AuthLayout } from './components/index.js'
+import { AuthLayout, LoginComponent } from './components/index.js'
 import { ThemeProvider } from "@/components/theme-provider"
 import AddPost from "./pages/AddPost";
 import Signup from './pages/Signup'
@@ -19,6 +19,7 @@ import AllPosts from "./pages/AllPosts";
 import Account from './components/settings/Account.jsx'
 import Customization from './components/settings/customization.jsx'
 import User from './pages/User.jsx'
+import LoginLoaderComponent from './components/LoginLoaderComponent.jsx'
 
 const router = createBrowserRouter([
   {
@@ -61,6 +62,12 @@ const router = createBrowserRouter([
             {" "}
             <AddPost />
           </AuthLayout>
+        ),
+      },
+      {
+        path: "/loader",
+        element: (
+          <LoginLoaderComponent />
         ),
       },
       {

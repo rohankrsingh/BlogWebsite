@@ -37,18 +37,19 @@ export class AuthService {
             throw error;
         }
     }
+
     async loginGoogle() {
         try {
-            const res = await this.account.createOAuth2Session(
+            await this.account.createOAuth2Session(
                 OAuthProvider.Google,
-                "http://localhost:5173",
-                "http://localhost:5173"
+                "https://blog-website-nu-sepia.vercel.app/loader",
+                "http://localhost:5173/loader"
             );
-            console.log(res);
         } catch (error) {
             console.error("Error during Google login:", error);
         }
     }
+
     async getCurrentUser() {
         try {
             return await this.account.get();

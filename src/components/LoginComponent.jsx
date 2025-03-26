@@ -1,10 +1,10 @@
-import {useState} from 'react'
-import {Link, useNavigate} from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import { login as authLogin } from '../store/authSlice'
-import {Logo} from "./index"
-import {useDispatch} from "react-redux"
+import { Logo } from "./index"
+import { useDispatch } from "react-redux"
 import authService from "../appwrite/auth"
-import {useForm} from "react-hook-form"
+import { useForm } from "react-hook-form"
 import {
     Card,
     CardContent,
@@ -50,15 +50,15 @@ function LoginComponent() {
             password: "",
         },
     });
-    
 
-    const login = async(data) => {
+
+    const login = async (data) => {
         setError("")
         try {
             const session = await authService.login(data)
             if (session) {
                 const userData = await authService.getCurrentUser()
-                if(userData) dispatch(authLogin(userData));
+                if (userData) dispatch(authLogin(userData));
                 navigate("/")
             }
         } catch (error) {
@@ -66,11 +66,11 @@ function LoginComponent() {
         }
     }
 
-  return (
-    <div
-    className='flex items-center justify-center'
-    >
-        <Card className="shadow-2xl bg-opacity-50">
+    return (
+        <div
+            className='flex items-center justify-center'
+        >
+            <Card className="shadow-2xl bg-opacity-50">
                 <CardHeader>
                     <CardTitle className="font-normal text-4xl">Login</CardTitle>
                     {error && <p className="text-red-600 mt-8 text-center">{error}</p>}
@@ -116,7 +116,7 @@ function LoginComponent() {
                     <Separator className="flex items-center justify-center"> <h4 className='font-light backdrop-blur-3xl'>Or</h4> </Separator>
                     <div className="flex items-center justify-center">
                         <Button className='w-1/2 h-10 rounded-3xl' onClick={async () => {
-                            try {
+                             try {
                                 await authService.loginGoogle();
                                 console.log("Logged in successfully!");
                             } catch (error) {
@@ -140,9 +140,9 @@ function LoginComponent() {
 
             </Card>
 
-    
-    </div>
-  )
+
+        </div>
+    )
 }
 
 export default LoginComponent

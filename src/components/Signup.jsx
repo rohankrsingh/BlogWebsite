@@ -159,8 +159,18 @@ function Signup() {
                     <div className="flex items-center justify-center">
                         <Button className='w-1/2 h-10 rounded-3xl' onClick={async () => {
                             try {
-                                await authService.loginGoogle();
-                                console.log("Logged in successfully!");
+                                const session = await authService.loginGoogle();
+                                if (session) {
+                                    const userData = await authService.getCurrentUser();
+                                    if (userData) {
+                                        const existingProfile = await service.getUserProfile(userData.$id);
+                                        if (!existingProfile) {
+                                            await service.createUserProfile(userData.$id, userData.name, userData.$createdAt, userData.email);
+                                        }
+                                        dispatch(login(userData));
+                                        navigate("/");
+                                    }
+                                }
                             } catch (error) {
                                 console.error("Error logging in:", error);
                             }
