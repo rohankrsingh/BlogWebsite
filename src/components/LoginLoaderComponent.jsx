@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import authService from '../appwrite/auth';
@@ -10,11 +10,26 @@ import { Spinner } from '@heroui/react';
 function LoginLoaderComponent() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const [userData, setUserData] = useState(null);
 
     useEffect(() => {
+
         const handleLogin = async () => {
-            const userData = useSelector((state) => state.auth.userData);
-            console.log(userData);
+            await new Promise(resolve => setTimeout(resolve, 200)); // Add delay of 200ms
+            authService.getCurrentUser()
+                .then((userData) => {
+                    if (userData) {
+                        console.log(userData);
+                        dispatch(login({ userData }));
+                        setUserData(userData);
+                        
+                        navigate("/");
+                    } else {
+                        dispatch(logout());
+                    }
+                })
+
+            
 
             if (userData) {
                 const existingProfile = await service.getUserProfile(userData.$id);
@@ -26,12 +41,14 @@ function LoginLoaderComponent() {
                         email: userData.email
                     });
                 }
+                dispatch(login(userData));
                 
-                navigate("/");
             }
         };
+
         handleLogin();
     }, [dispatch, navigate]);
+
 
     return (
         <motion.div
