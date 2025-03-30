@@ -14,7 +14,6 @@ import {
 } from './ui/card'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Label } from './ui/label'
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod"
 import {
@@ -116,7 +115,7 @@ function LoginComponent() {
                     <Separator className="flex items-center justify-center"> <h4 className='font-light backdrop-blur-3xl'>Or</h4> </Separator>
                     <div className="flex items-center justify-center">
                         <Button className='w-1/2 h-10 rounded-3xl' onClick={async () => {
-                             try {
+                            try {
                                 await authService.loginGoogle();
                                 console.log("Logged in successfully!");
                             } catch (error) {

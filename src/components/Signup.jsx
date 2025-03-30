@@ -29,8 +29,8 @@ import service from '@/appwrite/config'
 
 const formSchema = z.object({
     username: z.string()
-    .min(2, "Username must be atleast 2 characters.")
-    .max(36, "Username must not be more than 36 characters"),
+        .min(2, "Username must be atleast 2 characters.")
+        .max(36, "Username must not be more than 36 characters"),
     name: z.string().min(1, "Fullname is required").max(50),
     email: z.string().email("Invalid email address"),
     password: z.string()
@@ -60,7 +60,7 @@ function Signup() {
         setError("");
         try {
             const usernames = await service.getUsernames(data.username);
-            if (usernames.length === 0) { 
+            if (usernames.length === 0) {
                 const userData = await authService.createAccount(data);
                 if (userData) {
                     const currentUser = await authService.getCurrentUser();
@@ -76,7 +76,7 @@ function Signup() {
             setError(error.message);
         }
     };
-    
+
 
     return (
         <div className="mx-auto flex items-center justify-center">
@@ -88,7 +88,7 @@ function Signup() {
                 <CardContent className="space-y-8 ">
                     <Form {...form}>
                         <form onSubmit={form.handleSubmit(create)} className="space-y-6">
-                        <FormField
+                            <FormField
                                 control={form.control}
                                 name="username"
                                 render={({ field }) => (
@@ -159,18 +159,8 @@ function Signup() {
                     <div className="flex items-center justify-center">
                         <Button className='w-1/2 h-10 rounded-3xl' onClick={async () => {
                             try {
-                                const session = await authService.loginGoogle();
-                                if (session) {
-                                    const userData = await authService.getCurrentUser();
-                                    if (userData) {
-                                        const existingProfile = await service.getUserProfile(userData.$id);
-                                        if (!existingProfile) {
-                                            await service.createUserProfile(userData.$id, userData.name, userData.$createdAt, userData.email);
-                                        }
-                                        dispatch(login(userData));
-                                        navigate("/");
-                                    }
-                                }
+                                await authService.loginGoogle();
+                                console.log("Logged in successfully!");
                             } catch (error) {
                                 console.error("Error logging in:", error);
                             }
