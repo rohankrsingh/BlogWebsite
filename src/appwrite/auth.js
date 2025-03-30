@@ -42,8 +42,9 @@ export class AuthService {
         try {
             await this.account.createOAuth2Session(
                 OAuthProvider.Google,
-                "https://blog-website-nu-sepia.vercel.app/loader",
-                "http://localhost:5173/loader"
+                "http://localhost:5173/",
+                // "https://blog-website-nu-sepia.vercel.app/  ",
+                "http://localhost:5173/"
             );
         } catch (error) {
             console.error("Error during Google login:", error);

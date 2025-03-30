@@ -40,7 +40,15 @@ const AvatarCard = ({ userId, variant = "default" }) => {
         <div className="flex flex-col items-center">
           <Avatar>
             <AvatarImage src={user.avatar} alt={user.name} />
-            <AvatarFallback>{user.name}</AvatarFallback>
+            <AvatarFallback>
+              {user.name
+                ? user.name
+                    .split(" ")
+                    .map((n) => n[0])
+                    .join("")
+                    .toUpperCase()
+                : "?"}
+            </AvatarFallback>
           </Avatar>
 
           {variant !== 'default' && (

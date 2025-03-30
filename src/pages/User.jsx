@@ -21,7 +21,6 @@ export default function User() {
         try {
           const profile = await service.getUsernames(username, "", 1);
           setUser(profile[0]);
-          console.log(profile);
           
         } catch (error) {
           console.error("Error fetching user profile:", error);

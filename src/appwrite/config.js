@@ -208,6 +208,10 @@ export class Service {
                 ]
             );
         } catch (error) {
+            if (error.message.includes("Document with the requested ID could not be found")) {
+                console.log("Appwrite service :: getUserProfile :: User profile not found.");
+                return null;
+            }
             console.log("Appwrite service :: getUserProfile :: error", error);
             return null;
         }

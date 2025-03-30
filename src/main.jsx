@@ -1,25 +1,27 @@
-import React from 'react'
+import React, { Suspense, lazy } from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
 import { Provider } from 'react-redux'
 import store from './store/store.js'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
-import Home from './pages/Home.jsx'
 import { AuthLayout, LoginComponent } from './components/index.js'
 import { ThemeProvider } from "@/components/theme-provider"
-import AddPost from "./pages/AddPost";
-import Signup from './pages/Signup'
-import Login from './pages/Login'
-import EditPost from "./pages/EditPost";
-import Post from "./pages/Post";
-import Layout from './components/settings/Layout.jsx'
-import Profile from './components/settings/Profile.jsx'
-import AllPosts from "./pages/AllPosts";
-import Account from './components/settings/Account.jsx'
-import Customization from './components/settings/customization.jsx'
-import User from './pages/User.jsx'
-import LoginLoaderComponent from './components/LoginLoaderComponent.jsx'
+import Loader from './components/Loader.jsx'
+
+const Home = lazy(() => import('./pages/Home.jsx'));
+const Login = lazy(() => import('./pages/Login'));
+const Signup = lazy(() => import('./pages/Signup'));
+const AllPosts = lazy(() => import('./pages/AllPosts'));
+const AddPost = lazy(() => import('./pages/AddPost'));
+const EditPost = lazy(() => import('./pages/EditPost'));
+const Post = lazy(() => import('./pages/Post'));
+const Layout = lazy(() => import('./components/settings/Layout.jsx'));
+const Profile = lazy(() => import('./components/settings/Profile.jsx'));
+const Customization = lazy(() => import('./components/settings/customization.jsx'));
+const Account = lazy(() => import('./components/settings/Account.jsx'));
+const User = lazy(() => import('./pages/User.jsx'));
+const LoginLoaderComponent = lazy(() => import('./components/LoginLoaderComponent.jsx'));
 
 const router = createBrowserRouter([
   {
@@ -28,13 +30,19 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Home />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <Home />
+          </Suspense>
+        ),
       },
       {
         path: "/login",
         element: (
           <AuthLayout authentication={false}>
-            <Login />
+            <Suspense fallback={<Loader />}>
+              <Login />
+            </Suspense>
           </AuthLayout>
         ),
       },
@@ -42,7 +50,9 @@ const router = createBrowserRouter([
         path: "/signup",
         element: (
           <AuthLayout authentication={false}>
-            <Signup />
+            <Suspense fallback={<Loader />}>
+              <Signup />
+            </Suspense>
           </AuthLayout>
         ),
       },
@@ -50,8 +60,9 @@ const router = createBrowserRouter([
         path: "/all-posts",
         element: (
           <AuthLayout authentication>
-            {" "}
-            <AllPosts />
+            <Suspense fallback={<Loader />}>
+              <AllPosts />
+            </Suspense>
           </AuthLayout>
         ),
       },
@@ -59,45 +70,80 @@ const router = createBrowserRouter([
         path: "/add-post",
         element: (
           <AuthLayout authentication>
-            {" "}
-            <AddPost />
+            <Suspense fallback={<Loader />}>
+              <AddPost />
+            </Suspense>
           </AuthLayout>
         ),
       },
       {
         path: "/loader",
         element: (
-          <LoginLoaderComponent />
+          <Suspense fallback={<Loader />}>
+            <LoginLoaderComponent />
+          </Suspense>
         ),
       },
       {
         path: "/edit-post/:slug",
         element: (
           <AuthLayout authentication>
-            {" "}
-            <EditPost />
+            <Suspense fallback={<Loader />}>
+              <EditPost />
+            </Suspense>
           </AuthLayout>
         ),
       },
       {
         path: "/post/:slug",
-        element: <Post />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <Post />
+          </Suspense>
+        ),
       },
-      // New Settings Route
       {
-        path: "/settings",
-        element: <Layout />,
+        path: "/settings/*",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <Layout />
+          </Suspense>
+        ),
         children: [
-          { path: "profile", element: <Profile /> },
-          { path: "customization", element: <Customization /> },
-          { path: "account", element: <Account /> }
+          {
+            path: "profile",
+            element: (
+              <Suspense fallback={<Loader />}>
+                <Profile />
+              </Suspense>
+            ),
+          },
+          {
+            path: "customization",
+            element: (
+              <Suspense fallback={<Loader />}>
+                <Customization />
+              </Suspense>
+            ),
+          },
+          {
+            path: "account",
+            element: (
+              <Suspense fallback={<Loader />}>
+                <Account />
+              </Suspense>
+            ),
+          },
         ],
       },
-      // user Dashboard
       {
         path: "/:username",
-        element: <User />
-      }
+        element: (
+          <Suspense fallback={<Loader />}>
+            <User />
+          </Suspense>
+        ),
+      },
     ],
   },
 ], {

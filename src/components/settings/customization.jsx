@@ -68,7 +68,7 @@ export default function Customization() {
     });
 
     const onSubmit = async (values) => {
-        setTheme(values.theme); // Set the theme based on user selection
+        setTheme(values.theme);
 
         setLoading(true);
         try {

@@ -41,7 +41,7 @@ function Home() {
         };
         fetchPosts();
     }, []);
-    console.log(posts.featured);
+
     if (loading) {
         return <Loader />;
     }
