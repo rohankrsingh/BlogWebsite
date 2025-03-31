@@ -21,7 +21,6 @@ const Profile = lazy(() => import('./components/settings/Profile.jsx'));
 const Customization = lazy(() => import('./components/settings/customization.jsx'));
 const Account = lazy(() => import('./components/settings/Account.jsx'));
 const User = lazy(() => import('./pages/User.jsx'));
-const LoginLoaderComponent = lazy(() => import('./components/LoginLoaderComponent.jsx'));
 
 const router = createBrowserRouter([
   {
@@ -74,14 +73,6 @@ const router = createBrowserRouter([
               <AddPost />
             </Suspense>
           </AuthLayout>
-        ),
-      },
-      {
-        path: "/loader",
-        element: (
-          <Suspense fallback={<Loader />}>
-            <LoginLoaderComponent />
-          </Suspense>
         ),
       },
       {
