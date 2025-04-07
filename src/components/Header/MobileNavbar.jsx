@@ -12,7 +12,6 @@ import {
     useDisclosure,
 } from "@heroui/react";
 import { MenuIcon, X } from "lucide-react";
-import AvatarCard from '../AvatarCard';
 import AvatarDropdown from '../AvatarDropdown';
 
 function MobileNavbar({ navItems, className }) {
@@ -24,8 +23,8 @@ function MobileNavbar({ navItems, className }) {
     return (
         <>
             <Button onPress={onOpen} isIconOnly variant='light' className={className}><MenuIcon size={24} /></Button>
-            <Drawer isOpen={isOpen} size={'xs'} onOpenChange={onOpenChange}
-                closeButton={<Button isIconOnly variant='light'><X size={24} /></Button>}
+            <Drawer isOpen={isOpen}  onOpenChange={onOpenChange}
+                // closeButton={<Button isIconOnly  variant='light'><X size={24} /></Button>}
                 className='z-50 '
             >
                 <DrawerContent >

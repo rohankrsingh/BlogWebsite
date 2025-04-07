@@ -55,7 +55,7 @@ function Search({ externalQuery }) {
 
 
       <Modal isOpen={isOpen} onOpenChange={() => onOpenChange(false)} size="2xl" backdrop="blur">
-        <ModalContent className="p-4 bg-background/60 backdrop-blur-2xl">
+        <ModalContent className="p-4 min-h-[50vh] bg-background/30 backdrop-blur-xl">
           <ModalHeader>
             <Input
               className="max-w-[800px] h-10"
@@ -67,7 +67,7 @@ function Search({ externalQuery }) {
             />
           </ModalHeader>
           <ModalBody>
-            {results.length > 0 ? (
+            {results.length >  0 | query == "" ? (
               <Card className="bg-default-100/40">
                 <div className="max-w-[800px] w-full">
                   {results.map((result, index) => (
@@ -79,7 +79,7 @@ function Search({ externalQuery }) {
                 </div>
               </Card>
             ) : (
-              <h2>No results found</h2>
+              <h2 className='font-light text-center text-default-600'>No results found</h2>
             )}
           </ModalBody>
 

@@ -15,40 +15,58 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Button } from "@/components/ui/button";
 
 function SideInfoBar({ className, likes, isLiked, slug, onLikeUpdate }) {
-    const [postLikes, setLikes] = useState(likes); // Manage like count locally
-    const [liked, setLiked] = useState(isLiked); // Track the liked state
+    const [postLikes, setLikes] = useState(likes);
+    const [liked, setLiked] = useState(isLiked);
     const userData = useSelector((state) => state.auth.userData);
-    const authStatus = useSelector((state) => state.auth.status); // Current logged-in user
-    const [likedPosts, setLikedPosts] = useState([]); // Store liked posts
+    const authStatus = useSelector((state) => state.auth.status);
+    const [likedPosts, setLikedPosts] = useState([]);
 
     useEffect(() => {
-        // Sync local state when parent updates props
         setLikes(likes);
         setLiked(isLiked);
     }, [likes, isLiked]);
+    useEffect(() => {
+        const fetchLikedPosts = async () => {
+            if (authStatus && userData) {
+                try {
+                    const posts = await service.getUserProfile(userData.$id, "liked");
+                    console.log("Fetched liked posts:", posts.liked);
+                    
+                    setLikedPosts(posts.liked || []);
+                } catch (error) {
+                    console.error("Error fetching liked posts:", error);
+                }
+            }
+        };
+        fetchLikedPosts();
+    }, [authStatus, userData]);
 
     const toggleLike = async () => {
-        if (!userData || !authStatus) return; // Prevent action for unauthenticated users
+        if (!userData || !authStatus) return;
 
-        const newLikedStatus = !liked; // Toggle like status
+        const newLikedStatus = !liked;
         const updatedLikes = newLikedStatus
-            ? [...postLikes, userData.$id] // Add user ID to likes
-            : postLikes.filter((id) => id !== userData.$id); // Remove user ID 
+            ? [...postLikes, userData.$id]
+            : postLikes.filter((id) => id !== userData.$id);
 
         setLikes(updatedLikes);
         setLiked(newLikedStatus);
         onLikeUpdate(updatedLikes, newLikedStatus);
 
         const updatedLikedPosts = newLikedStatus
-            ? [...likedPosts, slug] // Add post slug to liked posts
-            : likedPosts.filter((s) => s !== slug); // Remove post slug
+            ? Array.from(new Set([...likedPosts, slug])) // Ensure no duplicates
+            : likedPosts.filter((s) => s !== slug);
         setLikedPosts(updatedLikedPosts);
-        const likesCount = updatedLikes.length;
-        await appwriteService.updateLikedPost(userData.$id, updatedLikedPosts);
-        await appwriteService.updatePostLikes(slug, updatedLikes, likesCount);
+
+        try {
+            const likesCount = updatedLikes.length;
+            await appwriteService.updateLikedPost(userData.$id, updatedLikedPosts);
+            await appwriteService.updatePostLikes(slug, updatedLikes, likesCount);
+        } catch (error) {
+            console.error("Error updating like status:", error);
+        }
     };
 
     const handleShare = (platform) => {

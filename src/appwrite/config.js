@@ -251,13 +251,14 @@ export class Service {
         }
     }
 
-    async getLikedPost(userId) {
+    async getLikedPost(posts) {
         try {
-            return await this.databases.getDocument(
+            return await this.databases.listDocuments(
                 conf.appwriteDatabaseId,
-                "user",
-                userId,
-
+                conf.appwriteCollectionId,
+                [
+                    Query.equal("$id", posts)
+                ]
             )
         } catch (error) {
             console.log("Appwrite service :: getLikedPost :: error", error);

@@ -64,7 +64,6 @@ export default function Post() {
       }
     };
 
-
     fetchPost();
 
   }, [slug, navigate, userData]);
@@ -157,7 +156,11 @@ export default function Post() {
   };
 
   if (loading) return <div className="text-center"><Loader /></div>;
-  if (error) return <div className="text-red-500">Error loading post: {error.message}</div>;
+  if (error) addToast({
+    title: "Error",
+    description: "Failed to load post.",
+    color: "error",
+  });
 
   return post ? (
     <motion.div
@@ -219,6 +222,7 @@ export default function Post() {
               </div>
             </Container>
           </Card>
+          {/* Recomended Posts */}
           <div className="col-span-12 md:col-span-3 space-y-6 mx-2">
             <AvatarCard userId={post.userId} variant="detailed" />
             {recommendedPosts.length > 0 && (
