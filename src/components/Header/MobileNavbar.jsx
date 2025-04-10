@@ -23,7 +23,7 @@ function MobileNavbar({ navItems, className }) {
     return (
         <>
             <Button onPress={onOpen} isIconOnly variant='light' className={className}><MenuIcon size={24} /></Button>
-            <Drawer isOpen={isOpen}  onOpenChange={onOpenChange}
+            <Drawer isOpen={isOpen} size='sm'  onOpenChange={onOpenChange}
                 // closeButton={<Button isIconOnly  variant='light'><X size={24} /></Button>}
                 className='z-50 '
             >

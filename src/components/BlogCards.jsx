@@ -134,7 +134,7 @@ function BlogCards({ variant, postData, index, className }) {
                 </div>
                 <div className="flex-none w-24">
                     <Image
-                        src={appwriteService.getFilePreview(post.featuredImage, 480, 480, undefined, 75) || defaultImage}
+                        src={post?appwriteService.getFilePreview(post.featuredImage, 480, 480, undefined, 75) || defaultImage :""}
                         alt={post.title || "Compact Post"}
                         width={96}
                         height={96}

@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Card } from "@heroui/react";
+import { addToast, Card } from "@heroui/react";
 import { MapPin, Calendar, Hash, ThumbsUp } from "lucide-react";
 import { Avatar, ScrollShadow } from "@heroui/react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -8,6 +8,8 @@ import service from "@/appwrite/config";
 import { useSelector } from "react-redux";
 import Loader from "@/components/Loader";
 import BlogCards from "@/components/BlogCards";
+import { Query } from "appwrite";
+import { Separator } from "@/components/ui";
 
 function UserProfile({ name, avatar, bio, location, createdAt, website, isAuthor }) {
   const navigate = useNavigate();
@@ -79,7 +81,7 @@ function LikedPosts({ liked }) {
   return (
     <div>
       <h3 className="text-xl font-semibold my-4">Posts Liked</h3>
-      <ScrollShadow orientation="horizontal" className="max-h-[50vh] w-full columns-2 flex flex-col max-md:columns-1 max-sm:columns-xs">
+      <ScrollShadow orientation="horizontal" className="max-h-[50vh] w-full columns-2  max-md:columns-1 max-sm:columns-xs">
         {liked && liked.length > 0 ? (
           liked.map((post) => (
             <div className="col-span-1">
@@ -94,10 +96,30 @@ function LikedPosts({ liked }) {
   );
 }
 
+function UserPosts({ posts }) {
+  return (
+    <div>
+      <h3 className="text-xl font-semibold my-4">Posts written</h3>
+      <ScrollShadow orientation="horizontal" className="max-h-[50vh] w-full columns-2  max-md:columns-1 max-sm:columns-xs">
+        {posts && posts.length > 0 ? (
+          posts.map((post) => (
+            <div className="col-span-1">
+              <BlogCards variant="list" postData={post} />
+            </div>
+          ))
+        ) : (
+          <p>You haven't written any posts yet.</p>
+        )}
+      </ScrollShadow>
+    </div>
+  );
+}
+
 export default function User() {
   const { username } = useParams();
   const [user, setUser] = useState(null);
   const [likedPosts, setLikedPosts] = useState([]);
+  const [userPosts, setUserPosts] = useState([]);
   const [error, setError] = useState(null);
   const currentUserId = useSelector((state) => state.auth.userData?.$id);
   const isAuthor = user && currentUserId ? user.userId === currentUserId : false;
@@ -117,6 +139,7 @@ export default function User() {
     };
     fetchUserProfile();
   }, [username]);
+
   useEffect(() => {
     const fetchLikedPosts = async () => {
       if (user && user.liked?.length > 0) {
@@ -132,10 +155,37 @@ export default function User() {
       }
     };
 
-    if (user) {
-      fetchLikedPosts();
-    }
-  }, [user]);
+    const fetchUserPosts = async () => {
+      if (user) {
+        try {
+          const query = [
+            Query.equal("userId", user.userId),
+            Query.orderDesc("$createdAt"),
+          ];
+          const posts = await service.getPosts(query);
+          setUserPosts(posts.documents);
+          console.log(posts.documents);
+          
+        } catch (error) {
+          console.error("Error fetching user posts:", error);
+          setError("Error fetching user posts");
+        }
+      }
+      };
+      
+      if (user) {
+        fetchUserPosts();
+        fetchLikedPosts();
+      }
+
+      if (error) {
+        addToast({
+          title: "Error",
+          message: error,
+          type: "error",
+        });
+      }
+    }, [user]);
 
   if (!user) {
 
@@ -159,6 +209,8 @@ export default function User() {
         />
         <UserStats liked={liked} />
         <LikedPosts liked={likedPosts} />
+        <Separator />
+        <UserPosts posts={userPosts} />
       </div>
     </div>
   );
