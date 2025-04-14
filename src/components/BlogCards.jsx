@@ -19,7 +19,7 @@ function BlogCards({ variant, postData, index, className }) {
                 <Link href={`/post/${post.$id}`} className="p-2 grid grid-cols-2 h-[inherit] items-start 
                 max-md:grid-cols-1">
                     <Image
-                        src={post.featuredImage ? appwriteService.getFilePreview(post.featuredImage, 720, undefined, undefined, 80) : defaultImage}
+                        src={post.featuredImage ? appwriteService.getFilePreview(post.featuredImage) : defaultImage}
                         alt={post.title || "Featured Post"}
                         width={800}
                         // height={410}
@@ -55,7 +55,7 @@ function BlogCards({ variant, postData, index, className }) {
             <Card className=" overflow-hidden ">
                 <Link href={`/post/${post.$id}`} className="flex flex-col items-start p-2 h-full">
                     <Image
-                        src={appwriteService.getFilePreview(post.featuredImage, undefined, undefined, undefined, 75) || defaultImage}
+                        src={appwriteService.getFilePreview(post.featuredImage) || defaultImage}
                         alt={post.title || "Grid Post"}
                         // width={400}
                         height={250}
@@ -134,7 +134,7 @@ function BlogCards({ variant, postData, index, className }) {
                 </div>
                 <div className="flex-none w-24">
                     <Image
-                        src={post?appwriteService.getFilePreview(post.featuredImage, 480, 480, undefined, 75) || defaultImage :""}
+                        src={post?appwriteService.getFilePreview(post.featuredImage) || defaultImage :""}
                         alt={post.title || "Compact Post"}
                         width={96}
                         height={96}

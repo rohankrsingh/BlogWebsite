@@ -126,14 +126,10 @@ export class Service {
         }
     }
 
-    getFilePreview(fileId, width, height, gravity = 'center', quality = 100) {
-        return this.bucket.getFilePreview(
+    getFilePreview(fileId) {
+        return this.bucket.getFileView(
             conf.appwriteBucketId,
             fileId,
-            width,
-            height,
-            gravity,
-            quality
         );
     }
 
