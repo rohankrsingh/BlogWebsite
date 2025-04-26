@@ -53,7 +53,7 @@ function Header() {
       <Card className='flex bg-white/60 justify-between items-center px-4 py-3 border-none rounded-none max-md:py-2 ,
       dark:bg-black/70 '>
         <Logo className="text-xl" />
-        
+
         <nav className='flex justify-evenly items-center border-none space-x-4
         max-md:hidden'>
           {navItems.map((item, index) => item.active ? (
@@ -67,14 +67,17 @@ function Header() {
           <Search />
           {
             authStatus && (<>
-              
+
               <AvatarDropdown variant={'default'} />
             </>)
           }
           <ThemeTogle />
         </nav>
-
+        <div className='flex items-center md:hidden'>
+          <Search className='ring-0'/>
         <MobileNavbar navItems={navItems} className='hidden max-md:flex' />
+        </div>
+        
 
       </Card>
 

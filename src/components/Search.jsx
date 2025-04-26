@@ -7,7 +7,7 @@ import { Card } from './ui/card.jsx';
 import BlogCards from './BlogCards.jsx';
 import { Separator } from './ui/separator.jsx';
 
-function Search({ externalQuery }) {
+function Search({ externalQuery, className }) {
   const [query, setQuery] = useState(externalQuery || "");
   const [results, setResults] = useState([]);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -48,7 +48,7 @@ function Search({ externalQuery }) {
         variant="light"
         isIconOnly
         radius="full"
-        className="text-default-600 ring-1 ring-default-200 shadow-sm"
+        className={`text-default-600 ring-1 ring-default-200 shadow-sm ${className} hover:bg-default-100/50 hover:text-default-600 focus-visible:ring-2 focus-visible:ring-default-600 focus-visible:ring-offset-2 focus-visible:ring-offset-background transition-all duration-200 ease-in-out`}
       >
         <SearchIcon size={20} />
       </Button>}

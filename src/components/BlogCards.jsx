@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Avatar, AvatarImage, AvatarFallback } from './ui/avatar';
 import { CardContent } from './ui/card';
 import { ThumbsUp } from 'lucide-react';
@@ -37,8 +37,8 @@ function BlogCards({ variant, postData, index, className }) {
 
                             <div className="flex items-center gap-2">
                                 <Avatar className="h-6 w-6">
-                                    <AvatarImage src={post.authorImage || defaultImage} />
-                                    <AvatarFallback>{post.authorInitials || "?"}</AvatarFallback>
+                                    <AvatarImage src={post.userProfile?.avatar || defaultImage} />
+                                    <AvatarFallback>{post.userProfile?.name || "?"}</AvatarFallback>
                                 </Avatar>
                                 <span className="text-sm text-zinc-400">{post.authorName || "Unknown Author"}</span>
                                 <div className="flex items-center text-zinc-400 text-sm">
@@ -69,10 +69,10 @@ function BlogCards({ variant, postData, index, className }) {
                             <div className="flex items-center justify-between gap-2 place-items-end">
                                 <div className='flex items-center'>
                                     <Avatar className="h-6 w-6">
-                                        <AvatarImage src={post.authorImage || defaultImage} />
-                                        <AvatarFallback>{post.authorInitials || "?"}</AvatarFallback>
+                                        <AvatarImage src={post.userProfile?.avatar || defaultImage} />
+                                        <AvatarFallback>{post.userProfile?.name || "?"}</AvatarFallback>
                                     </Avatar>
-                                    <span className="text-sm text-zinc-400">{post.authorName || "Unknown Author"}</span>
+                                    <span className="text-sm text-zinc-400">{post.userProfile.name || "Unknown Author"}</span>
                                 </div>
 
                                 <div className="flex items-center text-zinc-400 text-sm">
@@ -115,15 +115,15 @@ function BlogCards({ variant, postData, index, className }) {
             </Link>
         );
     }
-    else if(variant == 'list'){
+    else if (variant == 'list') {
         return (
             <Link href={`/post/${post.$id}`} className="flex gap-4 group p-2">
                 <div className="flex-1 space-y-2">
                     <h3 className="font-bold group-hover:text-accent transition-colors">{post.title || "Untitled"}</h3>
                     <div className='flex space-x-2'>
-                        <Tags tags={post.tags} isSearchable={false} className='p-1 rounded-md h-auto'/>
+                        <Tags tags={post.tags} isSearchable={false} className='p-1 rounded-md h-auto' />
                     </div>
-                    
+
                     <div className="flex items-center gap-2 text-sm text-zinc-400">
                         <span>{post.$createdAt ? new Date(post.$createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) : 'Date not available'}</span>
                         <div className="flex items-center">
@@ -134,7 +134,7 @@ function BlogCards({ variant, postData, index, className }) {
                 </div>
                 <div className="flex-none w-24">
                     <Image
-                        src={post?appwriteService.getFilePreview(post.featuredImage) || defaultImage :""}
+                        src={post ? appwriteService.getFilePreview(post.featuredImage) || defaultImage : ""}
                         alt={post.title || "Compact Post"}
                         width={96}
                         height={96}
@@ -142,6 +142,58 @@ function BlogCards({ variant, postData, index, className }) {
                     />
                 </div>
             </Link>
+        )
+    }
+    else if (variant == 'main') {
+        return (
+            <Link href={`/post/${post.$id}`} className="">
+                <Card className="border group hover:shadow-lg transition-shadow duration-300 ease-in-out">
+                    <CardContent className="p-6 h-max flex justify-between w-full max-w-[1200px] gap-6 max-md:p-4 max-sm:flex-col max-sm:gap-4">
+                        <div className="w-full flex flex-col justify-between space-y-2 order-2 max-sm:order-2">
+                            <div>
+                                <h2 className="text-3xl h-max leading-snug font-bold group-hover:text-accent transition-colors tracking-wide max-sm:text-2xl line-clamp-2">
+                                    {post.title || "Untitled"}
+                                </h2>
+
+                                <div className="flex flex-wrap gap-2">
+                                    <Tags tags={post.tags} isSearchable={false} className="p-1 rounded-md h-auto" />
+                                </div>
+
+                                <p className="text-lg max-md:max-w-[86vw] text-default-600 text-justify text-balance line-clamp-3 max-sm:text-base">
+                                    {post.content || "No description available"}
+                                </p>
+                            </div>
+
+
+                            <div className="flex items-center gap-2 text-sm text-default-500">
+
+                                <span>
+                                    {post.$createdAt
+                                        ? new Date(post.$createdAt).toLocaleDateString('en-US', {
+                                            year: 'numeric',
+                                            month: 'short',
+                                            day: 'numeric',
+                                        })
+                                        : 'Date not available'}
+                                </span>
+                                <div className="flex items-center">
+                                    <ThumbsUp className="h-4 w-4 mr-1" />
+                                    {post.likes?.length || 0}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="flex-none w-1/4 order-1 my-auto max-sm:w-full max-sm:order-1">
+                            <Image
+                                src={post ? appwriteService.getFilePreview(post.featuredImage) || defaultImage : ""}
+                                alt={post.title || "Compact Post"}
+                                className="rounded-small md:aspect-[5/4] aspect-video object-cover w-full h-full max-lg:aspect-[5/4] max-sm:aspect-[5/4] max-sm:w-full max-sm:h-full"
+                            />
+                        </div>
+                    </CardContent>
+                </Card>
+            </Link>
+
         )
     }
     return <div>BlogCards</div>;

@@ -37,7 +37,6 @@ function App() {
         if (userData) {
           dispatch(login({ userData }));
           setPrefs(userData.prefs)
-          console.log(prefs);
         } else {
           dispatch(logout());
         }

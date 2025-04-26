@@ -44,6 +44,7 @@ export default function PostForm({ post }) {
             const dbPost = await appwriteService.updatePost(post.$id, {
                 ...data,
                 featuredImage: file ? file.$id : undefined,
+                userProfile : userData.$id,
             });
 
             if (dbPost) {
@@ -56,7 +57,7 @@ export default function PostForm({ post }) {
                 const fileId = file.$id;
                 data.featuredImage = fileId;
                 // data.tags = tags;
-                data.userId = userData.$id;
+                data.userId = data.userProfile = userData.$id;
                 console.log(data);
 
                 const dbPost = await appwriteService.createPost({ ...data });
