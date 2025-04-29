@@ -16,13 +16,13 @@ function Footer() {
                         <h5>Made with <span className='text-red-500'>&#10084;</span> by Rohan</h5>
                     </nav>
                     <div className="mt-4 md:mt-0 flex space-x-4">
-                        <a href="#" className=" hover:text-primary-700">
+                        <a href="https://github.com/rohankrsingh" target='_new' className=" hover:text-primary-700">
                             <Github size={20} />
                         </a>
-                        <a href="#" className=" hover:text-primary-700">
+                        <a href="https://www.linkedin.com/in/rohan-kr-singh/" target='_new' className=" hover:text-primary-700">
                             <Linkedin size={20} />
                         </a>
-                        <a href="#" className=" hover:text-primary-700">
+                        <a href="https://t.me/rohankrsingh125" target='_new' className=" hover:text-primary-700">
                             <FaTelegram size={20} />
                         </a>
                     </div>

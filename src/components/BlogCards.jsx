@@ -40,7 +40,7 @@ function BlogCards({ variant, postData, index, className }) {
                                     <AvatarImage src={post.userProfile?.avatar || defaultImage} />
                                     <AvatarFallback>{post.userProfile?.name || "?"}</AvatarFallback>
                                 </Avatar>
-                                <span className="text-sm text-zinc-400">{post.authorName || "Unknown Author"}</span>
+                                <span className="text-sm text-zinc-400">{post.userProfile?.name || "Unknown Author"}</span>
                                 <div className="flex items-center text-zinc-400 text-sm">
                                     <ThumbsUp className="h-4 w-4 mr-1" />{post.likes?.length || 0}
                                 </div>
@@ -72,7 +72,7 @@ function BlogCards({ variant, postData, index, className }) {
                                         <AvatarImage src={post.userProfile?.avatar || defaultImage} />
                                         <AvatarFallback>{post.userProfile?.name || "?"}</AvatarFallback>
                                     </Avatar>
-                                    <span className="text-sm text-zinc-400">{post.userProfile.name || "Unknown Author"}</span>
+                                    <span className="text-sm text-zinc-400">{post.userProfile?.name || "Unknown Author"}</span>
                                 </div>
 
                                 <div className="flex items-center text-zinc-400 text-sm">
