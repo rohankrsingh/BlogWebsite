@@ -1,16 +1,22 @@
-import { Logo, LogoutBtn } from '../index'
-import { useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
-import { ThemeTogle } from '../ui/ThemeTogle'
-import { Button, Card } from '../ui'
-import MobileNavbar from './MobileNavbar'
-import AvatarDropdown from '../AvatarDropdown'
-import Search from '../Search'
+import React from "react";
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { Link} from "@heroui/react";
+import { Button } from "../ui";
+import { Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenu, NavbarMenuItem, NavbarMenuToggle } from "@heroui/navbar";
 
-function Header() {
-  const authStatus = useSelector((state) => state.auth.status)
-  const navigate = useNavigate()
-  const userId = useSelector((state) => state.auth.userData?.$id || null);
+import { Logo, LogoutBtn } from '../index';
+import { ThemeTogle } from '../ui/ThemeTogle';
+import AvatarDropdown from '../AvatarDropdown';
+import Search from '../Search';
+import { Menu, MenuIcon, X } from "lucide-react";
+
+export default function Header() {
+  const authStatus = useSelector((state) => state.auth.status);
+  const navigate = useNavigate();
+
+  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+
   const navItems = [
     {
       name: 'Home',
@@ -18,7 +24,6 @@ function Header() {
       active: true,
       variant: "primary"
     },
-
     {
       name: "All Posts",
       slug: "/all-posts",
@@ -29,9 +34,8 @@ function Header() {
       name: "Add Post",
       slug: "/add-post",
       active: authStatus,
-      variant: "secondary"
+      variant: "ghost"
     },
-
     {
       name: "Sign Up",
       slug: "/signup",
@@ -44,45 +48,95 @@ function Header() {
       active: !authStatus,
       variant: ""
     },
-
-
-  ]
+  ];
 
   return (
-    <header className='w-full sticky top-0 z-20 backdrop-blur-3xl shadow '>
-      <Card className='flex bg-white/60 justify-between items-center px-4 py-3 border-none rounded-none max-md:py-2 ,
-      dark:bg-black/70 '>
-        <Logo className="text-xl" />
+    <Navbar
+      onMenuOpenChange={(isOpen) => setIsMenuOpen(isOpen)}
+      isMenuOpen={isMenuOpen}
+      isBordered
+      maxWidth="full"
+      classNames={{
+        base: "bg-background/30 backdrop-blur-xl shadow-sm border-b border-default-200",
+        wrapper: "px-4 py-2",
+        menu: "",
+        item: "text-default-600 hover:bg-default-100/50 hover:text-default-600 focus-visible:ring-2 focus-visible:ring-default-600 focus-visible:ring-offset-2 focus-visible:ring-offset-background transition-all duration-200 ease-in-out",
 
-        <nav className='flex justify-evenly items-center border-none space-x-4
-        max-md:hidden'>
-          {navItems.map((item, index) => item.active ? (
-            <span key={index}>
-              <Button key={item.key} variant={item.variant} onClick={() => navigate(item.slug)}>
+      }}
+    >
+      <NavbarContent className="p-0" justify="start">
+        <NavbarBrand>
+          <Logo className="text-xl" />
+        </NavbarBrand>
+      </NavbarContent>
+
+      <NavbarContent className="hidden sm:flex gap-4" justify="end">
+        {navItems.map((item, index) =>
+          item.active ? (
+            <NavbarItem key={index} isActive={item.variant === "primary"}>
+              <Button
+                variant={item.variant || "flat"}
+                onClick={() => {
+                  navigate(item.slug);
+                  setIsMenuOpen(false);
+                }}
+                as={Link}
+                
+              >
                 {item.name}
               </Button>
-            </span>
+            </NavbarItem>
           ) : null
-          )}
+        )}
+        {/* <LogoutBtn /> */}
+        <div className="flex items-center gap-2 w-auto">
           <Search />
-          {
-            authStatus && (<>
-
-              <AvatarDropdown variant={'default'} />
-            </>)
-          }
+          {authStatus && <AvatarDropdown variant='default' />}
           <ThemeTogle />
-        </nav>
-        <div className='flex items-center md:hidden'>
-          <Search className='ring-0'/>
-        <MobileNavbar navItems={navItems} className='hidden max-md:flex' />
         </div>
+      </NavbarContent>
+
+      <div className="flex items-center gap-2 w-auto sm:hidden">
+        <Search className="ring-0 !bg-transparent  focus-visible:ring-0"/>
+        <NavbarMenuToggle
+          isOpen={isMenuOpen}
+          onChange={(isOpen) => setIsMenuOpen(isOpen)}
+          icon={isMenuOpen ? <X /> : <MenuIcon />}
+          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+          className="sm:hidden"
+        />
+      </div>
+
+
+
+      <NavbarMenu isOpen={isMenuOpen} className="sm:hidden h-full gap-6">
+        {navItems.map((item, index) =>
+          item.active ? (
+            <NavbarMenuItem key={`${item.name}-${index}`} className="w-full list-none">
+              <Button
+                className="w-full text-left justify-start text-lg font-poppins"
+                href={item.slug}
+                variant={item.variant || "flat"}
+                onClick={() => {
+                  setIsMenuOpen(false);
+                  navigate(item.slug);
+                }}
+              >
+                {item.name}
+              </Button>
+            </NavbarMenuItem>
+          ) : null
+        )}
+        <NavbarMenuItem className=" list-none justify-center w-full">
+          {authStatus && <AvatarDropdown variant='minimal' />}
+          
+        </NavbarMenuItem>
+        <NavbarMenuItem className="relative top-96 place-self-end flex flex-col gap-4 list-none justify-center w-full">
+          <LogoutBtn />
+          <ThemeTogle />
+        </NavbarMenuItem>
         
-
-      </Card>
-
-    </header>
-  )
+      </NavbarMenu>
+    </Navbar>
+  );
 }
-
-export default Header

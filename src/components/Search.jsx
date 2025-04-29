@@ -43,12 +43,13 @@ function Search({ externalQuery, className }) {
 
   return (
     <>
-      {externalQuery ? null : <Button
+      {externalQuery ? null : 
+      <Button
         onPress={onOpen}
         variant="light"
         isIconOnly
         radius="full"
-        className={`text-default-600 ring-1 ring-default-200 shadow-sm ${className} hover:bg-default-100/50 hover:text-default-600 focus-visible:ring-2 focus-visible:ring-default-600 focus-visible:ring-offset-2 focus-visible:ring-offset-background transition-all duration-200 ease-in-out`}
+        className={`text-default-600 ring-1 ring-default-200 shadow-sm hover:bg-default-100/50 hover:text-default-600 focus-visible:ring-2 focus-visible:ring-default-600 focus-visible:ring-offset-2 focus-visible:ring-offset-background transition-all duration-200 ease-in-out ${className}`}
       >
         <SearchIcon size={20} />
       </Button>}

@@ -70,7 +70,10 @@ function BlogCards({ variant, postData, index, className }) {
                                 <div className='flex items-center'>
                                     <Avatar className="h-6 w-6">
                                         <AvatarImage src={post.userProfile?.avatar || defaultImage} />
-                                        <AvatarFallback>{post.userProfile?.name || "?"}</AvatarFallback>
+                                        <AvatarFallback>{post.userProfile?.name || post.userProfile?.name.split(" ")
+                                            .map((n) => n[0])
+                                            .join("")
+                                            .toUpperCase() || "?"}</AvatarFallback>
                                     </Avatar>
                                     <span className="text-sm text-zinc-400">{post.userProfile?.name || "Unknown Author"}</span>
                                 </div>
@@ -150,7 +153,7 @@ function BlogCards({ variant, postData, index, className }) {
                 <Card className="border group hover:shadow-lg transition-shadow duration-300 ease-in-out">
                     <CardContent className="p-6 h-max flex justify-between w-full max-w-[1200px] gap-6 max-md:p-4 max-sm:flex-col max-sm:gap-4">
                         <div className="w-full flex flex-col justify-between space-y-2 order-2 max-sm:order-2">
-                            <div>
+                            <div className="flex flex-col gap-1">
                                 <h2 className="text-3xl h-max leading-snug font-bold group-hover:text-accent transition-colors tracking-wide max-sm:text-2xl line-clamp-2">
                                     {post.title || "Untitled"}
                                 </h2>
@@ -165,9 +168,20 @@ function BlogCards({ variant, postData, index, className }) {
                             </div>
 
 
-                            <div className="flex items-center gap-2 text-sm text-default-500">
+                            <div className="flex items-center justify-between gap-2 text-sm text-default-500">
+                                <div className='flex items-center text-sm gap-2'>
+                                    <Avatar className="h-6 w-6">
+                                        <AvatarImage src={post.userProfile?.avatar || defaultImage} />
+                                        <AvatarFallback>{post.userProfile?.name || post.userProfile?.name.split(" ")
+                                            .map((n) => n[0])
+                                            .join("")
+                                            .toUpperCase() || "?"}</AvatarFallback>
+                                    </Avatar>
+                                    <span className="text-sm text-zinc-400">{post.userProfile?.name || "Unknown Author"}</span>
+                                </div>
 
-                                <span>
+                                <div className="flex items-center gap-2 text-sm">
+
                                     {post.$createdAt
                                         ? new Date(post.$createdAt).toLocaleDateString('en-US', {
                                             year: 'numeric',
@@ -175,11 +189,12 @@ function BlogCards({ variant, postData, index, className }) {
                                             day: 'numeric',
                                         })
                                         : 'Date not available'}
-                                </span>
-                                <div className="flex items-center">
-                                    <ThumbsUp className="h-4 w-4 mr-1" />
-                                    {post.likes?.length || 0}
+                                    <h6 className='text-sm flex items-center'>
+                                        <ThumbsUp className="h-4 w-4 mr-1" />
+                                        {post.likes?.length || 0}
+                                    </h6>
                                 </div>
+
                             </div>
                         </div>
 

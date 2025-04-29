@@ -28,9 +28,9 @@ const AvatarCard = ({ userId, variant = "default" }) => {
   return (
     <Card
       className={`w-full p-4 transition-all duration-300 text-primary 
-        max-md:p-2 font-poppins
+        max-md: bg-transparent font-poppins
         ${variant === "minimal"
-          ? "w-full p-4 rounded-lg"
+          ? "w-5/6 mx-auto p-2 rounded-lg bg-background/20"
           : variant === "detailed"
             ? ""
             : "p-0 rounded-full w-min size-10"
@@ -38,9 +38,9 @@ const AvatarCard = ({ userId, variant = "default" }) => {
     >
       <CardContent className="p-0">
         <div className="flex flex-col items-center">
-          <div className="flex items-center gap-2">
+          <div className="flex self-start items-center gap-2 ">
             <Avatar>
-              <AvatarImage src={user.avatar} alt={user.name} />
+              <AvatarImage src={user.avatar} alt={user.name} className='p-0'/>
               <AvatarFallback>
                 {user.name
                   ? user.name
@@ -53,12 +53,12 @@ const AvatarCard = ({ userId, variant = "default" }) => {
             </Avatar>
 
             {variant !== 'default' && (
-              <Link onPress={() => navigate(`/${user.username}`)} className=" flex items-center gap-1 group">
-                <div className="flex flex-col">
-                  <h2 className="text-xl font-semibold group-hover:text-accent transition-colors">{user.name}</h2>
+              <div className="flex flex-col">
+                <h2 className="text-xl font-semibold group-hover:text-accent transition-colors">{user.name}</h2>
+                <Link onPress={() => navigate(`/${user.username}`)} className=" flex items-center gap-1 group">
                   <h4 onClick={() => navigate(`/${user.username}`)} className="text-sm font-light text-blue-600">@{user.username}</h4>
-                </div>
-              </Link>
+                </Link>
+              </div>
             )}
           </div>
           <div className="w-full flex-1 px-2">

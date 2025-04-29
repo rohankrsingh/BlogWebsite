@@ -70,7 +70,7 @@ export default function Post() {
 
   useEffect(() => {
     const fetchRecommendedPosts = async () => {
-      if (!post) return;
+      if (!post || post.tags?.length <= 0) return;
 
       const query = [
         Query.select(["title", "featuredImage", "userId", "tags", "likesCount", "$id", "$createdAt"]),
@@ -190,10 +190,15 @@ export default function Post() {
           <Card className="col-span-12 md:col-span-8 max-md:rounded-none max-md:bg-card">
             <Container>
               <div className="w-full flex justify-center relative rounded-t-xl max-md:rounded-t-none">
-                <img
+                <Image
                   src={appwriteService.getFilePreview(post.featuredImage)}
                   alt={post.title}
-                  className="rounded-t-xl object-contain max-md:rounded-t-none"
+                  isBlurred
+                  classNames={{
+                    wrapper: "rounded-t-xl max-md:rounded-t-none w-full !max-w-full ",
+                    img: "rounded-none rounded-t-xl max-md:rounded-t-none max-w-full w-full  object-cover !max-h-[400px]",
+                  }}
+                  className="rounded-t-xl max-h-[450px] max-w-full object-cover max-md:rounded-t-none"
                 />
                 {isAuthor && (
                   <div className="absolute right-6 top-6">
@@ -225,12 +230,12 @@ export default function Post() {
           {/* Recomended Posts */}
           <div className="col-span-12 md:col-span-3 space-y-6 mx-2">
             <AvatarCard userId={post.userId} variant="detailed" />
-            {recommendedPosts.length > 0 && (
+            {recommendedPosts?.length > 0 && (
               <div className="flex flex-col">
                 <h3 className="font-poppins max-md:mx-3">You might like</h3>
                 <div className="py-4 flex overflow-visible max-md:overflow-x-auto space-y-4 max-md:grid max-md:grid-cols-1">
                   <div className="max-md:grid grid-flow-col auto-cols-[280px] gap-4 max-md:px-2 space-y-4 max-md:space-y-0">
-                    {recommendedPosts.map((recommendedPost, index) => (
+                    {recommendedPosts?.map((recommendedPost, index) => (
                       <BlogCards key={index} postData={recommendedPost} variant="compact" />
                     ))}
                   </div>
