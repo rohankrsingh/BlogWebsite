@@ -32,7 +32,6 @@ function SideInfoBar({ className, likes, isLiked, slug, onLikeUpdate }) {
             if (authStatus && userData) {
                 try {
                     const posts = await service.getUserProfile(userData.$id, "liked");
-                    console.log("Fetched liked posts:", posts.liked);
                     
                     setLikedPosts(posts.liked || []);
                 } catch (error) {
