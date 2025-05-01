@@ -27,7 +27,7 @@ function Tags({ tags, className, isSearchable = true }) {
                     key={index}
                     className={className}
                 >
-                    <p>
+                    <p className="flex items-center gap-2 text-sm font-medium text-default-600 hover:text-default-700 ">
                         <span className={getRandomColorClass()}>#</span>{tag}
                     </p>
                 </Button>

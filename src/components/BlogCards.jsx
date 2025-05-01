@@ -123,7 +123,7 @@ function BlogCards({ variant, postData, index, className }) {
             <Link href={`/post/${post.$id}`} className="flex gap-4 group p-2">
                 <div className="flex-1 space-y-2">
                     <h3 className="font-bold group-hover:text-accent transition-colors">{post.title || "Untitled"}</h3>
-                    <div className='flex space-x-2'>
+                    <div className='flex gap-2 flex-wrap'>
                         <Tags tags={post.tags} isSearchable={false} className='p-1 rounded-md h-auto' />
                     </div>
 

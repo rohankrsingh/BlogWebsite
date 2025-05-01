@@ -96,13 +96,13 @@ export default function PostForm({ post }) {
     }, [watch, slugTransform, setValue]);
 
     const handleTagInput = (e) => {
-        if (e.key === " " && e.target.value.trim() !== "") {
-            setTags([...tags, e.target.value.trim()]);
+        const value = e.target.value;
+        if (value.endsWith(" ") && value.trim() !== "") {
+            setTags([...tags, value.trim()]);
             setValue("tags", "");
             e.target.value = "";
         }
-        console.log(tags)
-    };
+    };    
 
     const removeTag = (index) => {
         setTags(tags.filter((_, i) => i !== index));
@@ -177,7 +177,7 @@ export default function PostForm({ post }) {
                             label="Tags :"
                             placeholder="Add a tag and press space"
                             className="mb-4"
-                            onKeyDown={handleTagInput}
+                            onInput={handleTagInput}
                         />
 
                         <RTE label="" name="content" control={control} defaultValue={getValues("content")} />

@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { Link} from "@heroui/react";
+import { Link } from "@heroui/react";
 import { Button } from "../ui";
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenu, NavbarMenuItem, NavbarMenuToggle } from "@heroui/navbar";
 
@@ -81,7 +81,7 @@ export default function Header() {
                   setIsMenuOpen(false);
                 }}
                 as={Link}
-                
+
               >
                 {item.name}
               </Button>
@@ -97,7 +97,7 @@ export default function Header() {
       </NavbarContent>
 
       <div className="flex items-center gap-2 w-auto sm:hidden">
-        <Search className="ring-0 !bg-transparent  focus-visible:ring-0"/>
+        <Search className="ring-0 !bg-transparent  focus-visible:ring-0" />
         <NavbarMenuToggle
           isOpen={isMenuOpen}
           onChange={(isOpen) => setIsMenuOpen(isOpen)}
@@ -109,7 +109,7 @@ export default function Header() {
 
 
 
-      <NavbarMenu isOpen={isMenuOpen} className="sm:hidden h-full gap-6">
+      <NavbarMenu isOpen={isMenuOpen} className="sm:hidden h-full gap-6 py-6">
         {navItems.map((item, index) =>
           item.active ? (
             <NavbarMenuItem key={`${item.name}-${index}`} className="w-full list-none">
@@ -129,13 +129,13 @@ export default function Header() {
         )}
         <NavbarMenuItem className=" list-none justify-center w-full">
           {authStatus && <AvatarDropdown variant='minimal' />}
-          
+
         </NavbarMenuItem>
-        <NavbarMenuItem className="relative top-96 place-self-end flex flex-col gap-4 list-none justify-center w-full">
-          <LogoutBtn />
+        <NavbarMenuItem className="relative top-96 place-self-end flex space-x-4 gap- list-none justify-center w-full">
+          <LogoutBtn className='text-lg rounded-full' />
           <ThemeTogle />
         </NavbarMenuItem>
-        
+
       </NavbarMenu>
     </Navbar>
   );

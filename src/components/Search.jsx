@@ -55,7 +55,7 @@ function Search({ externalQuery, className }) {
       </Button>}
 
 
-      <Modal isOpen={isOpen} onOpenChange={() => onOpenChange(false)} size="2xl" backdrop="blur">
+      <Modal isOpen={isOpen} placement='center' scrollBehavior='inside' onOpenChange={() => onOpenChange(false)} size="2xl" backdrop="blur">
         <ModalContent className="p-4 min-h-[50vh] bg-background/30 backdrop-blur-xl">
           <ModalHeader>
             <Input

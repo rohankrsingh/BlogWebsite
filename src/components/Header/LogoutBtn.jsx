@@ -1,21 +1,21 @@
 import React from 'react'
-import {useDispatch} from 'react-redux'
+import { useDispatch } from 'react-redux'
 import authService from '../../appwrite/auth'
-import {logout} from '../../store/authSlice'
+import { logout } from '../../store/authSlice'
 import { Button } from '../ui'
 import { useNavigate } from 'react-router-dom'
 
 function LogoutBtn() {
-    const dispatch = useDispatch()
-    const navigate = useNavigate()
-    const logoutHandler = () => {
-        authService.logout().then(() => {
-            dispatch(logout())
-            navigate('/')
-        })
-    }
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const logoutHandler = () => {
+    authService.logout().then(() => {
+      dispatch(logout())
+      navigate('/')
+    })
+  }
   return (
-    <Button onClick={logoutHandler} className="w-full">
+    <Button onClick={logoutHandler} className="w-full text-lg py-4 font-light">
       Logout
     </Button>
   )
