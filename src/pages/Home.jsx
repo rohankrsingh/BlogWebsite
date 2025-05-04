@@ -16,7 +16,7 @@ function Home() {
 
     const latestQuery = [
         Query.orderDesc('$createdAt'),
-        Query.limit(10),
+        Query.limit(6),
     ];
 
     const featuredQuery = [

@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { addToast, Card } from "@heroui/react";
-import { MapPin, Calendar, Hash, ThumbsUp } from "lucide-react";
+import { MapPin, Calendar, ThumbsUp, BookText } from "lucide-react";
 import { Avatar, ScrollShadow } from "@heroui/react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -61,17 +61,17 @@ function UserProfile({ name, avatar, bio, location, createdAt, website, isAuthor
   );
 }
 
-function UserStats({ liked }) {
+function UserStats({ liked, posts }) {
   return (
     <Card className="w-full flex flex-row items-center justify-between p-6">
       <p className="flex items-center gap-2 text-default-600">
-        <ThumbsUp /> {liked?.length} posts liked
+        <ThumbsUp /> {liked?.length || 0} posts liked
       </p>
-      <p className="flex items-center gap-2 text-default-600">
+      {/* <p className="flex items-center gap-2 text-default-600">
         <span>💬</span> 0 comments written
-      </p>
+      </p> */}
       <p className="flex items-center gap-2 text-default-600">
-        <Hash size={16} /> 7 tags followed
+        <BookText size={16} /> {posts?.length || 0} posts written
       </p>
     </Card>
   );
@@ -165,27 +165,27 @@ export default function User() {
           const posts = await service.getPosts(query);
           setUserPosts(posts.documents);
           console.log(posts.documents);
-          
+
         } catch (error) {
           console.error("Error fetching user posts:", error);
           setError("Error fetching user posts");
         }
       }
-      };
-      
-      if (user) {
-        fetchUserPosts();
-        fetchLikedPosts();
-      }
+    };
 
-      if (error) {
-        addToast({
-          title: "Error",
-          message: error,
-          type: "error",
-        });
-      }
-    }, [user]);
+    if (user) {
+      fetchUserPosts();
+      fetchLikedPosts();
+    }
+
+    if (error) {
+      addToast({
+        title: "Error",
+        message: error,
+        type: "error",
+      });
+    }
+  }, [user]);
 
   if (!user) {
 
@@ -207,7 +207,7 @@ export default function User() {
           website={website}
           isAuthor={isAuthor}
         />
-        <UserStats liked={liked} />
+        <UserStats liked={liked} posts={userPosts}/>
         <LikedPosts liked={likedPosts} />
         <Separator />
         <UserPosts posts={userPosts} />
