@@ -3,8 +3,6 @@ import { addToast } from "@heroui/react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import appwriteService from "../appwrite/config";
 import { Container } from "../components";
-import { Prism as Code } from "react-syntax-highlighter";
-import { nightOwl } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { useSelector } from "react-redux";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -13,7 +11,6 @@ import { Button } from "../components/ui/index";
 import { Card, Image } from "@heroui/react";
 import ScrollProgress from "../components/ui/scroll-progress";
 import SideInfoBar from "../components/SideInfoBar";
-import { ScrollArea, ScrollBar } from "../components/ui/scroll-area";
 import Tags from "../components/ui/Tags";
 import { motion } from 'framer-motion';
 import Loader from "@/components/Loader";
@@ -21,7 +18,7 @@ import AvatarCard from "@/components/AvatarCard";
 import service from "../appwrite/config";
 import { Query } from "appwrite";
 import BlogCards from "@/components/BlogCards";
-
+import markdownElements from "@/components/markdownElements";
 export default function Post() {
   const [post, setPost] = useState("");
   const [recommendedPosts, setRecommendedPosts] = useState([]);
@@ -34,7 +31,9 @@ export default function Post() {
   const [error, setError] = useState(null);
 
   const isAuthor = post && userData ? post.userId === userData.$id : false;
-
+  console.log("Post Author ID:", post.userId);
+  console.log("Current User ID:", userData ? userData.$id : "No user data");
+  
   useEffect(() => {
     const fetchPost = async () => {
       if (slug) {
@@ -119,42 +118,6 @@ export default function Post() {
     }
   };
 
-  const renderCodeBlock = ({ inline, className, children }) => {
-    const language = className ? className.replace("language-", "") : "javascript";
-    return !inline ? (
-      <ScrollArea className="whitespace-nowrap rounded-md border">
-        <Code
-          language={language}
-          style={nightOwl}
-          customStyle={{
-            margin: '0',
-            borderRadius: '0.5rem',
-            backgroundColor: 'black',
-            overflow: 'auto',
-          }}
-          wrapLongLines={true}
-        >
-          {String(children).trim()}
-        </Code>
-        <ScrollBar orientation="horizontal" />
-      </ScrollArea>
-    ) : (
-      <code className={className}>{children}</code>
-    );
-  };
-
-  const markdownElements = {
-    code: renderCodeBlock,
-    h1: ({ children }) => <h1 className="text-3xl">{children}</h1>,
-    h2: ({ children }) => <h2 className="text-2xl font-semibold">{children}</h2>,
-    p: ({ children }) => <p className="text-lg font-light tracking-wide mb-4">{children}</p>,
-    a: ({ href, children }) => (
-      <a href={href} className="text-blue-500 hover:underline">{children}</a>
-    ),
-    img: ({ src, alt }) => <Image src={src} alt={alt} className="rounded-small z-0" />,
-    strong: ({ children }) => <strong className="text-xl font-bold">{children}</strong>,
-  };
-
   if (loading) return <div className="text-center"><Loader /></div>;
   if (error) addToast({
     title: "Error",
@@ -195,7 +158,7 @@ export default function Post() {
                   alt={post.title}
                   isBlurred
                   classNames={{
-                    wrapper: "rounded-t-xl max-md:rounded-t-none w-full !max-w-full ",
+                    wrapper: "rounded-t-xl max-md:rounded-t-none w-full !max-w-full z-0",
                     img: "rounded-none rounded-t-xl max-md:rounded-t-none max-w-full w-full  object-cover !max-h-[400px]",
                   }}
                   className="rounded-t-xl max-h-[450px] max-w-full object-cover max-md:rounded-t-none"
