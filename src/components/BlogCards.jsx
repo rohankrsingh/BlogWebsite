@@ -7,6 +7,7 @@ import { Image } from '@heroui/react';
 import { Card } from '@heroui/react';
 import appwriteService from "../appwrite/config"
 import Tags from './ui/Tags';
+import PropTypes from 'prop-types';
 
 function BlogCards({ variant, postData, index, className }) {
     const [post] = useState(postData || {});
@@ -213,5 +214,12 @@ function BlogCards({ variant, postData, index, className }) {
     }
     return <div>BlogCards</div>;
 }
+
+BlogCards.propTypes = {
+    variant: PropTypes.oneOf(['featured', 'compact', 'grid', 'list', 'main']).isRequired,
+    postData: PropTypes.object.isRequired,
+    index: PropTypes.number,
+    className: PropTypes.string,
+};
 
 export default BlogCards;

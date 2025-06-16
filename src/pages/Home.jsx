@@ -1,52 +1,27 @@
-import React, { useEffect, useState } from 'react';
-import appwriteService from "../appwrite/config";
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchHomePosts } from '../store/postSlice';
 import { Container } from '../components';
 import BlogCards from '../components/BlogCards';
-import { Query } from 'appwrite';
 import { Separator } from '../components/ui';
 import { motion } from 'framer-motion';
 import Loader from '@/components/Loader';
 
 function Home() {
-    const [posts, setPosts] = useState({
-        latest: [],
-        featured: [],
-    });
-    const [loading, setLoading] = useState(true);
-
-    const latestQuery = [
-        Query.orderDesc('$createdAt'),
-        Query.limit(6),
-    ];
-
-    const featuredQuery = [
-        Query.orderDesc('likesCount'),
-        Query.limit(3),
-    ];
+    const dispatch = useDispatch();
+    const { homePosts, status } = useSelector((state) => state.posts);
 
     useEffect(() => {
-        const fetchPosts = async () => {
-            try {
-                const latest = await appwriteService.getPosts(latestQuery);
-                const featured = await appwriteService.getPosts(featuredQuery);
-                setPosts({
-                    latest: latest ? latest.documents : [],
-                    featured: featured ? featured.documents : [],
-                });
-            } catch (error) {
-                console.error('Error fetching posts:', error);
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetchPosts();
-    }, []);
+        if (!homePosts) {
+            dispatch(fetchHomePosts());
+        }
+    }, [dispatch, homePosts]);
 
-    if (loading) {
+    if (status === 'loading' || !homePosts) {
         return <Loader />;
     }
 
-    if (posts.latest.length === 0) {
+    if (homePosts.latest.length === 0) {
         return (
             <div className="w-full py-8 mt-4 text-center">
                 <Container>
@@ -74,7 +49,7 @@ function Home() {
                     <div className="h-min grid grid-cols-1 lg:grid-cols-12 lg:grid-rows-2 gap-6">
                         <div className="grid space-y-6 col-span-7 row-span-1 max-md:order-1">
                             {
-                                posts.featured.slice(0, 1).map((post, index) => (
+                                homePosts.featured.slice(0, 1).map((post, index) => (
                                     <div key={index} className='h-full'>
                                         <BlogCards postData={post} variant='featured' />
                                     </div>
@@ -86,10 +61,10 @@ function Home() {
                             <h2 className="text-2xl font-bold">Latest</h2>
                             <div className="space-y-6">
                                 {
-                                    posts.latest.map((post, index) => (
+                                    homePosts.latest.map((post, index) => (
                                         <div key={index}>
                                             <BlogCards postData={post} variant='grid' index={index + 1} />
-                                            {index < posts.latest.length - 1 && (
+                                            {index < homePosts.latest.length - 1 && (
                                                 <Separator orientation="horizontal" className="my-2" />
                                             )}
                                         </div>
@@ -99,7 +74,7 @@ function Home() {
                         </div>
                         <div className="grid grid-cols-[repeat(2,minmax(0,1fr))] col-span-7 row-span-1 gap-4 max-sm:grid-cols-1 max-md:order-2">
                             {
-                                posts.latest.slice(1, 3).map((post, index) => (
+                                homePosts.latest.slice(1, 3).map((post, index) => (
                                     <div key={index} className='col-span-1'>
                                         <BlogCards postData={post} variant='compact' />
                                     </div>

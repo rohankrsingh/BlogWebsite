@@ -202,7 +202,7 @@ export class Service {
                 "user",
                 userId,
                 [
-                    Query.select(attributes ? attributes : [])
+                    attributes ? Query.select( attributes ) : []
                 ]
             );
         } catch (error) {

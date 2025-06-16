@@ -30,6 +30,11 @@ export default function Profile() {
     const [userProfile, setUserProfile] = useState(null);
     const logedinUser = useSelector((state) => state.auth.userData);
 
+    // Prevent error if user is not loaded
+    if (!logedinUser) {
+        return <Loader />;
+    }
+
     const form = useForm({
         resolver: zodResolver(profileFormSchema),
         defaultValues: {
