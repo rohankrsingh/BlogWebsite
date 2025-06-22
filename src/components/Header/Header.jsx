@@ -27,7 +27,7 @@ export default function Header() {
     {
       name: "All Posts",
       slug: "/all-posts",
-      active: authStatus,
+      active: true,
       variant: "primary"
     },
     {
@@ -132,7 +132,7 @@ export default function Header() {
 
         </NavbarMenuItem>
         <NavbarMenuItem className="relative top-96 place-self-end flex space-x-4 gap- list-none justify-center w-full">
-          <LogoutBtn className='text-lg rounded-full' />
+          { authStatus &&  <LogoutBtn className='text-lg rounded-full' /> }
           <ThemeTogle />
         </NavbarMenuItem>
 

@@ -83,8 +83,8 @@ function LikedPosts({ liked }) {
       <h3 className="text-xl font-semibold my-4">Posts Liked</h3>
       <ScrollShadow orientation="horizontal" className="max-h-[50vh] w-full columns-2  max-md:columns-1 max-sm:columns-xs">
         {liked && liked.length > 0 ? (
-          liked.map((post) => (
-            <div className="col-span-1">
+          liked.map((post, key) => (
+            <div className="col-span-1" key={key}>
               <BlogCards variant="list" postData={post} />
             </div>
           ))
@@ -128,7 +128,7 @@ export default function User() {
     const fetchUserProfile = async () => {
       if (username) {
         try {
-          const profile = await service.getUsernames(username, "", 1);
+          const profile = await service.getUsernames(username, "", "");
           setUser(profile[0]);
 
         } catch (error) {
@@ -146,7 +146,7 @@ export default function User() {
         try {
           const posts = await service.getLikedPost(user.liked);
           setLikedPosts(posts.documents);
-          console.log(posts);
+          // console.log(posts);
 
         } catch (error) {
           console.error("Error fetching liked posts:", error);
@@ -164,7 +164,6 @@ export default function User() {
           ];
           const posts = await service.getPosts(query);
           setUserPosts(posts.documents);
-          console.log(posts.documents);
 
         } catch (error) {
           console.error("Error fetching user posts:", error);
@@ -193,7 +192,7 @@ export default function User() {
   }
 
   const { name, avatar, bio, location, createdAt, website, liked } = user;
-  console.log(user);
+
   return (
     <div className="min-h-screen relative flex flex-col items-center">
       <div className="w-full h-32 bg-accent absolute z-0"></div>

@@ -163,7 +163,7 @@ export class Service {
                 conf.appwriteDatabaseId,
                 "user",
                 [
-                    Query.select(attributes ? attributes : selectall ? [] : ["$id", "username"]),
+                    // Query.select(attributes ? attributes : selectall ? [] : ["$id", "username"]),
                     Query.contains("username", [username])
                 ]
             );
