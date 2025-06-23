@@ -7,7 +7,7 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import BaseLayout from './BaseLayout';
 import { AnimatePresence, motion } from 'framer-motion';
 import Loader from './components/Loader';
-import { addToast, ToastProvider } from "@heroui/react";
+import { ToastProvider } from "@heroui/react";
 import "@fontsource/poppins";
 import "@fontsource/poppins/400.css";
 import "@fontsource/poppins/700.css";

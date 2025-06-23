@@ -108,7 +108,7 @@ function UserPosts({ posts }) {
             </div>
           ))
         ) : (
-          <p>You haven't written any posts yet.</p>
+          <p>You haven&apos;t written any posts yet.</p>
         )}
       </ScrollShadow>
     </div>
@@ -206,7 +206,7 @@ export default function User() {
           website={website}
           isAuthor={isAuthor}
         />
-        <UserStats liked={liked} posts={userPosts}/>
+        <UserStats liked={liked} posts={userPosts} />
         <LikedPosts liked={likedPosts} />
         <Separator />
         <UserPosts posts={userPosts} />

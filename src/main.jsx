@@ -5,7 +5,7 @@ import './index.css'
 import { Provider } from 'react-redux'
 import store from './store/store.js'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
-import { AuthLayout, LoginComponent } from './components/index.js'
+import { AuthLayout } from './components/index.js'
 import { ThemeProvider } from "@/components/theme-provider"
 import Loader from './components/Loader.jsx'
 
