@@ -17,7 +17,10 @@ import "@fontsource/open-sans/700.css";
 import "@fontsource/source-code-pro";
 import "@fontsource/source-code-pro/400.css";
 import "@fontsource/source-code-pro/700.css";
-// import 'typeface-comic-sans';
+import "@fontsource/comic-neue";
+import "@fontsource/comic-neue/400.css";
+import "@fontsource/comic-neue/700.css";
+
 import { HeroUIProvider } from '@heroui/system';
 
 function App() {
@@ -47,7 +50,21 @@ function App() {
 
   useEffect(() => {
     document.documentElement.style.setProperty('--accent', prefs.accentColor);
-    document.documentElement.style.setProperty('--font-family', prefs.font || "system");
+
+    // let fontFamily = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif";
+    // if (prefs.font === "ComicSans") {
+    //   fontFamily = "'Comic Neue', cursive";
+    // } else if (prefs.font === "Poppins") {
+    //   fontFamily = "'Poppins', sans-serif";
+    // } else if (prefs.font === "Open Sans") {
+    //   fontFamily = "'Open Sans', sans-serif";
+    // } else if (prefs.font === "monospace") {
+    //   fontFamily = "'Source Code Pro', monospace";
+    // } else if (prefs.font === "serif") {
+    //   fontFamily = "serif";
+    // }
+
+    document.documentElement.style.setProperty('--font-family', prefs.font);
     document.documentElement.style.setProperty('dark', prefs.theme);
 
   }, [prefs]);

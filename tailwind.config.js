@@ -22,7 +22,7 @@ export default {
 				poppins: ["Poppins", "sans-serif"],
 				sourceCode: ["Source Code Pro", "monospace"],
 				sans: ["Open Sans", "sans-serif"],
-				ComicSans: ["Comic Sans Ms", "Open Sans", "sans-serif"],
+				ComicSans: ["Comic Neue", "cursive"], 
 			},
 			lists: [
 				'list-style-type: disc'

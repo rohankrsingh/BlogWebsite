@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types'
-import logo from '../assets/logo.svg'
 import { useTheme } from './theme-provider'
 import { Link } from '@heroui/link'
 

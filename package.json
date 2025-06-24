@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@fontsource/comic-neue": "^5.2.6",
     "@fontsource/open-sans": "^5.1.1",
     "@fontsource/poppins": "^5.1.1",
     "@fontsource/source-code-pro": "^5.1.1",
