@@ -18,7 +18,7 @@ const FormSchema = z.object({
         required_error: "You need to select a theme.",
     }),
     font: z.enum([
-        "", "Comic Neue", "monospace", "Open Sans", "Poppins", "serif"
+        "", "Comic Neue", "monospace", "Open Sans", "Poppins", "Source Code Pro"
     ], {
         required_error: "You need to select a font.",
     }),
@@ -36,7 +36,7 @@ const fontOptions = [
     { value: "monospace", label: <p className="font-mono">Monospace</p> },
     { value: "Open Sans", label: <p className="font-sans">Open Sans</p> },
     { value: "Poppins", label: <p className="font-poppins">Poppins</p> },
-    { value: "serif", label: <p className="font-serif">Serif</p> },
+    { value: "Source Code Pro", label: <p className="font-SourceCode">Source Code Pro</p> },
 ];
 
 const accentColors = [

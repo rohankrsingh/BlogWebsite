@@ -20,7 +20,7 @@ export default {
 			fontFamily: {
 				system: ["-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "Helvetica Neue", "Arial", "sans-serif"],
 				poppins: ["Poppins", "sans-serif"],
-				sourceCode: ["Source Code Pro", "monospace"],
+				SourceCode: ["Source Code Pro", "monospace"],
 				sans: ["Open Sans", "sans-serif"],
 				ComicSans: ["Comic Neue", "cursive"], 
 			},

@@ -50,20 +50,6 @@ function App() {
 
   useEffect(() => {
     document.documentElement.style.setProperty('--accent', prefs.accentColor);
-
-    // let fontFamily = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif";
-    // if (prefs.font === "ComicSans") {
-    //   fontFamily = "'Comic Neue', cursive";
-    // } else if (prefs.font === "Poppins") {
-    //   fontFamily = "'Poppins', sans-serif";
-    // } else if (prefs.font === "Open Sans") {
-    //   fontFamily = "'Open Sans', sans-serif";
-    // } else if (prefs.font === "monospace") {
-    //   fontFamily = "'Source Code Pro', monospace";
-    // } else if (prefs.font === "serif") {
-    //   fontFamily = "serif";
-    // }
-
     document.documentElement.style.setProperty('--font-family', prefs.font);
     document.documentElement.style.setProperty('dark', prefs.theme);
 
