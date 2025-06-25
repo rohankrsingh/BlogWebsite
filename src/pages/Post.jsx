@@ -39,6 +39,7 @@ export default function Post() {
           const fetchedPost = await appwriteService.getPost(slug);
           if (fetchedPost) {
             setPost(fetchedPost);
+            console.log(post.userProfile.username)
             setLikes(fetchedPost.likes);
             setLiked(fetchedPost.likes.includes(userData?.$id));
           } else {
@@ -115,11 +116,6 @@ export default function Post() {
   };
 
   if (loading) return <div className="text-center"><Loader /></div>;
-  if (error) addToast({
-    title: "Error",
-    description: "Failed to load post.",
-    color: "error",
-  });
 
   return post ? (
     <motion.div
@@ -145,6 +141,7 @@ export default function Post() {
               });
               setLiked(userLiked);
             }}
+            postAuthor={post.userProfile.username}
           />
           <Card className="col-span-12 md:col-span-8 max-md:rounded-none max-md:bg-card">
             <Container>

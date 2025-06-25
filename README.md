@@ -15,16 +15,17 @@ A modern, full-stack blog platform built with **React**, **Redux Toolkit**, **Ap
   - **Editor’s Picks**: Curated posts marked by editors.
 - **Likes**: Users can like posts; like counts are displayed and used for featured sorting.
 - **User Profiles**: View and edit profile info, including avatar selection.
-- **Theming**: Light/dark mode and accent color customization.
+- **Search**: Full-text search feature to find posts quickly.
+- **Theming**: Light/dark mode, accent color customization, and font change in reading posts.
 - **Responsive Design**: Mobile-first, adaptive layouts.
-- **Modern UI**: Built with Tailwind CSS, HeroUI components, and Framer Motion animations.
+- **Modern UI**: Built with Tailwind CSS, HeroUI components, Framer Motion animations, and shadcn UI.
 - **Client-side Tag Aggregation**: Tags are extracted from posts on the client for filtering and display.
 
 ---
 
 ## 🛠️ Tech Stack
 
-- **Frontend**: React, Redux Toolkit, HeroUI, Framer Motion
+- **Frontend**: React, Redux Toolkit, HeroUI, Framer Motion, shadcn UI, react-hook-form, zod
 - **Backend/Services**: Appwrite (Database, Auth, Storage)
 - **Styling**: Tailwind CSS, PostCSS
 - **Build Tool**: Vite
@@ -80,6 +81,7 @@ All sections are powered by Redux and Appwrite queries for efficient data fetchi
 ## 📝 Post Features
 
 - **Markdown Editor**: Rich text editing for posts.
+- **Switchable Modes**: While writing posts, you can easily switch between Markdown and Normal (WYSIWYG) mode for flexible editing.
 - **CRUD Operations**: Create, read, update, delete posts (with Appwrite DB).
 - **Likes**: Like/unlike posts, with real-time count updates.
 - **Tagging**: Add tags to posts; tags are used for filtering and discovery.
