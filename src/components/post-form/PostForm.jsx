@@ -5,9 +5,7 @@ import { Button, Input, Label, Card } from "../ui/index";
 import {
     Select,
     SelectContent,
-    SelectGroup,
     SelectItem,
-    SelectLabel,
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
@@ -57,7 +55,6 @@ export default function PostForm({ post }) {
                 data.featuredImage = fileId;
                 // data.tags = tags;
                 data.userId = userData.$id;
-                console.log(data);
 
                 const dbPost = await appwriteService.createPost({ ...data });
 
@@ -76,14 +73,14 @@ export default function PostForm({ post }) {
                 .replace(/[^a-zA-Z\d\s]+/g, "_") // Replace invalid chars with underscores
                 .replace(/^\_+/, "") // Remove leading underscores
                 .replace(/\s+/g, "_"); // Replace spaces with underscores
-    
+
             // Ensure the UID is at most 36 characters
             return transformed.slice(0, 36);
         }
-    
+
         return "";
     }, []);
-    
+
 
     React.useEffect(() => {
         const subscription = watch((value, { name }) => {
@@ -98,11 +95,15 @@ export default function PostForm({ post }) {
     const handleTagInput = (e) => {
         const value = e.target.value;
         if (value.endsWith(" ") && value.trim() !== "") {
-            setTags([...tags, value.trim()]);
-            setValue("tags", "");
-            e.target.value = "";
+            if (tags.length < 4) {
+                setTags([...tags, value.trim()]);
+                setValue("tags", "");
+                e.target.value = "";
+            } else {
+                // Optionally show a toast or warning here
+            }
         }
-    };    
+    };
 
     const removeTag = (index) => {
         setTags(tags.filter((_, i) => i !== index));
@@ -137,12 +138,12 @@ export default function PostForm({ post }) {
 
                     </div>
 
-                    <div className="max-md:w-[90vw]  space-y-4">
+                    <div className="max-md:w-[90vw] space-y-4">
 
                         <Input
                             label="Slug :"
                             type="text"
-                            placeholder="Slug"
+                            placeholder="Unique URL-friendly identifier (auto-generated from title)"
                             className="!ring-0 outline-none font-normal shadow-none !text-2xl placeholder:text-2xl max-md:placeholder:text-xl"
                             {...register("slug", { required: true })}
                             onInput={(e) => {
@@ -152,7 +153,7 @@ export default function PostForm({ post }) {
                         <Input
                             label="Title :"
                             type="text"
-                            placeholder="Add your post title here..."
+                            placeholder="Enter a catchy post title (required)"
                             className="!ring-0 outline-none border-none font-normal shadow-none line-clamp-3  !text-4xl placeholder:text-4xl max-md:placeholder:text-3xl"
                             {...register("title", { required: true })}
 
@@ -172,10 +173,9 @@ export default function PostForm({ post }) {
                                 </span>
                             ))}
                         </div>
-
                         <Input
                             label="Tags :"
-                            placeholder="Add a tag and press space"
+                            placeholder="Type a tag without # and press space (max 4, first is highest priority)"
                             className="mb-4"
                             onInput={handleTagInput}
                         />
@@ -187,7 +187,12 @@ export default function PostForm({ post }) {
                 </Card>
                 <Card className='flex flex-col items-center p-4 space-y-4 ,
                  max-lg:col-span-full max-lg:w-full '>
-
+                    <div className="w-full mb-2 text-center text-foreground-600 text-base">
+                        {/* Instructions for adding posts */}
+                        <p>
+                            <strong>Instructions:</strong> Fill in the post details, add tags by typing and pressing space, select the post status, and click {post ? 'Update' : 'Submit'} to {post ? 'update' : 'create'} your post.
+                        </p>
+                    </div>
                     <Select value={register.status} // Integrate React Hook Form's state
                         onValueChange={(value) => setValue("status", value)}
                         className='w-full'
@@ -198,11 +203,8 @@ export default function PostForm({ post }) {
                         <SelectContent>
                             <SelectItem value="active">Active</SelectItem>
                             <SelectItem value="inactive">Inactive</SelectItem>
-
                         </SelectContent>
                     </Select>
-
-
                     <Button type="submit" className="w-full">
                         {post ? "Update" : "Submit"}
                     </Button>

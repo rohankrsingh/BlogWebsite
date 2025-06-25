@@ -117,7 +117,6 @@ function LoginComponent() {
                         <Button className='w-1/2 h-10 rounded-3xl' onClick={async () => {
                             try {
                                 await authService.loginGoogle();
-                                console.log("Logged in successfully!");
                             } catch (error) {
                                 console.error("Error logging in:", error);
                             }

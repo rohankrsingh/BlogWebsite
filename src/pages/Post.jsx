@@ -31,8 +31,6 @@ export default function Post() {
   const [error, setError] = useState(null);
 
   const isAuthor = post && userData ? post.userId === userData.$id : false;
-  console.log("Post Author ID:", post.userId);
-  console.log("Current User ID:", userData ? userData.$id : "No user data");
   
   useEffect(() => {
     const fetchPost = async () => {
@@ -43,8 +41,6 @@ export default function Post() {
             setPost(fetchedPost);
             setLikes(fetchedPost.likes);
             setLiked(fetchedPost.likes.includes(userData?.$id));
-            console.log(post.$id);
-
           } else {
             navigate("/");
           }

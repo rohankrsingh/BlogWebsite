@@ -34,7 +34,6 @@ function AllPosts() {
             const total = await appwriteService.getPosts([Query.equal("status", "active"), Query.select(["$id"])]);
             if (response) {
                 setPosts(response.documents);
-                console.log(response.documents[3].userProfile.avatar);
                 
                 setTotalPages(Math.ceil(total.total / postsPerPage));
             }

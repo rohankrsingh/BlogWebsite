@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
 import { Card } from "@heroui/react";
 import authService from "@/appwrite/auth";
+import { addToast } from "@heroui/react";
 
 const formSchema = z
   .object({
@@ -43,12 +44,18 @@ export default function Account() {
   const onSubmit = async (values) => {
     try {
       await authService.updateAccountPassword(values.password, values.currentPassword);
-      console.log("password changed");
-      
+      addToast({
+        title: "Password Updated",
+        description: "Your password has been updated successfully.",
+        color: "success",
+      });
     } catch (error) {
-        console.log(error.message)
+      addToast({
+        title: "Error",
+        description: "Failed to update password. Please check your current password and try again.",
+        color: "danger",
+      });
     }
-
   };
 
   return (

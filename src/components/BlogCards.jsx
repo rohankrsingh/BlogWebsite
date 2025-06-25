@@ -27,9 +27,9 @@ function BlogCards({ variant, postData, index, className }) {
                         removeWrapper
                         className="w-full h-full  col-span-1 object-cover z-0 rounded-small"
                     />
-                    <CardContent className="p-6 col-span-1 max-sm:p-2">
-                        <div className="space-y-4">
-                            <div className='flec flex-col '>
+                    <CardContent className="h-full p-6 col-span-1 max-sm:p-2">
+                        <div className="space-y-4 h-full flex flex-col justify-between">
+                            <div className='flec flex-col'>
                                 <span className="text-accent text-sm font-medium">{post.tags[0]}</span>
                                 <h2 className="text-3xl leading-tight max-sm:text-2xl">
                                     {post?.title || "Untitled"}
@@ -54,7 +54,7 @@ function BlogCards({ variant, postData, index, className }) {
     } else if (variant === 'compact') {
         return (
             <Card className=" overflow-hidden ">
-                <Link href={`/post/${post.$id}`} className="flex flex-col items-start p-2 h-full">
+                <Link href={`/post/${post.$id}`} className={`flex flex-col items-start p-2 h-full ${className}`}>
                     <Image
                         src={appwriteService.getFilePreview(post.featuredImage) || defaultImage}
                         alt={post.title || "Grid Post"}

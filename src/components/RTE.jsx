@@ -91,7 +91,6 @@ export default function RTE({ name, control, label, defaultValue = "" }) {
         const bucketId = conf.appwriteBucketId; // Replace with your actual bucket ID
         const projectId = conf.appwriteProjectId; // Replace with your actual project ID
         const fileId = uploadedFile.$id; // Assuming the uploaded file has an `$id` field
-        console.log(fileId);
         return `https://cloud.appwrite.io/v1/storage/buckets/${bucketId}/files/${fileId}/preview?project=${projectId}`;
       }
     } catch (error) {

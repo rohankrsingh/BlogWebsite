@@ -85,7 +85,6 @@ export default function Customization() {
                 description: "Failed to update profile.",
                 color: "danger",
             })
-            console.log(err.message);
         } finally {
             setLoading(false);
         }

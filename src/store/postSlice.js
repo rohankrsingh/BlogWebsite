@@ -14,13 +14,26 @@ export const fetchHomePosts = createAsyncThunk(
         Query.orderDesc('likesCount'),
         Query.limit(3),
       ];
-      const [latest, featured] = await Promise.all([
+      // Fetch more posts for tags extraction
+      const tagsPostsQuery = [
+        Query.orderDesc('$createdAt'),
+        Query.limit(20),
+      ];
+      const editor_pickQuery = [
+        Query.equal('editor_pick', true),
+        Query.limit(4),
+      ];
+      const [latest, featured, tagsPosts, editor_pick] = await Promise.all([
         appwriteService.getPosts(latestQuery),
         appwriteService.getPosts(featuredQuery),
+        appwriteService.getPosts(tagsPostsQuery),
+        appwriteService.getPosts(editor_pickQuery),
       ]);
       return {
         latest: latest ? latest.documents : [],
         featured: featured ? featured.documents : [],
+        tagsPosts: tagsPosts ? tagsPosts.documents : [],
+        editor_pick: editor_pick ? editor_pick.documents : [],
       };
     } catch (error) {
       return rejectWithValue(error.message);
@@ -30,7 +43,7 @@ export const fetchHomePosts = createAsyncThunk(
 
 // Define an initial state
 const initialState = {
-  homePosts: null, // { latest: [], featured: [] }
+  homePosts: null, // { latest: [], featured: [], tagsPosts: [] }
   status: 'idle', // 'idle' | 'loading' | 'succeeded' | 'failed'
   error: null,
   posts: [],
