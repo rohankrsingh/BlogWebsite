@@ -39,7 +39,6 @@ export default function Post() {
           const fetchedPost = await appwriteService.getPost(slug);
           if (fetchedPost) {
             setPost(fetchedPost);
-            console.log(post.userProfile.username)
             setLikes(fetchedPost.likes);
             setLiked(fetchedPost.likes.includes(userData?.$id));
           } else {
@@ -51,6 +50,7 @@ export default function Post() {
             description: "There was an error loading the post.",
             color: "danger",
           });
+          console.log("Error fetching post:", err);
           setError(err);
         } finally {
           setLoading(false);
