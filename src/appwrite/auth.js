@@ -43,8 +43,8 @@ export class AuthService {
             await this.account.createOAuth2Session(
                 OAuthProvider.Google,
                 // "http://localhost:5173/",
-                "https://blog-website-nu-sepia.vercel.app/",
-                "https://blog-website-nu-sepia.vercel.app/login",
+                "https://devthread-blog-website.vercel.app/",
+                "https://devthread-blog-website.vercel.app/signup",
                 // "http://localhost:5173/"
             );
         } catch (error) {
