@@ -8,6 +8,7 @@ import BaseLayout from './BaseLayout';
 import { AnimatePresence, motion } from 'framer-motion';
 import Loader from './components/Loader';
 import { ToastProvider } from "@heroui/react";
+import { SpeedInsights } from "@vercel/speed-insights/react"
 import "@fontsource/poppins";
 import "@fontsource/poppins/400.css";
 import "@fontsource/poppins/700.css";
@@ -69,6 +70,7 @@ function App() {
               transition={{ duration: 0.5 }}
             >
               <Outlet />
+              <SpeedInsights />
             </motion.div>
           </AnimatePresence>
         </BaseLayout>
