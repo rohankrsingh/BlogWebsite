@@ -9,6 +9,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import Loader from './components/Loader';
 import { ToastProvider } from "@heroui/react";
 import { SpeedInsights } from "@vercel/speed-insights/react"
+import { Analytics } from '@vercel/analytics/react';
 import "@fontsource/poppins";
 import "@fontsource/poppins/400.css";
 import "@fontsource/poppins/700.css";
@@ -31,7 +32,7 @@ function App() {
   const [prefs, setPrefs] = useState({
     theme: "dark",
     accentColor: "160.1 84.1% 39.4%",
-    font: "system"
+    font: "poppins"
   });
 
 
@@ -51,7 +52,7 @@ function App() {
 
   useEffect(() => {
     document.documentElement.style.setProperty('--accent', prefs.accentColor);
-    document.documentElement.style.setProperty('--font-family', prefs.font);
+    document.documentElement.style.setProperty('--font-family', prefs?.font);
     document.documentElement.style.setProperty('dark', prefs.theme);
 
   }, [prefs]);
@@ -71,6 +72,7 @@ function App() {
             >
               <Outlet />
               <SpeedInsights />
+              <Analytics />
             </motion.div>
           </AnimatePresence>
         </BaseLayout>

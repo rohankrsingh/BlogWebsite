@@ -18,7 +18,7 @@ export default {
 		},
 		extend: {
 			fontFamily: {
-				system: ["-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "Helvetica Neue", "Arial", "sans-serif"],
+				system: ["poppins", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "Helvetica Neue", "Arial", "sans-serif"],
 				poppins: ["Poppins", "sans-serif"],
 				SourceCode: ["Source Code Pro", "monospace"],
 				sans: ["Open Sans", "sans-serif"],
